@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block titulo %}{% endblock %} - Generación 90</title>
+        <link rel="stylesheet" type="text/css" href="/Css/Bootstrap/Bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Fredericka+the+Great">
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        {% block css %}{% endblock %}
+        {% block javascript %}{% endblock %}
+    </head>
+    <body>
+        {% block cabecera %}{% endblock %}
+        
+        <div>  
+            {% block cuerpo %}{% endblock %}
+        </div>
+    </body>
+</html>

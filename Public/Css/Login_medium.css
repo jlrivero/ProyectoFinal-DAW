@@ -1,0 +1,186 @@
+    #scroll3{
+        background-color: #B2FFEF;
+    }    
+
+    h1{
+        font-family: 'Fredericka the Great', cursive;
+        background: white;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        opacity: .8; 
+        color: #737521;
+        font-weight: bold;
+        font-size: 40px;
+        text-align: center;
+    }     
+
+    #principal, #scroll1, #scroll2, #scroll3{    
+        margin: 0 auto;
+        position: relative;
+        /*width: 100%;*/
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+    }
+
+    #principal{
+        padding: 20% 4%;
+    }
+
+    #scroll1 h3, #scroll2 h3, #scroll3 h3{
+            color: black;
+            text-align: center;
+    }      
+
+    #scroll1 h3{
+        margin-top: 315px;
+    }
+
+    #scroll2 h3{
+            margin-top: 200px;
+            padding: 5% 0;
+            text-align: center;
+    }
+
+    #scroll3{
+        padding: 5% 10%; 
+        text-align: center;
+    }   
+    
+    #scroll3 img{
+        width: 100%;
+        border: 7px solid black;
+    }    
+
+    #scroll3 h3{
+            margin-top: 150px; 
+            padding-bottom: 2%;
+    }          
+    
+    #div_benji{
+            padding-left: 8%;
+    }
+
+    #buu.img-responsive{
+            max-width: 60%;
+    }
+
+    #goku.img-responsive{
+            max-width: 100%;
+    }
+
+    #benji.img-responsive{
+            max-width: 92%;
+    }
+
+    #buu{
+            margin-top: 300px;
+    }
+
+    /*Cogemos las imágenes que situamos a la derecha, las de izquierda no son necesarias ya que vienen por defecto hacia la izquierda*/
+    #goku, #mark{
+            float: right;
+
+    }
+
+    #goku{
+            margin-top: 200px;
+    }
+
+    .animate{
+            transition: 1s ease-in-out;
+    }
+
+    #goku.animate{        
+            transform: translate(-4em,0);
+            -moz-transform: translate(-4em,0);
+            -webkit-transform: translate(-4em,0);
+    }
+
+    #buu.animate{
+            transform: translate(8em,0);
+            -moz-transform: translate(8em,0);
+            -webkit-transform: translate(8em,0);
+    }
+
+    #oliver.animate{
+            transform: translate(5em,0);
+            -moz-transform: translate(5em,0);
+            -webkit-transform: translate(5em,0);
+    }
+
+    #mark.animate{
+            transform: translate(-3em,0);
+            -moz-transform: translate(-3em,0);
+            -webkit-transform: translate(-3em,0);
+    }
+
+@media all and (min-width: 800px){
+    h1{
+        font-size: 35px;
+    }
+
+    #principal{
+        padding: 20% 10%;
+        background: url(/Imagenes/fondo_dorado_larga.jpeg) 100% 0 no-repeat fixed;
+
+    }
+
+    #scroll1{
+        background: url(/Imagenes/prueba_fondo_dragonball_1_larga.jpg) 100% 0 no-repeat fixed; 
+    }
+
+    #scroll2{
+        background: url(/Imagenes/campo_futbol3_larga.jpg) 100% 0 no-repeat fixed; 
+    }
+
+    #principal, #scroll1, #scroll2, #scroll3{    
+        max-width: 1280px;
+        min-height: 1280px;
+    }
+
+    #scroll1 h3, #scroll2 h3, #scroll3 h3{
+            font-size: 25px;
+    }    
+
+    #scroll2 h3{
+            margin-top: 300px;
+    }    
+
+    #scroll3 h3{
+            margin-top: 250px; 
+    }      
+}
+
+@media all and (max-width: 799px) and (min-width: 768px){
+    
+    h1{
+        font-size: 33px;
+    }
+
+    #principal{
+        padding: 15%;
+        background: url(/Imagenes/fondo_dorado.jpeg) 90% 0 no-repeat fixed;
+
+    }
+
+    #scroll1{
+        background: url(/Imagenes/prueba_fondo_dragonball_1.jpg) 100% 0 no-repeat fixed; 
+    }
+
+    #scroll2{
+        background: url(/Imagenes/campo_futbol3.jpg) 100% 0 no-repeat fixed; 
+    }
+
+    #scroll1 h3, #scroll2 h3, #scroll3 h3{
+            font-size: 20px;
+    }       
+     
+    #principal, #scroll1, #scroll2, #scroll3{    
+        max-width: 800px;
+        min-height: 1024px; 
+    }
+}

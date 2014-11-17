@@ -1,0 +1,290 @@
+#ventana_flotante{
+    padding-top: 0;
+}
+
+#flogin{
+    width: 300px;
+}
+
+#ventana_flotante .input-group, #ventana_flotante input[type="text"], #ventana_flotante input[type="password"]{
+        font-size: 11px;
+        height: 45px;    
+}
+
+#Conectar, #Registrar{
+        margin-top: 10px;
+}
+
+#principal, #scroll1, #scroll2, #scroll3{
+        /*box-shadow: 0 0 20px #000000;*/
+        box-shadow: 0 0 0px rgba(0,0,0, .0);
+        -webkit-box-shadow: 0 0 00px #000000;
+}
+
+#principal{
+    background: url(/Imagenes/fondo_dorado_corta.jpeg) 100% 0 no-repeat fixed;
+}
+
+#scroll1{
+    background: url(/Imagenes/prueba_fondo_dragonball_1_corta.jpg) 100% 0 no-repeat fixed; 
+}
+
+#scroll2{
+    background: url(/Imagenes/campo_futbol3_corta.jpg) 100% 0 no-repeat fixed; 
+}
+
+#scroll3{
+    background-color: #B2FFEF;
+}
+
+    h1{
+        font-family: 'Fredericka the Great', cursive;
+        background: white;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        opacity: .8; 
+        color: #737521;
+        font-weight: bold;
+        font-size: 17px;
+        text-align: center;
+    }
+
+    button{
+        width: 60px;
+        height: 60px;
+        font-size: 11px;
+    }      
+
+    #principal, #scroll1, #scroll2, #scroll3{
+        min-height: 500px;
+        margin: 0 auto;
+        position: relative;
+        /*width: 100%;*/
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+    }
+
+    #principal{
+        padding: 15% 4%;
+    }
+
+    #btEntrar{
+        width: 75px;
+        height: 75px;
+        font-size: 11px;
+    }
+
+    #scroll1 h3, #scroll2 h3, #scroll3 h3{
+            color: black;
+            text-align: center;    
+    }      
+
+    #scroll2 h3{
+            padding: 8% 0;
+            text-align: center;
+    }
+
+    #scroll3{
+        padding: 5% 10%; 
+        text-align: center;
+    }   
+    
+    #scroll3 img{
+        width: 100%;
+        border: 7px solid black;
+    }    
+
+    #scroll3 h3{
+            padding-bottom: 2%;
+            text-align: center;
+    }          
+    
+    #div_benji{
+            padding-left: 8%;
+    }
+
+    #buu.img-responsive{
+            max-width: 75%;
+    }
+
+    #goku.img-responsive{
+            max-width: 120%;
+    }
+
+    /*Cogemos las imágenes que situamos a la derecha, las de izquierda no son necesarias ya que vienen por defecto hacia la izquierda*/
+    #goku, #mark{
+            float: right;
+
+    }
+
+    .animate{
+            transition: 1s ease-in-out;
+    }
+
+    #goku.animate{        
+            transform: translate(-1em,0);
+            -moz-transform: translate(-1em,0);
+            -webkit-transform: translate(-1em,0);
+    }
+
+    #buu.animate{
+            transform: translate(3em,0);
+            -moz-transform: translate(3em,0);
+            -webkit-transform: translate(3em,0);
+    }
+
+    #oliver.animate{
+            transform: translate(1em,0);
+            -moz-transform: translate(1em,0);
+            -webkit-transform: translate(1em,0);
+    }
+
+    #mark.animate{
+            transform: translate(-1em,0);
+            -moz-transform: translate(-1em,0);
+            -webkit-transform: translate(-1em,0);
+    }      
+
+@media all and (min-width: 550px){
+    
+    h1{
+        font-size: 25px;
+    }
+
+    button{
+        width: 75px;
+        height: 75px;
+        font-size: 14px;
+    }  
+
+    #principal{
+            padding: 30% 5%;
+    }    
+   
+    #principal, #scroll1, #scroll2, #scroll3{
+            min-height: 640px;
+    }
+
+    #oliver.img-responsive, #mark.img-responsive{
+            max-width: 111%;
+    }
+
+    #benji.img-responsive{
+            max-width: 100%;
+    }
+
+    #buu{
+            margin-top: 200px;
+    }
+
+    #goku{
+            margin-top: 140px;
+    }
+
+    #scroll1 h3{
+            margin-top: 200px;
+    }            
+
+    #scroll2 h3{
+            margin-top: 150px;
+    }
+
+    #scroll3 h3{
+            margin-top: 125px;
+    }              
+}
+
+@media all and (max-width: 549px) and (min-width: 360px){
+
+    #scroll1 h3{
+            font-size: 15px;
+    }
+
+    #scroll2 h3, #scroll3 h3{
+            font-size: 18px; 
+    }
+
+    #principal{
+            padding: 30% 5%;
+    }    
+   
+    #principal, #scroll1, #scroll2, #scroll3{
+            min-height: 640px;
+    }
+
+    #oliver.img-responsive, #mark.img-responsive{
+            max-width: 132%;
+    }
+
+    #benji.img-responsive{
+            max-width: 100%;
+    }
+
+    #buu{
+            margin-top: 200px;
+    }
+
+    #goku{
+            margin-top: 140px;
+    }
+
+    #scroll1 h3{
+            margin-top: 200px;
+    }            
+
+    #scroll2 h3{
+            margin-top: 150px;
+    }
+
+    #scroll3 h3{
+            margin-top: 125px;
+    }              
+}
+
+@media all and (max-width: 359px) and (min-width: 320px){
+
+    #scroll1 h3{
+            font-size: 14px;
+    }
+
+    #scroll2 h3, #scroll3 h3{
+            font-size: 15px; 
+    }
+    
+    #principal{
+            padding: 10% 5%;
+    }
+   
+    #principal, #scroll1, #scroll2, #scroll3{
+            min-height: 500px;
+    }   
+
+    #oliver.img-responsive, #mark.img-responsive{
+            max-width: 126%;
+    }
+
+    #benji.img-responsive{
+            max-width: 91%;
+    }
+
+    #buu{
+            margin-top: 150px;
+    }
+
+    #goku{
+            margin-top: 90px;
+    } 
+
+    #scroll1 h3{
+            margin-top: 150px;
+    }           
+
+    #scroll2 h3{
+            margin-top: 100px;
+    }
+
+    #scroll3 h3{
+            margin-top: 75px;
+    }            
+}

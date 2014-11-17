@@ -1,0 +1,117 @@
+{% extends 'Base.html.twig' %}
+
+{% block titulo %}Login{% endblock %}
+{% block css %}
+    <link href='http://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Paprika' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/Css/Login_comun.css">
+    <link rel='stylesheet' media='screen and (max-width: 767px)' href='Css/Login_small.css'>
+    <link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='Css/Login_medium.css'>
+    <link rel='stylesheet' media='screen and (min-width: 1200px)' href='Css/Login_large.css'>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="/Javascript/jquery-1.11.1.js"></script>    
+    <script type="text/javascript" src="/Javascript/Login_large.js"></script>
+    <script type="text/javascript" src="/Javascript/Login_medium.js"></script>
+    <script type="text/javascript" src="/Javascript/Login_small.js"></script>
+    <script type="text/javascript">
+        //Aquí realizamos la función de'la imagen 'irArriba'
+        $(document).ready(function(){
+            $("#ventana_flotante").hide();
+            $("#irArriba").hide();
+            $(function(){
+                $(window).scroll(function(){
+                    if($(this).scrollTop() > 350){
+                        $("#irArriba").fadeIn();
+                    }
+                    else{
+                        $("#irArriba").fadeOut();
+                    }
+                });
+                $("#irArriba").click(function(){
+                    $("body,html").animate({
+                        scrollTop: 0    
+                    }, 1000);
+                    return false;
+                });
+            });
+
+            $("#btEntrar").click(function(){
+                $("#ventana_flotante").slideDown("slow");
+            });
+
+            $("#cerrar a").click(function(){
+                $("#ventana_flotante").slideUp("slow");
+            });              
+        });
+
+    </script>    
+{% endblock %}
+
+{% block cabecera %}{% endblock %}
+
+{% block cuerpo %}
+    <div id="irArriba"><a href="javascript:void(1);"><span></span></a></div>
+    <section id="principal" data-type="parallax_section" data-speed="10">
+        <div id="ventana_flotante">
+            <form id="flogin" name="flogin" class="form-horizontal" role="form" method="POST">
+                <div id="cerrar"><a href="javascript:void(0);"><i class="fa fa-times fa-2x"></i></a></div>
+                <h2>Iniciar Sesión</h2>
+                <label for="usuario">Nombre de usuario: </label> 
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa-2x"></i></span>
+                    <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Introduzca nombre de usuario">                    
+                </div>
+                <label for="password">Contraseña: </label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock fa-2x"></i></span>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Introduzca contraseña"> 
+                </div>
+                <button type="button" name="Conectar" id="Conectar" class="btn btn-success col-xs-12"><i class="fa fa-unlock-alt"></i>Conectarse</button>
+                <button type="button" name="Registrar" id="Registrar" class="btn btn-warning col-xs-12"><i class="fa fa-plus"></i>Registrarse</button>          
+            </form>     
+        </div>
+	   <article>
+            <h1 class="col-xs-12 col-sm-12 col-md-12 col-lg-12">GENERACIÓN DE LOS 90</h1>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button type="button" id="btEntrar" name="btEntrar" class="img-circle">ENTRAR</button>
+            </div>
+       </article>
+    </section>   
+    <section id="scroll1" data-type="parallax_section" data-speed="10">
+	   <article>
+            <div id="div_buu" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <img id="buu" src="/Imagenes/Mjin_buu.png" class="img-responsive" alt="Mjin_buu" />
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <h3>Vuelve a recordar de aquellas inolvidables batallas...</h3>
+            </div>
+            <div id="div_goku" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <img id="goku" src="/Imagenes/Goku_SSJ3_trans.png" class="img-responsive" alt="Goku_SSJ3" />
+            </div>
+	   </article>
+    </section>
+    <section id="scroll2" data-type="parallax_section" data-speed="10">
+        <article>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <h3>...Esos partidos de fútbol tan épicos...</h3>
+            </div>            
+            <div id="div_oliver" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <img id="oliver" src="/Imagenes/oliver_aton.png" class="img-responsive" alt="Oliver_Aton" />
+            </div>
+            <div id="div_benji" class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <img id="benji" src="/Imagenes/benji_price.png" class="img-responsive" alt="Benji_Price" />
+            </div>
+            <div id="div_mark" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                <img id="mark" src="/Imagenes/mark_lenders.png" class="img-responsive" alt="Mark_Lenders" />
+            </div>
+	   </article>
+    </section>
+    <section id="scroll3" data-type="parallax_section" data-speed="10">
+        <article>
+            <h3>...Y todos los videojuegos con los que crecimos.</h3>
+            <img src="/Imagenes/fondo_videojuegos.jpg" class="img-responsive" alt="Videojuegos.jpg" />
+       </article>
+    </section>    
+{% endblock %}
