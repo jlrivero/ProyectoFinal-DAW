@@ -3,7 +3,7 @@
 include "../vendor/autoload.php";
 require_once 'config.php';
 
-//session_start();
+session_start();
 
 $app = new \Slim\Slim(
         array(
@@ -30,23 +30,23 @@ $app->get('/', function() use($app){
 //-- PULSAMOS EL BOTÓN 'CONECTAR' --//
 $app->post('/', function() use($app) {
     if(isset($_POST['Conectar'])){
-        $app->redirect($app->urlFor('principal'));
-        //$usuario = $app->request->post('TBusuario');
-        //$pass = $app->request->post('TBpass');
+       
+        $usuario = $app->request->post('usuario');
+        $password = $app->request->post('password');
 
-        //echo "USER: " . $usuario . ", PASS: " .$pass;
-
-        /*$usuarioRegistrado = ORM::for_table('usuario')->where('usuario', $usuario)->
-                        where('pass', $pass)->find_one();
+        //echo "USER: " . $usuario . ", PASS: " . $password;
+        
+        $usuarioRegistrado = ORM::for_table('Usuario')->where('nombre_usuario', $usuario)->
+                        where('password', $password)->find_one();
 
         if ($usuarioRegistrado) {
             $_SESSION['usuario'] = $usuarioRegistrado['id'];
             $app->redirect($app->urlFor('principal'));
         } 
         else {
-            $app->flash('error', 'Usuario o contraseña incorrectos');
+            $app->flash('error', 'Usuario y/o contraseña incorrectos');
             $app->redirect($app->urlFor('login'));
-        } */
+        }
     }
 });
 
@@ -59,8 +59,8 @@ $app->get('/Principal/', function() use($app){
 
 //-- PULSAMOS EL BOTÓN 'SALIR' --//
 $app->post('/salir', function() use($app){
-    //unset($_SESSION);
-    //session_destroy();
+    unset($_SESSION);
+    session_destroy();
     $app->redirect('/');   
 })->name('salir');
 

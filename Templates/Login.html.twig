@@ -15,55 +15,58 @@
     <script type="text/javascript" src="/Javascript/Login_small.js"></script>
     <script type="text/javascript">
         //Aquí realizamos la función de'la imagen 'irArriba'
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#ventana_flotante").hide();
             $("#ventana_registro").hide();
             $("#irArriba").hide();
-            $(function(){
-                $(window).scroll(function(){
-                    if($(this).scrollTop() > 350){
+            $(function () {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 350) {
                         $("#irArriba").fadeIn();
                     }
-                    else{
+                    else {
                         $("#irArriba").fadeOut();
                     }
                 });
-                $("#irArriba").click(function(){
+                $("#irArriba").click(function () {
                     $("body,html").animate({
-                        scrollTop: 0    
+                        scrollTop: 0
                     }, 1000);
                     return false;
                 });
             });
 
-            $("#btEntrar").click(function(){
+            $("#btEntrar").click(function () {
                 $("#ventana_flotante").slideDown("slow");
                 document.getElementsByTagName("html")[0].style.overflow = "hidden";
             });
 
-            $("#Registrar").click(function(){
+            $("#Registrar").click(function () {
                 $("#ventana_registro").slideDown("slow");
                 document.getElementsByTagName("html")[0].style.overflow = "auto";
             });
 
-            $("#regRegistrar").click(function(){
-                $("#ventana_registro").slideUp("slow");
+            $("#regRegistrar").click(function () {
+               // $("#ventana_registro").slideUp("slow");
+               if(($("#regPassword").val() == $("#regPassword2").val()) && ($("#regEmail").val() == $("#regEmail2").val())){
+                   console.log($("#regPassword").val());
+               }
             });
 
-            $("#cerrar a").click(function(){
+            $("#cerrar a").click(function () {
                 $("#ventana_flotante").slideUp("slow");
                 $("#usuario, #password").val("");
-                 document.getElementsByTagName("html")[0].style.overflow = "auto";
+                document.getElementsByTagName("html")[0].style.overflow = "auto";
             });
 
-            $("#regCerrar a").click(function(){
+            $("#regCerrar a").click(function () {
                 $("#ventana_registro").slideUp("slow");
                 $("#usuario, #password").val("");
-                $("#regUsuario, #regPassword, #regPassword2").val("");
+                $("#regUsuario, #regPassword, #regPassword2, #regEmail, #regEmail2").val("");
                 $(".medidor").text('');
                 $(".medidor").removeClass('red orange green');
                 document.getElementsByTagName("html")[0].style.overflow = "hidden";
-            });               
+            });
         });
 
     </script>    
@@ -81,12 +84,12 @@
                 <label for="usuario">Nombre de usuario: </label> 
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user fa-2x"></i></span>
-                    <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Introduzca nombre de usuario">                    
+                    <input type="text" required id="usuario" name="usuario" class="form-control" placeholder="Introduzca nombre de usuario">                    
                 </div>
                 <label for="password">Contraseña: </label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-lock fa-2x"></i></span>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Introduzca contraseña"> 
+                    <input type="password" required id="password" name="password" class="form-control" placeholder="Introduzca contraseña"> 
                 </div>
                 <button type="submit" name="Conectar" id="Conectar" class="btn btn-success col-xs-12"><i class="fa fa-unlock-alt fa-lg"></i>Conectarse</button>
                 <button type="button" name="Registrar" id="Registrar" class="btn btn-warning col-xs-12"><i class="fa fa-plus fa-lg"></i>Registrarse</button>          
@@ -99,40 +102,45 @@
                 <label for="regUsuario">Nombre de usuario: </label> 
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-user fa-2x"></i></span>
-                    <input type="text" id="regUsuario" name="regUsuario" class="form-control" placeholder="Introduzca nombre de usuario" required="required">                    
+                    <input type="text" required id="regUsuario" name="regUsuario" class="form-control" placeholder="Introduzca nombre de usuario" required="required">                    
                 </div>
                 <label for="regPassword">Contraseña: </label><span class="medidor"></span>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-lock fa-2x"></i></span>
-                    <input type="password" id="regPassword" name="regPassword" class="form-control" placeholder="Introduzca contraseña"> 
+                    <input type="password" required id="regPassword" name="regPassword" class="form-control" placeholder="Introduzca contraseña"> 
                 </div>
                 <label for="regPassword2">Repita Contraseña: </label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-lock fa-2x"></i></span>
-                    <input type="password" id="regPassword2" name="regPassword2" class="form-control" placeholder="Confirme su contraseña"> 
+                    <input type="password" required id="regPassword2" name="regPassword2" class="form-control" placeholder="Confirme su contraseña"> 
                 </div>
                 <label for="regEmail">Email: </label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-at fa-2x"></i></span>
-                    <input type="email" id="regEmail" name="regEmail" class="form-control" placeholder="Introduzca su email"> 
+                    <input type="email" required id="regEmail" name="regEmail" class="form-control" placeholder="Introduzca su email"> 
                 </div>
                 <label for="regEmail2">Repita Email: </label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-at fa-2x"></i></span>
-                    <input type="email" id="regEmail2" name="regEmail2" class="form-control" placeholder="Confirme su email"> 
+                    <input type="email" required id="regEmail2" name="regEmail2" class="form-control" placeholder="Confirme su email"> 
                 </div>                                                               
                 <!--PEPITO-(TENEMOS QUE PONER EL BOTÓN EN TIPO 'SUBMIT')--><button type="button" name="regRegistrar" id="regRegistrar" class="btn btn-warning col-xs-12"><i class="fa fa-plus fa-lg"></i>Registrar</button>          
             </form>     
         </div>     
-	   <article>
+        <article>
+            {% if flash['error'] %}
+                <div class="col-sm-12 form-group alert alert-danger">
+                    {{ flash['error'] }}
+                </div>
+            {% endif %}            
             <h1 class="col-xs-12 col-sm-12 col-md-12 col-lg-12">GENERACIÓN DE LOS 90</h1>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <button type="button" id="btEntrar" name="btEntrar" class="img-circle">ENTRAR</button>
             </div>
-       </article>
+        </article>
     </section>   
     <section id="scroll1" data-type="parallax_section" data-speed="10">
-	   <article>
+        <article>
             <div id="div_buu" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <img id="buu" src="/Imagenes/Mjin_buu.png" class="img-responsive" alt="Mjin_buu" />
             </div>
@@ -142,7 +150,7 @@
             <div id="div_goku" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                 <img id="goku" src="/Imagenes/Goku_SSJ3_trans.png" class="img-responsive" alt="Goku_SSJ3" />
             </div>
-	   </article>
+        </article>
     </section>
     <section id="scroll2" data-type="parallax_section" data-speed="10">
         <article>
@@ -158,12 +166,17 @@
             <div id="div_mark" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                 <img id="mark" src="/Imagenes/mark_lenders.png" class="img-responsive" alt="Mark_Lenders" />
             </div>
-	   </article>
+        </article>
     </section>
     <section id="scroll3" data-type="parallax_section" data-speed="10">
         <article>
             <h3>...Y todos los videojuegos con los que crecimos.</h3>
             <img src="/Imagenes/fondo_videojuegos.jpg" class="img-responsive" alt="Videojuegos.jpg" />
-       </article>
-    </section>    
+        </article>
+    </section> 
 {% endblock %}
+{#{% if flash['error'] %}
+    <div class="col-sm-10 form-group alert alert-danger error">
+        {{ flash['error']}}
+    </div>
+{% endif %}#}
