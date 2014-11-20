@@ -1,0 +1,35 @@
+<nav id="miMenu" class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ejemplo">
+                <span class="sr-only">Navegación Móvil</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><h2><span>G</span><span style="color:red;">90</span></h2></a>
+            <a class="navbar-brand visible-xs" href="#" title="Inicio"><i class="fa fa-home fa-lg"></i></a>
+            <a class="navbar-brand visible-xs" href="#" title="Notificaciones"><span class="badge">99</span><i class="fa fa-bell fa-lg"></i></a>
+            <a class="navbar-brand visible-xs" href="#" title="Mi Perfil"><i class="fa fa-user fa-lg"></i></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="ejemplo">
+            <ul id="izq" class="nav navbar-nav">
+                <li class="active"><a href="#" title="Inicio" class="hidden-xs"><i class="fa fa-home fa-lg"></i><span class="hidden-sm">Inicio</span></a></li>
+                <li><a href="#" title="Notificaciones" class="hidden-xs"><span class="badge">10</span><i class="fa fa-bell fa-lg"></i><span class="hidden-sm">Notificaciones</span></a></li>
+                <li><a href="#" title="Mi Perfil" class="hidden-xs"><i class="fa fa-user fa-lg"></i><span class="hidden-sm">Mi Perfil</span></a></li>
+            </ul>
+
+            <form class="form-inline" role="form" method="post" action="{{ urlFor('salir') }}">
+                <ul class="nav navbar-nav navbar-right">				
+                    <li><a href="#" title="facebook"><i class="fa fa-facebook-square fa-2x"></i><span class="visible-xs">Facebook</span></a></li>
+                    <li><a href="#" title="twitter"><i class="fa fa-twitter-square fa-2x"></i><span class="visible-xs">Twitter</span></a></li>
+                    <li><a href="#" title="instragram"><i class="fa fa-instagram fa-2x"></i><span class="visible-xs">Instagram</span></a></li>
+                    <li><a id="ultimo" href="#" title="google +"><i class="fa fa-google-plus-square fa-2x"></i><span class="visible-xs">Google +</span></a></li>
+                    <button id="Salir" name="Salir" type="submit" class="btn btn-danger">Salir</button>
+                </ul>		
+            </form>
+        </div>
+    </div>
+</nav>

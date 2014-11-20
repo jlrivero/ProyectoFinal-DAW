@@ -1,5 +1,5 @@
 *, html{
-        height: auto;
+    height: auto;
 	padding: 0;
 	margin: 0;
 }
@@ -8,74 +8,107 @@
         text-align: center;
 }
 
-#ventana_flotante{
+#ventana_flotante, #ventana_registro{
         width: 100%;
         height: 100%;
         padding-top: 7%;
         color: #FFFFFF;
-        position: fixed;
+        position: absolute;
         background: url(/Imagenes/fondo-transparente.png);
         top: 0;
         left: 0;
-        z-index: 1;
 }
 
-#flogin{
-        font-family: 'Paprika', cursive;
+#ventana_flotante{
+    z-index: 1;
+}
+
+#ventana_registro{
+    z-index: 2;
+}
+
+#flogin, #floginReg{
+        font-family: Paprika;
         background: white;
         border-radius: 5px;
         box-shadow: 0px 2px 10px #D3D3D3;
         padding: 20px;
         margin: 40px auto;
-        width: 350px;
         -webki-border-radius: 5px;
         -moz-border-radius: 5px;
         -o-border-radius: 5px;
         color: #555555;
 }
 
-#ventana_flotante label{
+#flogin{
+        width: 350px;
+}
+
+#floginReg{
+        width: 400px;
+}
+
+#ventana_flotante label, #ventana_registro label{
         margin: 15px 5px;
 }
 
-#flogin button.col-xs-12{
+.medidor{
+    color: white;
+    margin-left: 5px;
+    padding: 8px;
+}
+
+.red{
+    background: #FC5A5A;
+}
+
+.orange{
+    background: #F0AD4E;
+}
+
+
+.green{
+    background: #5CB85C;
+}
+
+#flogin button.col-xs-12, #floginReg button.col-xs-12{
     float:none;
 }
 
-#Conectar, #Registrar{
+#Conectar, #Registrar, #regRegistrar{
         margin-top: 20px;
         height: 50px;
 }
 
-#principal #ventana_flotante{
+#principal #ventana_flotante, #principal #ventana_registro{
         text-align: left;
 }
 
-#principal #ventana_flotante h2{
-        font-family: 'Amatic SC', cursive;
+#principal #ventana_flotante h2, #principal #ventana_registro h2{
+        font-family: Amatic_SC_Bold;
         margin-top: 0;
         font-size: 45px;
         text-align: center;
 }
 
-#principal #ventana_flotante #cerrar{
+#principal #ventana_flotante #cerrar, #principal #ventana_registro #regCerrar {
         text-align: right;
 }
 
-#ventana_flotante .input-group, #ventana_flotante input[type="text"], #ventana_flotante input[type="password"]{
+#ventana_flotante .input-group, #ventana_flotante input[type="text"], #ventana_flotante input[type="password"], #ventana_flotante input[type="email"], #ventana_registro .input-group, #ventana_registro input[type="text"], #ventana_registro input[type="password"], #ventana_registro input[type="email"]{
         height: 45px;
 }
 
-#cerrar i{
+#cerrar i, #regCerrar i{
         color: red;
 }
 
-#Conectar i, #Registrar i{
+#Conectar i, #Registrar i, #regRegistrar i{
         margin-right: 5px;
 }
 
 #btEntrar{
-        font-family: 'Fredericka the Great', cursive;
+        font-family: Fredericka_the_Great;
         margin-top: 12%;
         text-align: center;
         border: 1px solid #737521;

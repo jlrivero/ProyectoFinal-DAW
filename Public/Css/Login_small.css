@@ -1,17 +1,19 @@
-#ventana_flotante{
+#ventana_flotante, #ventana_registro{
     padding-top: 0;
+    margin-top: 0;
 }
 
-#flogin{
+#flogin, #floginReg{
     width: 300px;
+    margin: 5px auto;
 }
 
-#ventana_flotante .input-group, #ventana_flotante input[type="text"], #ventana_flotante input[type="password"]{
+#ventana_flotante .input-group, #ventana_flotante input[type="text"], #ventana_flotante input[type="password"], #ventana_flotante input[type="email"] #ventana_registro .input-group, #ventana_registro input[type="text"], #ventana_registro input[type="password"], #ventana_registro input[type="email"]{
         font-size: 11px;
         height: 45px;    
 }
 
-#Conectar, #Registrar{
+#Conectar, #Registrar, #regRegistrar{
         margin-top: 10px;
 }
 
@@ -38,13 +40,13 @@
 }
 
     h1{
-        font-family: 'Fredericka the Great', cursive;
+        font-family: Fredericka_the_Great;
         background: white;
         padding-top: 15px;
         padding-bottom: 15px;
         opacity: .8; 
         color: #737521;
-        font-weight: bold;
+        font-weight: bolder;
         font-size: 17px;
         text-align: center;
     }

@@ -2,16 +2,14 @@
 
 {% block titulo %}Login{% endblock %}
 {% block css %}
-    <link href='http://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Paprika' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/Css/Login_comun.css">
     <link rel='stylesheet' media='screen and (max-width: 767px)' href='Css/Login_small.css'>
     <link rel='stylesheet' media='screen and (min-width: 768px) and (max-width: 1199px)' href='Css/Login_medium.css'>
     <link rel='stylesheet' media='screen and (min-width: 1200px)' href='Css/Login_large.css'>
 {% endblock %}
 
-{% block javascript %}
-    <script type="text/javascript" src="/Javascript/jquery-1.11.1.js"></script>    
+{% block javascript %}    
+    <script type="text/javascript" src="/Javascript/medidor_contraseña.js"></script>
     <script type="text/javascript" src="/Javascript/Login_large.js"></script>
     <script type="text/javascript" src="/Javascript/Login_medium.js"></script>
     <script type="text/javascript" src="/Javascript/Login_small.js"></script>
@@ -19,6 +17,7 @@
         //Aquí realizamos la función de'la imagen 'irArriba'
         $(document).ready(function(){
             $("#ventana_flotante").hide();
+            $("#ventana_registro").hide();
             $("#irArriba").hide();
             $(function(){
                 $(window).scroll(function(){
@@ -39,11 +38,32 @@
 
             $("#btEntrar").click(function(){
                 $("#ventana_flotante").slideDown("slow");
+                document.getElementsByTagName("html")[0].style.overflow = "hidden";
+            });
+
+            $("#Registrar").click(function(){
+                $("#ventana_registro").slideDown("slow");
+                document.getElementsByTagName("html")[0].style.overflow = "auto";
+            });
+
+            $("#regRegistrar").click(function(){
+                $("#ventana_registro").slideUp("slow");
             });
 
             $("#cerrar a").click(function(){
                 $("#ventana_flotante").slideUp("slow");
-            });              
+                $("#usuario, #password").val("");
+                 document.getElementsByTagName("html")[0].style.overflow = "auto";
+            });
+
+            $("#regCerrar a").click(function(){
+                $("#ventana_registro").slideUp("slow");
+                $("#usuario, #password").val("");
+                $("#regUsuario, #regPassword, #regPassword2").val("");
+                $(".medidor").text('');
+                $(".medidor").removeClass('red orange green');
+                document.getElementsByTagName("html")[0].style.overflow = "hidden";
+            });               
         });
 
     </script>    
@@ -68,10 +88,42 @@
                     <span class="input-group-addon"><i class="fa fa-lock fa-2x"></i></span>
                     <input type="password" id="password" name="password" class="form-control" placeholder="Introduzca contraseña"> 
                 </div>
-                <button type="button" name="Conectar" id="Conectar" class="btn btn-success col-xs-12"><i class="fa fa-unlock-alt"></i>Conectarse</button>
-                <button type="button" name="Registrar" id="Registrar" class="btn btn-warning col-xs-12"><i class="fa fa-plus"></i>Registrarse</button>          
+                <button type="submit" name="Conectar" id="Conectar" class="btn btn-success col-xs-12"><i class="fa fa-unlock-alt fa-lg"></i>Conectarse</button>
+                <button type="button" name="Registrar" id="Registrar" class="btn btn-warning col-xs-12"><i class="fa fa-plus fa-lg"></i>Registrarse</button>          
             </form>     
         </div>
+        <div id="ventana_registro">
+            <form id="floginReg" name="floginReg" class="form-horizontal" role="form" method="POST">
+                <div id="regCerrar"><a href="javascript:void(0);"><i class="fa fa-times fa-2x"></i></a></div>
+                <h2>Registro</h2>
+                <label for="regUsuario">Nombre de usuario: </label> 
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user fa-2x"></i></span>
+                    <input type="text" id="regUsuario" name="regUsuario" class="form-control" placeholder="Introduzca nombre de usuario" required="required">                    
+                </div>
+                <label for="regPassword">Contraseña: </label><span class="medidor"></span>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock fa-2x"></i></span>
+                    <input type="password" id="regPassword" name="regPassword" class="form-control" placeholder="Introduzca contraseña"> 
+                </div>
+                <label for="regPassword2">Repita Contraseña: </label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-lock fa-2x"></i></span>
+                    <input type="password" id="regPassword2" name="regPassword2" class="form-control" placeholder="Confirme su contraseña"> 
+                </div>
+                <label for="regEmail">Email: </label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-at fa-2x"></i></span>
+                    <input type="email" id="regEmail" name="regEmail" class="form-control" placeholder="Introduzca su email"> 
+                </div>
+                <label for="regEmail2">Repita Email: </label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-at fa-2x"></i></span>
+                    <input type="email" id="regEmail2" name="regEmail2" class="form-control" placeholder="Confirme su email"> 
+                </div>                                                               
+                <!--PEPITO-(TENEMOS QUE PONER EL BOTÓN EN TIPO 'SUBMIT')--><button type="button" name="regRegistrar" id="regRegistrar" class="btn btn-warning col-xs-12"><i class="fa fa-plus fa-lg"></i>Registrar</button>          
+            </form>     
+        </div>     
 	   <article>
             <h1 class="col-xs-12 col-sm-12 col-md-12 col-lg-12">GENERACIÓN DE LOS 90</h1>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

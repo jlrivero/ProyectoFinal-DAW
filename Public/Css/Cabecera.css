@@ -1,0 +1,123 @@
+*, html{
+    height: auto;
+    padding: 0;
+    margin: 0;
+}
+
+#miMenu{
+    padding: 0 5%;
+    margin-bottom: 0;
+    background: #FFFF96;
+    border: 1px solid #CCDD4B;
+}
+
+.navbar-default .navbar-toggle{
+    border-color: #888;
+}
+
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+    background: #F9F95E;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+    background: #F9F95E;
+    border: 1px dotted #A00806; 
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+    background: #F9F95E; 
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form{
+    border-color: #A00806; 
+}
+
+.navbar-brand{
+    height: auto;
+    padding: 14px 15px;
+}
+
+.navbar-brand span{
+    background: #FFFF96;
+}
+
+.navbar-brand i{
+    vertical-align: -50%;
+    margin-right: 7px;
+}
+
+@media (max-width: 359px) {
+    .navbar-brand i{
+        margin-right: 0px;
+        width: 18px;
+    }
+}
+
+a.navbar-brand{
+    padding: 10px;
+}
+
+a.navbar-brand > span.badge{
+    margin: 0;
+    background: #A00806;
+}
+
+h2{
+    margin:3px 0;
+    padding:0;
+    font-family: Fredericka_the_Great;
+    background: white;
+    opacity: .8;
+    color: #000000;
+    background: #FFFF96; 
+    font-weight: bold;
+}
+
+i{
+    margin-right: 7px;
+    color: #555;
+}
+
+#izq a > i:hover, a > i:hover{
+    color: #A00806;
+}
+
+#izq{
+    margin-top: 5px;
+}
+
+#ultimo{
+    margin-right: 25px;
+}
+
+#form_salir{
+    padding: 0;
+    margin: 0;
+    width: 0;
+}
+
+#Salir{
+    float: left;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+#Salir > a{
+    color: white;
+}
+
+@media (max-width: 767px) {
+    .visible-xs {
+        display: inline-block !important;
+    }
+}
+
+.badge{
+    margin-right: 3px;
+    background: #A00806;
+}
+
+#contenedor{
+    background-color: black;
+}

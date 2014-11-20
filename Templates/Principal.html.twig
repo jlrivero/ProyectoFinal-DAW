@@ -2,11 +2,19 @@
 
 {% block titulo %}Menú Principal{% endblock %}
 
-{% block css %}{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/Css/Cabecera.css">
+{% endblock %}
 
 {% block javascript %}{% endblock %}
 
-{% block cabecera %}{% endblock %}
+{% block cabecera %}
+    {% include 'Cabecera.html.twig' %}
+{% endblock %}
 
-{% block cuerpo %}{% endblock %}		
+{% block cuerpo %}
+    <div id="contenedor" class="container">
+	-
+    </div>
+{% endblock %}		
 
