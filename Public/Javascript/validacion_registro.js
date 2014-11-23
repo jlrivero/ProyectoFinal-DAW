@@ -1,6 +1,15 @@
+//Esta función comprueba que los campos no están vacios y coinciden
+//Cuando se cumpla todo, el boton 'Registar' se habilita
 $(document).ready(function () {
-    $('#regUsuario').keyup(function () {
-        var usuario = $("#regUsuario").val();
+    $('#floginReg').click(function () {
+        var usuario =   $("#regUsuario").val();
+        if (usuario !== " ") {
+            $.post("index.php", {buscar_usuario: usuario}, buscarUsuario);
+        }
+    });    
+    
+    $('#floginReg').keyup(function () {
+        var usuario =   $("#regUsuario").val();
         if (usuario !== " ") {
             $.post("index.php", {buscar_usuario: usuario}, buscarUsuario);
         }
@@ -30,7 +39,7 @@ $(document).ready(function () {
         $(".existe").addClass(clase);
         $(".existe").removeClass(borrar);
 
-        if (habilitar) {
+        if (((habilitar) && $("#regPassword").val() === $("#regPassword2").val()) && ($("#regEmail").val() === $("#regEmail2").val()) && ($("#regPassword").val() !== "") && ($("#regPassword2").val() !== "") && ($("#regEmail").val() !== "") && ($("#regEmail2").val() !== "")) {
             $("#regRegistrar").removeProp("disabled");
         }
         else {

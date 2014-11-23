@@ -10,7 +10,7 @@
 
 {% block javascript %}    
     <script type="text/javascript" src="/Javascript/medidor_contraseña.js"></script>
-    <script type="text/javascript" src="/comprobar_usuario.js"></script>
+    <script type="text/javascript" src="/Javascript/validacion_registro.js"></script>
     <script type="text/javascript" src="/Javascript/Login_large.js"></script>
     <script type="text/javascript" src="/Javascript/Login_medium.js"></script>
     <script type="text/javascript" src="/Javascript/Login_small.js"></script>
@@ -49,12 +49,12 @@
 
             //Esta función comprueba que los campos no están vacios y coinciden
             //Cuando se cumpla todo, el boton 'Registar' se habilita
-            $("#floginReg").keyup(function () {
+            /*$("#floginReg").keyup(function () {
                 $("#regRegistrar").prop("disabled", true);
                 if (($("#regPassword").val() == $("#regPassword2").val()) && ($("#regEmail").val() == $("#regEmail2").val()) && ($("#regPassword").val() != "") && ($("#regPassword2").val() != "") && ($("#regEmail").val() != "") && ($("#regEmail2").val() != "") && ($("#regUsuario").val() != "")) {
                     $("#regRegistrar").removeProp("disabled");
                 }
-            });
+            });*/
 
             $("#cerrar a").click(function () {
                 $("#ventana_flotante").slideUp("slow");
@@ -128,7 +128,7 @@
                     <span class="input-group-addon"><i class="fa fa-at fa-2x"></i></span>
                     <input type="email" required id="regEmail2" name="regEmail2" class="form-control" maxlength="60" placeholder="Confirme su email"> 
                 </div>
-                <button type="button" name="regRegistrar" id="regRegistrar" class="btn btn-warning col-xs-12" disabled><i class="fa fa-plus fa-lg"></i>Registrar</button>
+                <button type="submit" name="regRegistrar" id="regRegistrar" class="btn btn-warning col-xs-12" disabled><i class="fa fa-plus fa-lg"></i>Registrar</button>
             </form>     
         </div>     
         <article>
@@ -136,7 +136,12 @@
                 <div class="col-sm-12 form-group alert alert-danger">
                     {{ flash['error'] }}
                 </div>
-            {% endif %}            
+            {% endif %}
+            {% if flash['mensaje'] %}
+                <div class="col-sm-12 form-group alert alert-success">
+                    {{ flash['mensaje'] }}
+                </div>
+            {% endif %}              
             <h1 class="col-xs-12 col-sm-12 col-md-12 col-lg-12">GENERACIÓN DE LOS 90</h1>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <button type="button" id="btEntrar" name="btEntrar" class="img-circle">ENTRAR</button>

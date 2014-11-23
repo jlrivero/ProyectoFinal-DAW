@@ -33,16 +33,16 @@ $app->post('/', function() use($app) {
 
         $usuario = $app->request->post('usuario');
         $password = $app->request->post('password');
-
-        //echo "USER: " . $usuario . ", PASS: " . $password;
-
-        $usuarioRegistrado = ORM::for_table('Usuario')->where('nombre_usuario', $usuario)->
-                        where('password', $password)->find_one();
-
-        if ($usuarioRegistrado) {
+        
+        //echo $usuarioRegistrado['password']. "</br>";
+        //echo crypt($password, $usuarioRegistrado['password']);
+        
+        $usuarioRegistrado = ORM::for_table('Usuario')->where('nombre_usuario', $usuario)->find_one();
+        if($usuarioRegistrado && (crypt($password, $usuarioRegistrado['password']) === $usuarioRegistrado['password'])){
             $_SESSION['usuario'] = $usuarioRegistrado['id'];
-            $app->redirect($app->urlFor('principal'));
-        } else {
+            $app->redirect($app->urlFor('principal'));            
+        }
+        else {
             $app->flash('error', 'Usuario y/o contraseña incorrectos');
             $app->redirect($app->urlFor('login'));
         }
@@ -54,31 +54,27 @@ $app->post('/', function() use($app) {
                 ->find_one();
         if ($usuarioRegistrado) {
             $dato = "No";
-        } elseif(($_POST['buscar_usuario'] == ' ') || ($_POST['buscar_usuario'] == '')) {
+        } elseif (($_POST['buscar_usuario'] == ' ') || ($_POST['buscar_usuario'] == '')) {
             $dato = "";
         }
         echo $dato;
     }
-    
+
     if (isset($_POST['regRegistrar'])) {
-
-        $usuario = $app->request->post('regUsuario');
-        $password = $app->request->post('regPassword');
-        $email = $app->request->post('regEmail');
-
-        //echo "USER: " . $usuario . ", PASS: " . $password;
-
-       /* $usuarioRegistrado = ORM::for_table('Usuario')->where('nombre_usuario', $usuario)->
-                        where('password', $password)->find_one();
-
-        if ($usuarioRegistrado) {
-            $_SESSION['usuario'] = $usuarioRegistrado['id'];
-            $app->redirect($app->urlFor('principal'));
-        } else {
-            $app->flash('error', 'Usuario y/o contraseña incorrectos');
-            $app->redirect($app->urlFor('login'));
-        }*/
-    }    
+        try{
+        $nuevoUsuario = ORM::for_table('Usuario')->create();
+        $nuevoUsuario->nombre_usuario = $_POST['regUsuario'];
+        $nuevoUsuario->password = crypt($_POST['regPassword']);
+        $nuevoUsuario->email = $_POST['regEmail'];
+        $nuevoUsuario->save();
+        
+        $app->flash('mensaje', 'Nuevo usuario registrado correctamente');
+        }
+        catch (Exception $e){
+            $app->flash('error', 'Fallo en la inserción del usuario');
+        }
+        $app->redirect($app->urlFor('login'));
+    }
 });
 
 $app->get('/Principal/', function() use($app) {
