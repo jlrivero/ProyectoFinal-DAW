@@ -1,6 +1,8 @@
 <?php
 
 include "../vendor/autoload.php";
+//include "/Mail/contactform.php";
+include "Mail/email.php";
 require_once 'config.php';
 
 session_start();
@@ -40,7 +42,7 @@ $app->post('/', function() use($app) {
         $usuarioRegistrado = ORM::for_table('Usuario')->where('nombre_usuario', $usuario)->find_one();
         if($usuarioRegistrado && (crypt($password, $usuarioRegistrado['password']) === $usuarioRegistrado['password'])){
             $_SESSION['usuario'] = $usuarioRegistrado['id'];
-            $app->redirect($app->urlFor('principal'));            
+            $app->redirect($app->urlFor('principal')); 
         }
         else {
             $app->flash('error', 'Usuario y/o contraseña incorrectos');
@@ -68,7 +70,10 @@ $app->post('/', function() use($app) {
         $nuevoUsuario->email = $_POST['regEmail'];
         $nuevoUsuario->save();
         
-        $app->flash('mensaje', 'Nuevo usuario registrado correctamente');
+        $app->flash('mensaje', 'Registrado correctamente. Ha recibido un email con los datos de usuario');
+        
+        //Enviar correo electrónico de bienvenida a la plataforma
+        mandarCorreo($_POST['regEmail'], $_POST['regUsuario']);
         }
         catch (Exception $e){
             $app->flash('error', 'Fallo en la inserción del usuario');
@@ -78,10 +83,14 @@ $app->post('/', function() use($app) {
 });
 
 $app->get('/Principal/', function() use($app) {
-    //$usuarioRegistrado = ORM::for_table('usuario')->find_one($_SESSION['usuario']);
-    //$app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado));
-    $app->render('Principal.html.twig');
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado));
 })->name('principal');
+
+$app->get('/Administrar/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado));
+})->name('administrar');
 
 
 //-- PULSAMOS EL BOTÓN 'SALIR' --//

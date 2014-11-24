@@ -9,6 +9,7 @@
     margin-bottom: 0;
     background: #FFFF96;
     border: 1px solid #CCDD4B;
+    box-shadow: 0px 2px 10px black;
 }
 
 .navbar-default .navbar-toggle{
@@ -39,7 +40,7 @@
 }
 
 .navbar-brand span{
-    background: #FFFF96;
+    background: #FFFF96; 
 }
 
 .navbar-brand i{
@@ -63,7 +64,7 @@ a.navbar-brand > span.badge{
     background: #A00806;
 }
 
-h2{
+#miMenu h2{
     margin:3px 0;
     padding:0;
     font-family: Fredericka_the_Great;
@@ -116,8 +117,4 @@ i{
 .badge{
     margin-right: 3px;
     background: #A00806;
-}
-
-#contenedor{
-    background-color: black;
 }

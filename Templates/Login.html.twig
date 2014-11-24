@@ -40,21 +40,20 @@
             $("#btEntrar").click(function () {
                 $("#ventana_flotante").slideDown("slow");
                 document.getElementsByTagName("html")[0].style.overflow = "hidden";
+                $("body,html").animate({
+                    scrollTop: 0
+                }, 1000);
+                return false;
             });
 
             $("#Registrar").click(function () {
                 $("#ventana_registro").slideDown("slow");
                 document.getElementsByTagName("html")[0].style.overflow = "auto";
+                $("body,html").animate({
+                    scrollTop: 0
+                }, 1000);
+                return false;  
             });
-
-            //Esta función comprueba que los campos no están vacios y coinciden
-            //Cuando se cumpla todo, el boton 'Registar' se habilita
-            /*$("#floginReg").keyup(function () {
-                $("#regRegistrar").prop("disabled", true);
-                if (($("#regPassword").val() == $("#regPassword2").val()) && ($("#regEmail").val() == $("#regEmail2").val()) && ($("#regPassword").val() != "") && ($("#regPassword2").val() != "") && ($("#regEmail").val() != "") && ($("#regEmail2").val() != "") && ($("#regUsuario").val() != "")) {
-                    $("#regRegistrar").removeProp("disabled");
-                }
-            });*/
 
             $("#cerrar a").click(function () {
                 $("#ventana_flotante").slideUp("slow");

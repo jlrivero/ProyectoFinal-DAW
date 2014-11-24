@@ -1,0 +1,19 @@
+#administrador h2{
+    font-family: Amatic_SC_Bold;
+    margin-bottom: 0;
+    padding: 10px 20px;
+    color: white;
+    background: black;
+    letter-spacing: 5px;
+}
+
+#administrador > div{
+    padding: 10px;
+    border: 1px solid black;
+    margin-top: 0;
+}
+
+#administrador > div > p > span{
+    font-weight: bold;
+}
+

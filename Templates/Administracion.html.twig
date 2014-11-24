@@ -1,0 +1,28 @@
+{% extends 'Base.html.twig' %}
+
+{% block titulo %}Menú Principal - Administrador{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/Css/Cabecera.css">
+    <link rel="stylesheet" type="text/css" href="/Css/Administracion.css">
+{% endblock %}
+
+{% block javascript %}{% endblock %}
+
+{% block cabecera %}
+    {% include 'Cabecera.html.twig' %}
+{% endblock %}
+
+{% block cuerpo %}
+    <div id="administrador" class="container">
+        <h2>ADMINISTRACIÓN</h2>
+        <div>
+            <p><span class="numero">(0-15)</span> -------- Borrar respuestas de un acontecimiento propio</p>
+            <p><span class="numero">(15-30)</span> ------ Supervisar acontecimiento propio</p>
+            <p><span class="numero">(30-50)</span> ------ Subir acontecimiento sin supervisión</p>
+            <p><span class="numero">(50-70)</span> ------ Borrar respuestas de cualquier acontecimiento</p>
+            <p><span class="numero">(70-90)</span> ------ Supervisar cualquier acontecimiento</p>
+            <p><span class="numero">(100)</span> --------- Usuario Oro</p>
+        </div>
+    </div>
+{% endblock %}	

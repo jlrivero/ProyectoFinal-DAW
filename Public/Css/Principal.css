@@ -1,0 +1,44 @@
+body{
+     background: url(/Imagenes/prueba_nav111.jpg) 50% 0 no-repeat fixed;
+}
+
+@media all and (min-width: 1400px){
+    body{
+        margin:0 auto;
+        max-width: 1400px;
+    } 
+}
+
+#contenedor{
+    padding-top: 15px;
+}
+
+#tabs{
+    padding:0;
+    margin:0;
+}
+
+@media (max-width: 359px) {
+    #tabs-1, #tabs-2, #tabs-3{
+        font-size: 12px;
+    }
+    
+    #contenedor ul{
+        font-size: 13px;
+    }
+}
+
+#contenedor .ui-tabs .ui-tabs-nav{
+    padding: 0;
+}
+
+#contenedor .ui-tabs .ui-tabs-nav li{
+    margin: 0;
+    padding: 7px 0;
+    height: auto;
+}
+
+#contenedor .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    border-color: black;
+    background: #E0E0E0;
+}
