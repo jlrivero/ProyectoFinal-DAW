@@ -1,6 +1,6 @@
 {% extends 'Base.html.twig' %}
 
-{% block titulo %}Menú Principal{% endblock %}
+{% block titulo %}Videojuegos{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="/Css/Cabecera.css">
@@ -11,9 +11,14 @@
 {% block javascript %}
     <script type="text/javascript" src="/Javascript/jquery-ui_1.11.2.js"></script>
     <script type="text/javascript">
-        $(function () {
-            $("#tabs").tabs();
+        $(document).ready(function(){
+            $(function () {
+                $("#tabs").tabs();
+            });
+            
+            $('#videojuegos a').addClass("active");
         });
+
     </script>
 {% endblock %}
 
@@ -23,7 +28,7 @@
 
 {% block cuerpo %}
     <section id="contenedor" class="container">
-        
+
         {% include 'MenuVertical.html.twig' %}
         
         <section id="tabs" class="col-xs-12 col-sm-9 col-md-9">
@@ -47,4 +52,4 @@
             </div>
         </section>
     </section>
-{% endblock %}		
+{% endblock %}

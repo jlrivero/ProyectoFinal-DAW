@@ -1,5 +1,12 @@
 body{
-     background: url(/Imagenes/prueba_nav111.jpg) 50% 0 no-repeat fixed;
+     background: url(/Imagenes/prueba_navvv.jpg) 50% 0 no-repeat fixed;
+}
+
+h3{
+    font-family: Amatic_SC_Regular;
+    font-size: 40px;
+    color: black;
+    font-weight: bold;
 }
 
 @media all and (min-width: 1400px){
@@ -10,13 +17,81 @@ body{
 }
 
 #contenedor{
-    padding-top: 15px;
+    margin: 0 auto;
+    padding-top: 10px;
+    height: 900px;
+}
+
+aside{
+    padding:0;
+    margin-right: 15px;
+    margin-left: 3.5%;
+    color: black;
+    border: 1px solid black;
+}
+
+@media all and (max-width: 767px){
+    aside{
+        margin: 0 auto;
+    }
+}
+
+#menu_vertical{
+    color:white;
+    padding: 0;
+    border-radius: 6px;
+    -webki-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+
+#menu_vertical ul{
+    padding: 0;
+}
+
+#menu_vertical li{
+    padding: 0;
+    margin: 0;
+}
+
+#menu_vertical a{
+    background: #DD4444;
+    padding: 15px;
+    color: white;
+    border-bottom: 1px solid black;
+}
+
+#menu_vertical a:hover, #menu_vertical a.active{
+    background: #A00806;
+    color: white;
+}
+
+#menu_vertical i{
+    margin-right: 7px;
+    color: white;
+}
+
+#menu_vertical img{
+    margin-right: 10px;
 }
 
 #tabs{
     padding:0;
     margin:0;
+    border: 1px solid black;
 }
+
+#tabs img{
+    border: 10px solid black;
+    margin: 25px auto;
+}
+
+#tabs-1 p, #tabs-2 p, #tabs-3 p{
+    font-family: Paprika;
+    font-size: 14px;
+    color: black;
+}
+
 
 @media (max-width: 359px) {
     #tabs-1, #tabs-2, #tabs-3{
@@ -34,11 +109,39 @@ body{
 
 #contenedor .ui-tabs .ui-tabs-nav li{
     margin: 0;
-    padding: 7px 0;
+    padding: 0;
     height: auto;
 }
 
 #contenedor .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
     border-color: black;
-    background: #E0E0E0;
+    background: #A00806;
+    color: white;
 }
+
+#contenedor .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+    border-color: #DD4444;
+    color: white;
+    background: #DD4444;   
+}
+
+#contenedor .ui-state-default a{
+    padding: 15px 10px;
+    color: white;
+}
+
+#contenedor .ui-widget-content{
+    color: #555555;
+}
+/*#contenedor .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+    color: white;
+}*/
+
+/*#contenedor .ui-state-default a:hover{
+    background: black;
+}*/
+
+/*#contenedor .ui-state-default a:active{
+    background: white;
+}*/
+

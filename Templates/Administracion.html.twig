@@ -7,7 +7,14 @@
     <link rel="stylesheet" type="text/css" href="/Css/Administracion.css">
 {% endblock %}
 
-{% block javascript %}{% endblock %}
+{% block javascript %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+           $('#Administrar').addClass('active');
+           $('#Inicio, #Notificaciones, #MiPerfil').removeClass('active');
+        });
+    </script>
+{% endblock %}
 
 {% block cabecera %}
     {% include 'Cabecera.html.twig' %}

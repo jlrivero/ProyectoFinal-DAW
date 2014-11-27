@@ -7,22 +7,27 @@
 #miMenu{
     padding: 0 5%;
     margin-bottom: 0;
-    background: #FFFF96;
-    border: 1px solid #CCDD4B;
+    background: #FCD588;
+    border: 1px solid #FCD588;
     box-shadow: 0px 2px 10px black;
 }
 
-.navbar-default .navbar-toggle{
+#h2_red{
+    color: red;
+}
+
+#miMenu .navbar-default .navbar-toggle{
     border-color: #888;
 }
 
 
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+#miMenu .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
     background: #F9F95E;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
-    background: #F9F95E;
+    background: #FFC04C;
+    color: black;
     border: 1px dotted #A00806; 
 }
 
@@ -34,32 +39,32 @@
     border-color: #A00806; 
 }
 
-.navbar-brand{
+#miMenu .navbar-brand{
     height: auto;
     padding: 14px 15px;
 }
 
-.navbar-brand span{
-    background: #FFFF96; 
+#miMenu .navbar-brand span{
+    background: #FCD588; 
 }
 
-.navbar-brand i{
+#miMenu .navbar-brand i{
     vertical-align: -50%;
     margin-right: 7px;
 }
 
 @media (max-width: 359px) {
-    .navbar-brand i{
+    #miMenu .navbar-brand i{
         margin-right: 0px;
         width: 18px;
     }
 }
 
-a.navbar-brand{
+#miMenu a.navbar-brand{
     padding: 10px;
 }
 
-a.navbar-brand > span.badge{
+#miMenu a.navbar-brand > span.badge{
     margin: 0;
     background: #A00806;
 }
@@ -71,13 +76,16 @@ a.navbar-brand > span.badge{
     background: white;
     opacity: .8;
     color: #000000;
-    background: #FFFF96; 
     font-weight: bold;
 }
 
-i{
+.navbar-default .navbar-nav > li > a{
+    color: black;
+}
+
+#miMenu i{
     margin-right: 7px;
-    color: #555;
+    color: #000000;
 }
 
 #izq a > i:hover, a > i:hover{
@@ -109,12 +117,12 @@ i{
 }
 
 @media (max-width: 767px) {
-    .visible-xs {
+    #miMenu .visible-xs {
         display: inline-block !important;
     }
 }
 
-.badge{
+#miMenu .badge{
     margin-right: 3px;
     background: #A00806;
 }

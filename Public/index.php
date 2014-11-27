@@ -87,6 +87,11 @@ $app->get('/Principal/', function() use($app) {
     $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado));
 })->name('principal');
 
+$app->get('/Television/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado));
+})->name('television');
+
 $app->get('/Administrar/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
     $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado));
