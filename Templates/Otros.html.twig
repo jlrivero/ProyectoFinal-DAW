@@ -1,6 +1,6 @@
 {% extends 'Base.html.twig' %}
 
-{% block titulo %}Televisión{% endblock %}
+{% block titulo %}Otros{% endblock %}
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="/Css/Cabecera.css">
@@ -11,13 +11,14 @@
 {% block javascript %}
     <script type="text/javascript" src="/Javascript/jquery-ui_1.11.2.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function(){
             $(function () {
                 $("#tabs").tabs();
             });
-
-            $('#television a').addClass("active");
+            
+            $('#otros a').addClass("active");
         });
+
     </script>
 {% endblock %}
 
@@ -27,26 +28,18 @@
 
 {% block cuerpo %}
     <section id="contenedor" class="container">
-        <div id="busqueda" class="ui-widget">
-            <div class="input-group col-xs-12">
-                <span class="input-group-addon"><i class="fa fa-search fa-1x"></i></span>
-                <input id="buscar" name="buscar" class="form-control" maxlength="20" placeholder="Buscar acontecimiento..." type="text">                    
-            </div>
-        </div>           
 
         {% include 'MenuVertical.html.twig' %}
-
+        
         <section id="tabs" class="col-xs-12 col-sm-9 col-md-9">
             <ul>
                 <li class="col-xs-12 col-sm-12 col-md-4" ><a class="col-xs-12" href="#tabs-1">Más visitados - Siempre</a></li>
                 <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#tabs-2">Más visitados - Este Mes</a></li>
-                <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#tabs-3">Más visitados - Esta Semana</a></li>
+                <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#tabs-3">Más visitados - Esta Semana</a></li>               
             </ul>
             <div id="tabs-1">
-                <h3>Dragon ball Z - ¿El mejor anime de todos los tiempos?</h3>
-                <img class="img-responsive" src="/Imagenes/dragon_ball.jpg" />
-                <p>Desde mi punto de vista, Dragon Ball es el mejor anime de todos los tiempos. Fué capaz
-                    de entretener tanto a niños como a niñas e incluso mayores.</p>
+                <h3>Otros</h3>
+                <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem.</p>
             </div>
             <div id="tabs-2">
                 <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
@@ -56,36 +49,6 @@
                 <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
             </div>
         </section>
-        <section id="novedades" class="col-xs-12">
-            {% if acontecimientos %}
-                {#<h1 class="col-xs-12">NOVEDADES - TODOS</h1>
-                <div id="nuevos">
-                    <h3>Dragon ball Z - ¿El mejor anime de todos los tiempos?</h3>
-                    <img class="img-responsive" src="/Imagenes/dragon_ball.jpg" />
-                    <p>Desde mi punto de vista, Dragon Ball es el mejor anime de todos los tiempos. Fué capaz
-                        de entretener tanto a niños como a niñas e incluso mayores.</p>                    
-                </div>#}
-                <h1 class="col-xs-12">NOVEDADES - TELEVISIÓN</h1>
-                <div class="col-xs-12">
-                    <button type="button" name="NuevoAcontec" id="NuevoAcontec" class="btn btn-warning col-xs-3"><i class="fa fa-plus-square fa-2x"></i>Nuevo acontecimiento...</button>
-                </div>
-                {% for acontecimiento in acontecimientos %}
-                    <div class="border-row">
-                        <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i></h6>
-                    </div>
-                    <div id="nuevos">
-                        <h3>{{ acontecimiento.titulo }}</h3>
-                        {#<img class="img-responsive" src="/Imagenes/{{ acontecimiento.nombre_imagen }}" />#}
-                        {% if acontecimiento.nombre_imagen %}
-                            <img class="img-responsive" src="/Imagenes/{{ acontecimiento.nombre_imagen }}" />
-                        {% endif %}
-                        <p>{{ acontecimiento.descripcion }}</p>                   
-                    </div> 
-                {% endfor %}
-
-            {% else %}
-                <h3>No existen acontecimientos sobre este el tema 'Televisión'</h3>
-            {% endif %}
-        </section>          
     </section>
-{% endblock %}		
+{% endblock %}
+

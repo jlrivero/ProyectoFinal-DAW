@@ -1,5 +1,11 @@
 body{
-     background: url(/Imagenes/prueba_navvv.jpg) 50% 0 no-repeat fixed;
+    background: url(/Imagenes/prueba_navvv.jpg) 50% 0 no-repeat fixed;
+}
+@media all and (min-width: 768px){
+    body{
+        background: url(/Imagenes/prueba_navvv_larga.jpg) 50% 0 no-repeat fixed;
+
+    }
 }
 
 h3{
@@ -16,29 +22,59 @@ h3{
     } 
 }
 
+#irArriba{
+    position: fixed;
+    bottom: 6%;
+    right: 4%;
+    width: 55px;
+    height: 55px;
+    z-index: 1;
+    background: url(/Imagenes/flecha_arriba_n.png);
+}
+
 #contenedor{
     margin: 0 auto;
     padding-top: 10px;
-    height: 900px;
+    min-height: 900px;
 }
 
 aside{
-    padding:0;
+    padding:0; 
     margin-right: 15px;
-    margin-left: 3.5%;
+    margin-left: 3.5%;    
     color: black;
     border: 1px solid black;
+}
+
+#busqueda{
+    margin-bottom: 1%;
+}
+
+#busqueda .input-group-addon{
+    background: #A00806;
+    color: white;
 }
 
 @media all and (max-width: 767px){
     aside{
         margin: 0 auto;
     }
+    
+    #novedades{
+        margin: 0 auto;
+        padding: 0;
+    }
+    
+    #nuevos{
+        padding:0 ;
+        margin: 0;
+    }
 }
 
 #menu_vertical{
     color:white;
     padding: 0;
+    margin-bottom: 3%;
     border-radius: 6px;
     -webki-border-radius: 6px;
     -moz-border-radius: 6px;
@@ -81,23 +117,88 @@ aside{
     border: 1px solid black;
 }
 
-#tabs img{
+#tabs img, #novedades img{
     border: 10px solid black;
     margin: 25px auto;
 }
 
-#tabs-1 p, #tabs-2 p, #tabs-3 p{
+#tabs-1 p, #tabs-2 p, #tabs-3 p, #novedades{
     font-family: Paprika;
     font-size: 14px;
     color: black;
 }
 
+#novedades{
+    background: white;
+    margin-top: 3%;
+    padding: 0;
+    border: 1px solid black;
+    border-radius: 6px;
+    -webki-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -o-border-radius: 6px;    
+}
+
+@media (min-width: 1200px) {
+    #novedades, #busqueda{
+        margin-left: 3.5%;
+        width: 1060px; 
+    }
+}
+
+#novedades h1{
+    background: #A00806;
+    font-family: Fredericka_the_Great;
+    font-weight: bold;
+    color: white;
+    margin: 0 0 1% 0;
+    padding: 2%;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    -webki-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;         
+}
+
+#NuevoAcontec{
+    margin-bottom: 20px;
+    text-align: left;
+    font-weight: bold;
+}
+
+#NuevoAcontec.btn-warning{
+    background: #F7811F;
+}
+
+#NuevoAcontec.btn-warning:hover{
+    background: #EA6900;
+}
+
+#NuevoAcontec i{
+    margin-right: 7px;
+}
+
+#nuevos{
+    margin-top: 2%;
+    padding: 0 25px 25px 25px; 
+}
+
+#novedades h6{
+    margin-left: 25px;
+}
+
+.border-row{
+    border-top: 1px solid black;
+    margin-bottom: 20px;
+}
 
 @media (max-width: 359px) {
     #tabs-1, #tabs-2, #tabs-3{
         font-size: 12px;
     }
-    
+
     #contenedor ul{
         font-size: 13px;
     }
@@ -133,15 +234,3 @@ aside{
 #contenedor .ui-widget-content{
     color: #555555;
 }
-/*#contenedor .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
-    color: white;
-}*/
-
-/*#contenedor .ui-state-default a:hover{
-    background: black;
-}*/
-
-/*#contenedor .ui-state-default a:active{
-    background: white;
-}*/
-
