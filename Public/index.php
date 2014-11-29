@@ -82,6 +82,7 @@ $app->post('/', function() use($app) {
     }
 });
 
+//-- PÁGINA PRINCIPAL --//
 $app->get('/Principal/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
     
@@ -101,13 +102,10 @@ $app->get('/Principal/', function() use($app) {
     $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('principal');
 
+//-- PESTAÑA 'VIDEOJUEGOS' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Videojuegos/', function() use($app) {
-    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
-    $app->render('Videojuegos.html.twig', array("datos_usuario" => $usuarioRegistrado));
-})->name('videojuegos');
-
-$app->get('/Television/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
+    $idTema = 1;
     
     $acontecimientos = ORM::for_table('Acontecimiento')->
             select('titulo')->
@@ -118,33 +116,114 @@ $app->get('/Television/', function() use($app) {
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
-            where('tema_id_fk', 2)->
+            where('tema_id_fk', $idTema)->
+            find_array();
+   
+    $app->render('Videojuegos.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
+})->name('videojuegos');
+
+//-- PESTAÑA 'TELEVISIÓN' DE NUESTRO MENÚ VERTICAL --/
+$app->get('/Television/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
+    $idTema = 2;
+    
+    $acontecimientos = ORM::for_table('Acontecimiento')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('fecha')->
+            where('tema_id_fk', $idTema)->
             find_array();
    
     $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
                
 })->name('television');
 
-$app->get('/Juegos_Infantiles/', function() use($app) {
-    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
-    $app->render('JuegosInfantiles.html.twig', array("datos_usuario" => $usuarioRegistrado));
-})->name('juegosInfantiles');
-
+//-- PESTAÑA 'DEPORTES' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Deportes/', function() use($app) {
-    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
-    $app->render('Deportes.html.twig', array("datos_usuario" => $usuarioRegistrado));
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
+    $idTema = 3;
+    
+    $acontecimientos = ORM::for_table('Acontecimiento')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('fecha')->
+            where('tema_id_fk', $idTema)->
+            find_array();
+   
+    $app->render('Deportes.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('deportes');
 
+//-- PESTAÑA 'JUEGOS INFANTILES' DE NUESTRO MENÚ VERTICAL --/
+$app->get('/Juegos_Infantiles/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
+    $idTema = 4;
+    
+    $acontecimientos = ORM::for_table('Acontecimiento')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('fecha')->
+            where('tema_id_fk', $idTema)->
+            find_array();
+   
+    $app->render('JuegosInfantiles.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
+})->name('juegosInfantiles');
+
+//-- PESTAÑA 'MÚSICA' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Musica/', function() use($app) {
-    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
-    $app->render('Musica.html.twig', array("datos_usuario" => $usuarioRegistrado));
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
+    $idTema = 5;
+    
+    $acontecimientos = ORM::for_table('Acontecimiento')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('fecha')->
+            where('tema_id_fk', $idTema)->
+            find_array();
+   
+    $app->render('Musica.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('musica');
 
+//-- PESTAÑA 'OTROS' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Otros/', function() use($app) {
-    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
-    $app->render('Otros.html.twig', array("datos_usuario" => $usuarioRegistrado));
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
+    $idTema = 6;
+    
+    $acontecimientos = ORM::for_table('Acontecimiento')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('fecha')->
+            where('tema_id_fk', $idTema)->
+            find_array();
+   
+    $app->render('Otros.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('otros');
 
+//-- ADMINISTRACIÓN DE USUARIOS --/
 $app->get('/Administrar/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
     $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado));
