@@ -102,6 +102,13 @@ $app->get('/Principal/', function() use($app) {
     $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('principal');
 
+$app->post('/Principal/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    if (isset($_POST['NuevoAcontec'])){
+
+    }
+});
+
 //-- PESTAÑA 'VIDEOJUEGOS' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Videojuegos/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
@@ -122,6 +129,13 @@ $app->get('/Videojuegos/', function() use($app) {
     $app->render('Videojuegos.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('videojuegos');
 
+$app->post('/Videojuegos/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    if (isset($_POST['NuevoAcontec'])){
+        
+    }
+});
+
 //-- PESTAÑA 'TELEVISIÓN' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Television/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
@@ -137,11 +151,25 @@ $app->get('/Television/', function() use($app) {
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
+            where('publicado', 1)->
             find_array();
    
     $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
                
 })->name('television');
+
+$app->post('/Television/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    if (isset($_POST['NuevoAcontec'])){
+        $tipo_imagen = $_FILES['imagen']['type'];
+        if(($tipo == 'image/jpeg') || ($tipo == 'imagen/jpg') || ($tipo == 'imagen/gif')){
+            $carpeta = "/Imagenes/";
+            opendir($carpeta);
+            $destino = $carpeta.$_FILES['imagen']['name'];
+            copy($_FILES['imagen']['tmp_name'], $destino);            
+        }        
+    }
+});
 
 //-- PESTAÑA 'DEPORTES' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Deportes/', function() use($app) {
@@ -163,6 +191,13 @@ $app->get('/Deportes/', function() use($app) {
     $app->render('Deportes.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('deportes');
 
+$app->post('/Deportes/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    if (isset($_POST['NuevoAcontec'])){
+        
+    }
+});
+
 //-- PESTAÑA 'JUEGOS INFANTILES' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Juegos_Infantiles/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
@@ -182,6 +217,13 @@ $app->get('/Juegos_Infantiles/', function() use($app) {
    
     $app->render('JuegosInfantiles.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('juegosInfantiles');
+
+$app->post('/Juegos_Infantiles/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    if (isset($_POST['NuevoAcontec'])){
+        
+    }
+});
 
 //-- PESTAÑA 'MÚSICA' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Musica/', function() use($app) {
@@ -203,6 +245,13 @@ $app->get('/Musica/', function() use($app) {
     $app->render('Musica.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('musica');
 
+$app->post('/Musica/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    if (isset($_POST['NuevoAcontec'])){
+      
+    }
+});
+
 //-- PESTAÑA 'OTROS' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Otros/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);    
@@ -222,6 +271,13 @@ $app->get('/Otros/', function() use($app) {
    
     $app->render('Otros.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('otros');
+
+$app->post('/Otros/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    if (isset($_POST['NuevoAcontec'])){
+        
+    }
+});
 
 //-- ADMINISTRACIÓN DE USUARIOS --/
 $app->get('/Administrar/', function() use($app) {

@@ -12,11 +12,40 @@
     <script type="text/javascript" src="/Javascript/jquery-ui_1.11.2.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            $("#irArriba").hide();
+            
             $(function () {
                 $("#tabs").tabs();
             });
 
             $('#juegosInfantiles a').addClass("active");
+            
+            $("#fAcontec").hide();
+            
+            $("#NuevoAcontec").click(function() {
+                $("#fAcontec").fadeIn();
+            });
+            
+            $('#OcultarForm').click(function() {
+                $("#fAcontec").fadeOut();
+            });
+            
+            $(function () {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 150) {
+                        $("#irArriba").fadeIn();
+                    }
+                    else {
+                        $("#irArriba").fadeOut();
+                    }
+                });
+                $("#irArriba").click(function () {
+                    $("body,html").animate({
+                        scrollTop: 0
+                    }, 1000);
+                    return false;
+                });
+            });              
         });
 
     </script>
@@ -27,7 +56,14 @@
 {% endblock %}
 
 {% block cuerpo %}
+    <div id="irArriba"><a href="javascript:(1);"><span></span></a></div>
     <section id="contenedor" class="container">
+        <div id="busqueda" class="ui-widget">
+            <div class="input-group col-xs-12">
+                <span class="input-group-addon"><i class="fa fa-search fa-1x"></i></span>
+                <input id="buscar" name="buscar" class="form-control" maxlength="20" placeholder="Buscar acontecimiento..." type="text">                    
+            </div>
+        </div>  
 
         {% include 'MenuVertical.html.twig' %}
 
@@ -107,7 +143,9 @@
             {% if acontecimientos %}
                 <h1 class="col-xs-12">NOVEDADES - JUEGOS INFANTILES</h1>
                 <div class="col-xs-12">
-                    <button type="button" name="NuevoAcontec" id="NuevoAcontec" class="btn btn-warning col-xs-3"><i class="fa fa-plus-square fa-2x"></i>Nuevo acontecimiento...</button>
+                    <form role="form" method="POST">
+                        <button type="submit" name="NuevoAcontec" id="NuevoAcontec" class="btn btn-warning col-xs-3"><i class="fa fa-plus-square fa-2x"></i>Nuevo acontecimiento...</button>
+                    </form>
                 </div>
                 {% for acontecimiento in acontecimientos %}
                     {% if acontecimiento.fecha >= now|date_modify("-7 days")|date('Y-m-d H:i:s') %}
@@ -129,7 +167,24 @@
                 {% endfor %}
 
             {% else %}
+                <h1 class="col-xs-12">NOVEDADES - JUEGOS INFANTILES</h1>
                 <h3>No existen acontecimientos novedosos en el tema 'Juegos Infantiles'</h3>
+                <div class="col-xs-12">
+                    <div id="paraBoton" class="col-xs-12">
+                        <button type="button" name="NuevoAcontec" id="NuevoAcontec" class="btn btn-warning col-xs-10 col-sm-10 col-md-3"><i class="fa fa-plus-square fa-2x"></i>Nuevo acontecimiento...</button>
+                    </div>
+                    <form class="col-xs-12" id="fAcontec" role="form" method="POST" enctype="multipart/form-data">
+                        <div class="col-xs-10">
+                            <input type="text" required id="titulo" name="titulo" class="form-control" maxlength="60" placeholder="Título del acontecimiento..."> 
+                            <textarea id="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
+                        </div>
+                        <input type="file" name="imagen" maxlength="70">
+                        <p id="advertencia">*Esta plantilla pasará por la zona de Administración para dar su visto bueno sobre
+                            el contenido. Se publicará si cumple los requisitos.</p>
+                        <button type="submit" name="EnviarAdmin" id="EnviarAdmin" class="btn btn-success"><i class="fa fa-arrow-right fa-lg"></i>Enviar</button>
+                        <button type="button" name="OcultarForm" id="OcultarForm" class="btn btn-info"><i class="fa fa-arrow-down fa-lg"></i>Ocultar</button>
+                    </form>
+                </div> 
             {% endif %}
         </section>         
     </section>

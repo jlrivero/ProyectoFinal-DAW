@@ -166,10 +166,23 @@ aside{
     -o-border-radius: 5px;         
 }
 
-#NuevoAcontec{
+#advertencia{
+    font-size: 12px;
+}
+
+#paraBoton{
+    padding:0;
+    margin:0;
+}
+
+#NuevoAcontec, #EnviarAdmin, #OcultarForm{
     margin-bottom: 20px;
     text-align: left;
     font-weight: bold;
+}
+
+#NuevoAcontec{
+    margin-left: 10px;
 }
 
 #NuevoAcontec.btn-warning{
@@ -180,8 +193,14 @@ aside{
     background: #EA6900;
 }
 
-#NuevoAcontec i{
+#NuevoAcontec i, #EnviarAdmin i, #OcultarForm i{
     margin-right: 7px;
+}
+
+#fAcontec > div{
+    padding: 0;
+    display: inline-block;
+    margin: 0px auto 20px auto;
 }
 
 #nuevos{
@@ -191,6 +210,10 @@ aside{
 
 #novedades h6, #novedades h3{
     margin-left: 25px;
+}
+
+#novedades input[type="file"]{
+    margin-bottom: 20px;
 }
 
 .border-row{
