@@ -1,3 +1,20 @@
+#busqueda{
+    padding:0;
+    margin-bottom: 1%;
+}
+
+#busqueda .input-group-addon{
+    background: #A00806;
+    color: white;
+}
+
+h3{
+    font-family: Amatic_SC_Regular;
+    font-size: 40px;
+    color: black;
+    font-weight: bold;
+}
+
 #administrador h2{
     font-family: Amatic_SC_Bold;
     margin-bottom: 0;
@@ -13,7 +30,101 @@
     margin-top: 0;
 }
 
+#administrador > #mensajes_flash_admin{
+    border: 0;
+    margin-top: 20px;
+    padding-top: 10px;
+    text-align: center;
+}
+
+#tabs-1 p, #tabs-2 p{
+    font-family: Paprika;
+    font-size: 14px;
+    color: black;
+}
+
+
 #administrador > div > p > span{
     font-weight: bold;
 }
 
+#Modificar, #Borrar, #Insertar{
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#tabs{
+    padding:0;
+    margin:0;
+    border: 1px solid black;
+}
+
+.misImagenes{
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.border-row{
+    border-top: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.nuevos{
+    margin-top: 2%;
+    padding: 0 25px 25px 25px; 
+}
+
+#tabs img, #novedades img{
+    border: 10px solid black;
+    margin: 25px auto;
+}
+
+#tabs span.badge{
+    background: white;
+    color: #A00806;
+}
+
+#tabs h3{
+    margin-left: 25px;
+}
+
+@media (max-width: 359px) {
+    #tabs-1, #tabs-2, #tabs-3{
+        font-size: 12px;
+    }
+
+    #administrador ul{
+        font-size: 13px;
+    }
+}
+
+#administrador .ui-tabs .ui-tabs-nav{
+    padding: 0;
+}
+
+#administrador .ui-tabs .ui-tabs-nav li{
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+#administrador .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+    border-color: black;
+    background: #A00806;
+    color: white;
+}
+
+#administrador .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+    border-color: #DD4444;
+    color: white;
+    background: #DD4444;   
+}
+
+#administrador .ui-state-default a{
+    padding: 15px 10px;
+    color: white;
+}
+
+#administrador .ui-widget-content{
+    color: #555555;
+}

@@ -80,6 +80,104 @@ $app->post('/', function() use($app) {
     }
 });
 
+//-- ADMINISTRACIÓN --//
+$app->get('/Administrar/', function() use($app) {
+
+    //Desde aquí cargamos todas las pestañas de la admnistración, y luego las operaciones
+    //las hacemos aparte
+
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+
+    $todosUsuarios = ORM::for_table('Usuario')->find_many();
+
+    $todosAcontecimientos = ORM::for_table('Acontecimiento')->
+            select('titulo')->
+            select('Acontecimiento.id')->
+            select('Acontecimiento.descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            select('Tema.nombre', 'tema_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            join('Tema', array('Acontecimiento.tema_id_fk', '=', 'Tema.id'))->
+            order_by_desc('fecha')->
+            where('publicado', 0)->
+            find_array();
+
+    $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado, "usuarios" => $todosUsuarios, "acontecimientos" => $todosAcontecimientos));
+})->name('administrar');
+
+$app->post('/Administrar/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+
+    //-- GESTIÓN DE ACONTECIMIENTOS --/
+    if (isset($_POST['Aceptar'])) {
+        try {
+            $acontecimiento = ORM::for_table('Acontecimiento')->find_one($_POST['Aceptar']);
+            $acontecimiento->publicado = 1;
+            $acontecimiento->save();
+
+            $app->flash('mensaje', 'Acontecimiento publicado en la web');
+        } catch (Exception $e) {
+            $app->flash('error', 'Se ha producido un error al publicar el acontecimiento. ' . $e->getMessage());
+        }
+    } else {
+        //-- GESTIÓN DE USUARIOS --//
+        //-- PARA LA BARRA DE BÚSQUEDA--//
+        /* if (isset($_POST['autores']) == 'todos') {
+          $nombresUsuarios = ORM::for_table('Usuario')->select('nombre_usuario')->find_many();
+
+          $array_usuarios = array();
+
+          $i = 0;
+
+          if ($nombresUsuarios) {
+          foreach ($nombresUsuarios as $fila) {
+          $array_usuarios[$i] = $fila->as_array();
+          $i++;
+          }
+          $json_nombres = json_encode($array_usuarios);
+          }
+          } */
+
+        if ((isset($_POST['Insertar'])) && ($_POST['TBnuevo_usuario'] != "") && ($_POST['TBnuevo_email'] != "") && ($_POST['TBnuevo_admin'] != "")) {
+            try {
+                $nuevoUsuario = ORM::for_table('Usuario')->create();
+                $nuevoUsuario->nombre_usuario = $_POST['TBnuevo_usuario'];
+                $nuevoUsuario->password = crypt($_POST['TBnuevo_password']);
+                $nuevoUsuario->email = $_POST['TBnuevo_email'];
+                $nuevoUsuario->admin = $_POST['TBnuevo_admin'];
+                $nuevoUsuario->save();
+
+                $app->flash('mensaje', 'Nuevo usuario registrado correctamente');
+            } catch (Exception $e) {
+                $app->flash('error', 'Fallo en la inserción del usuario');
+            }
+        } elseif ((isset($_POST['Modificar'])) && ($_POST['TBusuario'] != "") && ($_POST['TBemail'] != "") && ($_POST['TBadmin'] != "")) {
+            try {
+                $usuario = ORM::for_table('Usuario')->find_one($_POST['Modificar']);
+                $usuario->nombre_usuario = $_POST['TBusuario'];
+                $usuario->email = $_POST['TBemail'];
+                $usuario->admin = $_POST['TBadmin'];
+                $usuario->save();
+
+                $app->flash('mensaje', 'Usuario modificado');
+            } catch (Exception $e) {
+                $app->flash('error', 'Fallo al modificar usuario, compruebe que no está todos los campos vacios y el usuario no está repetido');
+            }
+        } elseif (isset($_POST['Borrar'])) {
+            $usuario = ORM::for_table('Usuario')->find_one($_POST['Borrar']);
+            $usuario->delete();
+            $app->flash('mensaje', ' Usuario eliminado correctamente');
+        } else {
+            $app->flash('error', 'Introduzca valores en todos los campos');
+        }
+    }
+
+    $app->redirect($app->urlFor('administrar'));
+});
+
 //-- PÁGINA PRINCIPAL --//
 $app->get('/Principal/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
@@ -103,43 +201,45 @@ $app->get('/Principal/', function() use($app) {
 
 $app->post('/Principal/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+
     if (isset($_POST['EnviarAdmin'])) {
-        if ($_POST['tema'] != 0) {
+        if (isset($_POST['tema']) != 0) {
             $idTema = $_POST['tema'];
-            $fecha = new DateTime;
+            $fecha = date('Y-m-d H:i:s');
             //El usuario nos adjunta una imagen, la comprobamos y la guardamos
             $tipo_imagen = $_FILES['imagen']['type'];
-            if (($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+            if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
                 //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
                 $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
                 opendir($carpeta);
                 $destino = $carpeta . $_FILES['imagen']['name'];
                 copy($_FILES['imagen']['tmp_name'], $destino);
-
-                //Procedemos a insertar el acontecimiento con la imagen creada
-                try {
-                    $nuevoAcontecimiento = ORM::for_table('Acontecimiento')->create();
-                    $nuevoAcontecimiento->titulo = $_POST['titulo'];
-                    $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
-                    $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
-                    $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
-                    $nuevoAcontecimiento->usuario_id_fk = $usuarioRegistrado['id'];
-                    $nuevoAcontecimiento->tema_id_fk = $idTema;
-                    $nuevoAcontecimiento->save();
-
-                    $app->flash('mensaje', 'Su acontecimiento ha sido enviado al administrador correctamente');
-
-                    //Enviar correo electrónico de bienvenida a la plataforma
-                    mandarCorreo($_POST['regEmail'], $_POST['regUsuario']);
-                } catch (Exception $e) {
-                    $app->flash('error', 'Fallo al enviar la publicación');
-                }
             }
 
-            $app->redirect($app->urlFor('principal'));
-        } else {
-            $app->flash('error', 'Seleccione un tema');
+            //Procedemos a insertar el acontecimiento con la imagen creada
+            try {
+                $nuevoAcontecimiento = ORM::for_table('Acontecimiento')->create();
+                $nuevoAcontecimiento->titulo = $_POST['titulo'];
+                if ($_FILES['imagen']) {
+                    $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
+                }
+
+                if ($_POST['descripcion'] != "") {
+                    $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
+                }
+                // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
+                $nuevoAcontecimiento->fecha = $fecha;
+                $nuevoAcontecimiento->usuario_id_fk = $usuarioRegistrado['id'];
+                $nuevoAcontecimiento->tema_id_fk = $idTema;
+                $nuevoAcontecimiento->save();
+
+                $app->flash('mensaje', 'Su acontecimiento ha sido enviado al administrador correctamente');
+            } catch (Exception $e) {
+                $app->flash('error', 'Error al enviar la publicación');
+            }
         }
+
+        $app->redirect($app->urlFor('principal'));
     }
 });
 
@@ -222,7 +322,7 @@ $app->get('/Television/', function() use($app) {
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
             find_array();
-    
+
     $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('television');
 
@@ -514,13 +614,6 @@ $app->post('/Otros/', function() use($app) {
         $app->redirect($app->urlFor('otros'));
     }
 });
-
-//-- ADMINISTRACIÓN DE USUARIOS --/
-$app->get('/Administrar/', function() use($app) {
-    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
-    $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado));
-})->name('administrar');
-
 
 //-- PULSAMOS EL BOTÓN 'SALIR' --//
 $app->post('/salir', function() use($app) {

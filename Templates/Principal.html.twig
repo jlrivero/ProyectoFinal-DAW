@@ -118,7 +118,7 @@
                         <div class="border-row">
                             <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                         </div>
-                        <div id="nuevos">
+                        <div class="nuevos">
                             <h3>{{ acontecimiento.titulo }}</h3>
 
                             {% if acontecimiento.nombre_imagen %}
@@ -140,7 +140,7 @@
                             <div class="border-row">
                                 <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                             </div>
-                            <div id="nuevos">
+                            <div class="nuevos">
                                 <h3>{{ acontecimiento.titulo }}</h3>
 
                                 {% if acontecimiento.nombre_imagen %}
@@ -163,7 +163,7 @@
                             <div class="border-row">
                                 <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                             </div>
-                            <div id="nuevos">
+                            <div class="nuevos">
                                 <h3>{{ acontecimiento.titulo }}</h3>
 
                                 {% if acontecimiento.nombre_imagen %}
@@ -193,7 +193,7 @@
                     <form class="col-xs-12" id="fAcontec" role="form" method="POST" enctype="multipart/form-data">
                         <div class="col-xs-10">
                             <input type="text" required id="titulo" name="titulo" class="form-control" maxlength="60" placeholder="Título del acontecimiento..."> 
-                            <textarea id="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
+                            <textarea id="descripcion" name="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
                         </div>
                         <input type="file" name="imagen" maxlength="70">
                         <select name="tema" id="tema">
@@ -218,7 +218,7 @@
                         <div class="border-row">
                             <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                         </div>
-                        <div id="nuevos">
+                        <div class="nuevos">
                             <h3>{{ acontecimiento.titulo }}</h3>
 
                             {% if acontecimiento.nombre_imagen %}
