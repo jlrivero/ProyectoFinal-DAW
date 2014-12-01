@@ -46,7 +46,12 @@ aside{
     border: 1px solid black;
 }
 
+#mensajes_flash{
+    text-align: center;
+}
+
 #busqueda{
+    padding:0;
     margin-bottom: 1%;
 }
 
@@ -120,6 +125,7 @@ aside{
 #tabs img, #novedades img{
     border: 10px solid black;
     margin: 25px auto;
+    max-width: 550px;
 }
 
 #tabs-1 p, #tabs-2 p, #tabs-3 p, #novedades{
@@ -201,6 +207,15 @@ aside{
     padding: 0;
     display: inline-block;
     margin: 0px auto 20px auto;
+}
+
+#fAcontec > select{
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+#fAcontec > select > option{
+    margin-bottom: 10px;
 }
 
 #nuevos{

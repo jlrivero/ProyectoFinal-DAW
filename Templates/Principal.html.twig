@@ -110,7 +110,7 @@
                             <h3>{{ acontecimiento.titulo }}</h3>
 
                             {% if acontecimiento.nombre_imagen %}
-                                <img class="img-responsive" src="/Imagenes/{{ acontecimiento.nombre_imagen }}" />
+                                <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
                             {% endif %}
 
                             <p>{{ acontecimiento.descripcion }}</p>                   
@@ -130,7 +130,7 @@
                                 <h3>{{ acontecimiento.titulo }}</h3>
 
                                 {% if acontecimiento.nombre_imagen %}
-                                    <img class="img-responsive" src="/Imagenes/{{ acontecimiento.nombre_imagen }}" />
+                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
                                 {% endif %}
 
                                 <p>{{ acontecimiento.descripcion }}</p>                   
@@ -151,7 +151,7 @@
                                 <h3>{{ acontecimiento.titulo }}</h3>
 
                                 {% if acontecimiento.nombre_imagen %}
-                                    <img class="img-responsive" src="/Imagenes/{{ acontecimiento.nombre_imagen }}" />
+                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
                                 {% endif %}
 
                                 <p>{{ acontecimiento.descripcion }}</p>                   
@@ -169,8 +169,29 @@
             {% if acontecimientos %}
                 <h1 class="col-xs-12">NOVEDADES</h1>
                 <div class="col-xs-12">
-                    <form role="form" method="POST">
-                        <button type="submit" name="NuevoAcontec" id="NuevoAcontec" class="btn btn-warning col-xs-3"><i class="fa fa-plus-square fa-2x"></i>Nuevo acontecimiento...</button>
+                    <div id="paraBoton" class="col-xs-12">
+                        <button type="button" name="NuevoAcontec" id="NuevoAcontec" class="btn btn-warning col-xs-10 col-sm-10 col-md-3"><i class="fa fa-plus-square fa-2x"></i>Nuevo acontecimiento...</button>
+                    </div>
+                    <form class="col-xs-12" id="fAcontec" role="form" method="POST" enctype="multipart/form-data">
+                        <div class="col-xs-10">
+                            <input type="text" required id="titulo" name="titulo" class="form-control" maxlength="60" placeholder="Título del acontecimiento..."> 
+                            <textarea id="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
+                        </div>
+                        <input type="file" name="imagen" maxlength="70">
+                        <select name="tema" id="tema">
+                            <option value="0" selected="selected">Seleccione un tema...</option>
+                            <option value="1">Videojuegos</option>
+                            <option value="2">Televisión</option>
+                            <option value="3">Deportes</option>
+                            <option value="4">Juegos Infantiles</option>
+                            <option value="5">Música</option>
+                            <option value="6">Otros</option>
+                        </select>                        
+                        <p id="advertencia">*Esta plantilla pasará por la zona de Administración para dar su visto bueno sobre
+                            el contenido. Se publicará si cumple los requisitos.</p>
+                        <button type="submit" name="EnviarAdmin" id="EnviarAdmin" class="btn btn-success"><i class="fa fa-arrow-right fa-lg"></i>Enviar</button>
+                        <button type="button" name="OcultarForm" id="OcultarForm" class="btn btn-info"><i class="fa fa-arrow-down fa-lg"></i>Ocultar</button>
+
                     </form>
                 </div>
                 {% for acontecimiento in acontecimientos %}
@@ -183,7 +204,7 @@
                             <h3>{{ acontecimiento.titulo }}</h3>
 
                             {% if acontecimiento.nombre_imagen %}
-                                <img class="img-responsive" src="/Imagenes/{{ acontecimiento.nombre_imagen }}" />
+                                <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
                             {% endif %}
 
                             <p>{{ acontecimiento.descripcion }}</p>                   
