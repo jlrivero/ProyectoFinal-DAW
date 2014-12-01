@@ -104,44 +104,42 @@ $app->get('/Principal/', function() use($app) {
 $app->post('/Principal/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
     if (isset($_POST['EnviarAdmin'])) {
-        if($_POST['tema'] != 0){
-          $idTema = $_POST['tema'];
-          $fecha = new DateTime;
-          //El usuario nos adjunta una imagen, la comprobamos y la guardamos
-          $tipo_imagen = $_FILES['imagen']['type'];
-          if(($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')){
-          //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
-          $carpeta = $_SERVER['DOCUMENT_ROOT'].'/Imagenes/Nuevos_Acontecimientos/';
-          opendir($carpeta);
-          $destino = $carpeta.$_FILES['imagen']['name'];
-          copy($_FILES['imagen']['tmp_name'], $destino);
+        if ($_POST['tema'] != 0) {
+            $idTema = $_POST['tema'];
+            $fecha = new DateTime;
+            //El usuario nos adjunta una imagen, la comprobamos y la guardamos
+            $tipo_imagen = $_FILES['imagen']['type'];
+            if (($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+                //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
+                $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
+                opendir($carpeta);
+                $destino = $carpeta . $_FILES['imagen']['name'];
+                copy($_FILES['imagen']['tmp_name'], $destino);
 
-          //Procedemos a insertar el acontecimiento con la imagen creada
-          try{
-          $nuevoAcontecimiento = ORM::for_table('Acontecimiento')->create();
-          $nuevoAcontecimiento->titulo = $_POST['titulo'];
-          $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
-          $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
-          $nuevoAcontecimiento->fecha = date_format($fecha,'Y-m-d H:i:s');
-          $nuevoAcontecimiento->usuario_id_fk = $usuarioRegistrado['id'];
-          $nuevoAcontecimiento->tema_id_fk = $idTema;
-          $nuevoAcontecimiento->save();
+                //Procedemos a insertar el acontecimiento con la imagen creada
+                try {
+                    $nuevoAcontecimiento = ORM::for_table('Acontecimiento')->create();
+                    $nuevoAcontecimiento->titulo = $_POST['titulo'];
+                    $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
+                    $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
+                    $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
+                    $nuevoAcontecimiento->usuario_id_fk = $usuarioRegistrado['id'];
+                    $nuevoAcontecimiento->tema_id_fk = $idTema;
+                    $nuevoAcontecimiento->save();
 
-          $app->flash('mensaje', 'Su acontecimiento ha sido enviado al administrador correctamente');
+                    $app->flash('mensaje', 'Su acontecimiento ha sido enviado al administrador correctamente');
 
-          //Enviar correo electrónico de bienvenida a la plataforma
-          mandarCorreo($_POST['regEmail'], $_POST['regUsuario']);
-          }
-          catch (Exception $e){
-          $app->flash('error', 'Fallo al enviar la publicación');
-          }
-          }
+                    //Enviar correo electrónico de bienvenida a la plataforma
+                    mandarCorreo($_POST['regEmail'], $_POST['regUsuario']);
+                } catch (Exception $e) {
+                    $app->flash('error', 'Fallo al enviar la publicación');
+                }
+            }
 
-          $app->redirect($app->urlFor('principal'));
-          }
-          else{
-          $app->flash('error', 'Seleccione un tema');
-          }
+            $app->redirect($app->urlFor('principal'));
+        } else {
+            $app->flash('error', 'Seleccione un tema');
+        }
     }
 });
 
@@ -188,8 +186,8 @@ $app->post('/Videojuegos/', function() use($app) {
             if ($_FILES['imagen']) {
                 $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
             }
-            
-            if($_POST['descripcion'] != ""){
+
+            if ($_POST['descripcion'] != "") {
                 $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
             }
             // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
@@ -224,7 +222,7 @@ $app->get('/Television/', function() use($app) {
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
             find_array();
-
+    
     $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('television');
 
@@ -250,8 +248,8 @@ $app->post('/Television/', function() use($app) {
             if ($_FILES['imagen']) {
                 $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
             }
-            
-            if($_POST['descripcion'] != ""){
+
+            if ($_POST['descripcion'] != "") {
                 $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
             }
             // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
@@ -312,8 +310,8 @@ $app->post('/Deportes/', function() use($app) {
             if ($_FILES['imagen']) {
                 $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
             }
-            
-            if($_POST['descripcion'] != ""){
+
+            if ($_POST['descripcion'] != "") {
                 $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
             }
             // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
@@ -374,8 +372,8 @@ $app->post('/Juegos_Infantiles/', function() use($app) {
             if ($_FILES['imagen']) {
                 $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
             }
-            
-            if($_POST['descripcion'] != ""){
+
+            if ($_POST['descripcion'] != "") {
                 $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
             }
             // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
@@ -436,8 +434,8 @@ $app->post('/Musica/', function() use($app) {
             if ($_FILES['imagen']) {
                 $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
             }
-            
-            if($_POST['descripcion'] != ""){
+
+            if ($_POST['descripcion'] != "") {
                 $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
             }
             // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
@@ -498,8 +496,8 @@ $app->post('/Otros/', function() use($app) {
             if ($_FILES['imagen']) {
                 $nuevoAcontecimiento->nombre_imagen = $_FILES['imagen']['name'];
             }
-            
-            if($_POST['descripcion'] != ""){
+
+            if ($_POST['descripcion'] != "") {
                 $nuevoAcontecimiento->descripcion = $_POST['descripcion'];
             }
             // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');

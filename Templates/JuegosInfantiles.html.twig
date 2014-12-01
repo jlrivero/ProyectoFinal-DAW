@@ -13,23 +13,23 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $("#irArriba").hide();
-            
+
             $(function () {
                 $("#tabs").tabs();
             });
 
             $('#juegosInfantiles a').addClass("active");
-            
+
             $("#fAcontec").hide();
-            
-            $("#NuevoAcontec").click(function() {
+
+            $("#NuevoAcontec").click(function () {
                 $("#fAcontec").fadeIn();
             });
-            
-            $('#OcultarForm').click(function() {
+
+            $('#OcultarForm').click(function () {
                 $("#fAcontec").fadeOut();
             });
-            
+
             $(function () {
                 $(window).scroll(function () {
                     if ($(this).scrollTop() > 150) {
@@ -45,7 +45,7 @@
                     }, 1000);
                     return false;
                 });
-            });              
+            });
         });
 
     </script>
@@ -58,7 +58,19 @@
 {% block cuerpo %}
     <div id="irArriba"><a href="javascript:(1);"><span></span></a></div>
     <section id="contenedor" class="container">
-        <div id="busqueda" class="ui-widget">
+        <div id="mensajes_flash" class="col-xs-12">
+            {% if flash['error'] %}
+                <div class="col-sm-12 form-group alert alert-danger">
+                    {{ flash['error'] }}
+                </div>
+            {% endif %}
+            {% if flash['mensaje'] %}
+                <div class="col-sm-12 form-group alert alert-success">
+                    {{ flash['mensaje'] }}
+                </div>
+            {% endif %}              
+        </div>        
+        <div id="busqueda" class="ui-widget col-xs-12">
             <div class="input-group col-xs-12">
                 <span class="input-group-addon"><i class="fa fa-search fa-1x"></i></span>
                 <input id="buscar" name="buscar" class="form-control" maxlength="20" placeholder="Buscar acontecimiento..." type="text">                    
@@ -84,7 +96,9 @@
                             <h3>{{ acontecimiento.titulo }}</h3>
 
                             {% if acontecimiento.nombre_imagen %}
-                                <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                <div class="misImagenes">
+                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                </div>
                             {% endif %}
 
                             <p>{{ acontecimiento.descripcion }}</p>                   
@@ -104,7 +118,9 @@
                                 <h3>{{ acontecimiento.titulo }}</h3>
 
                                 {% if acontecimiento.nombre_imagen %}
-                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                    <div class="misImagenes">
+                                        <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                    </div>
                                 {% endif %}
 
                                 <p>{{ acontecimiento.descripcion }}</p>                   
@@ -125,7 +141,9 @@
                                 <h3>{{ acontecimiento.titulo }}</h3>
 
                                 {% if acontecimiento.nombre_imagen %}
-                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                    <div class="misImagenes">
+                                        <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                    </div>
                                 {% endif %}
 
                                 <p>{{ acontecimiento.descripcion }}</p>                   
@@ -157,7 +175,9 @@
                             <h3>{{ acontecimiento.titulo }}</h3>
 
                             {% if acontecimiento.nombre_imagen %}
-                                <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                <div class="misImagenes">
+                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                </div>
                             {% endif %}
 
                             <p>{{ acontecimiento.descripcion }}</p>                   
@@ -176,7 +196,7 @@
                     <form class="col-xs-12" id="fAcontec" role="form" method="POST" enctype="multipart/form-data">
                         <div class="col-xs-10">
                             <input type="text" required id="titulo" name="titulo" class="form-control" maxlength="60" placeholder="Título del acontecimiento..."> 
-                            <textarea id="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
+                            <textarea id="descripcion" name="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
                         </div>
                         <input type="file" name="imagen" maxlength="70">
                         <p id="advertencia">*Esta plantilla pasará por la zona de Administración para dar su visto bueno sobre

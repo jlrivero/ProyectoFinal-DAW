@@ -122,10 +122,14 @@ aside{
     border: 1px solid black;
 }
 
+.misImagenes{
+    max-width: 550px;
+    margin: 0 auto;
+}
+
 #tabs img, #novedades img{
     border: 10px solid black;
     margin: 25px auto;
-    max-width: 550px;
 }
 
 #tabs-1 p, #tabs-2 p, #tabs-3 p, #novedades{
