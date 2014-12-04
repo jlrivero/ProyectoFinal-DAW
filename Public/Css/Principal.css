@@ -138,8 +138,9 @@ aside{
     color: black;
 }
 
-#tabs h3{
-    margin-left: 25px;
+#tabs-1 h5{
+    color: #A00806;
+    margin-bottom: 10px;
 }
 
 #novedades{
@@ -191,8 +192,23 @@ aside{
     font-weight: bold;
 }
 
+#NuevoComent{
+    margin: 10px 0 0 0;
+    text-align: left;
+    font-weight: bold;
+    
+}
+
 #NuevoAcontec{
     margin-left: 10px;
+}
+
+#NuevoComent.btn-default{
+    background: #FDCD7B;
+}
+
+#NuevoComent.btn-default:hover{
+    background: #FCB441;
 }
 
 #NuevoAcontec.btn-warning{
@@ -203,7 +219,7 @@ aside{
     background: #EA6900;
 }
 
-#NuevoAcontec i, #EnviarAdmin i, #OcultarForm i{
+#NuevoAcontec i, #EnviarAdmin i, #OcultarForm i, #NuevoComent i{
     margin-right: 7px;
 }
 
@@ -225,6 +241,19 @@ aside{
 .nuevos{
     margin-top: 2%;
     padding: 0 25px 25px 25px; 
+}
+
+.todos_comentarios{
+    display: inline-block;
+    width: 100%;
+}
+
+.todos_comentarios > form.col-xs-12{
+    padding-left: 0;
+}
+
+.todos_comentarios > button{
+    float: none;
 }
 
 #novedades h6, #novedades h3{

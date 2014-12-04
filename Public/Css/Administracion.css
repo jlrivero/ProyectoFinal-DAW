@@ -30,14 +30,13 @@ h3{
     margin-top: 0;
 }
 
-#administrador > #mensajes_flash_admin{
+.mensajes_flash_admin{
     border: 0;
-    margin-top: 20px;
     padding-top: 10px;
     text-align: center;
 }
 
-#tabs-1 p, #tabs-2 p{
+#Comentarios p, #Acontecimientos p{
     font-family: Paprika;
     font-size: 14px;
     color: black;
@@ -74,6 +73,13 @@ h3{
     padding: 0 25px 25px 25px; 
 }
 
+.nuevos > h3 > span{
+    font-size: 15px;
+    font-family: Verdana,Arial,sans-serif;
+    font-weight: normal;
+    color: #555;
+}
+
 #tabs img, #novedades img{
     border: 10px solid black;
     margin: 25px auto;
@@ -82,10 +88,6 @@ h3{
 #tabs span.badge{
     background: white;
     color: #A00806;
-}
-
-#tabs h3{
-    margin-left: 25px;
 }
 
 @media (max-width: 359px) {

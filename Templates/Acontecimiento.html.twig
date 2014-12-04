@@ -1,0 +1,131 @@
+{% extends 'Base.html.twig' %}
+
+{% block titulo %}Acontecimiento - {{ acontecimiento.titulo }}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/Css/Cabecera.css">
+    <link rel="stylesheet" type="text/css" href="/Css/Principal.css">
+    <link rel="stylesheet" type="text/css" href="/Css/Acontecimiento.css">
+    <link rel="stylesheet" type="text/css" href="/Css/jquery-ui_1.11.2.css">
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="/Javascript/jquery-ui_1.11.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#irArriba").hide();
+
+            /*$("#fAcontec").hide();
+             
+             $("#NuevoAcontec").click(function () {
+             $("#fAcontec").fadeIn();
+             });
+             
+             $('#OcultarForm').click(function () {
+             $("#fAcontec").fadeOut();
+             });            
+             
+             $(".fComent").hide();
+             
+             $(".NuevoComent").click(function () {
+             $(".fComent").fadeIn();
+             });
+             
+             $('.OcultarComent').click(function () {
+             $(".fComent").fadeOut();
+             });*/
+
+            $(function () {
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > 150) {
+                        $("#irArriba").fadeIn();
+                    }
+                    else {
+                        $("#irArriba").fadeOut();
+                    }
+                });
+                $("#irArriba").click(function () {
+                    $("body,html").animate({
+                        scrollTop: 0
+                    }, 1000);
+                    return false;
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block cabecera %}
+    {% include 'Cabecera.html.twig' %}
+{% endblock %}
+
+{% block cuerpo %}
+    <div id="irArriba"><a href="javascript:(1);"><span></span></a></div>
+    <section id="contenedor" class="container">
+        <div id="mensajes_flash" class="col-xs-12">
+            {% if flash['error'] %}
+                <div class="col-sm-12 form-group alert alert-danger">
+                    {{ flash['error'] }}
+                </div>
+            {% endif %}
+            {% if flash['mensaje'] %}
+                <div class="col-sm-12 form-group alert alert-success">
+                    {{ flash['mensaje'] }}
+                </div>
+            {% endif %}              
+        </div>        
+
+        {% include 'MenuVertical.html.twig' %}
+
+        <section id="miAcontecimiento" class="col-xs-12 col-sm-9 col-md-9">
+            <h6>Publicado el: {{ acontecimiento.fecha }} </h6> {#- Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i>#}
+            <div class="nuevos">
+                <h3>{{ acontecimiento.titulo }}</h3>
+
+                {% if acontecimiento.nombre_imagen %}
+                    <div class="misImagenes">
+                        <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}">
+                    </div>
+                {% endif %}
+
+                {% if acontecimiento.descripcion %}
+                    <p>{{ acontecimiento.descripcion }}</p>
+                {% endif %}
+
+                {% if comentarios %}
+
+                    {% for comentario in comentarios %}
+
+                        <div class="border-row">
+                            <h6>{{ comentario.fecha }} - Creado por: <i><u>{{ comentario.usuario_nombre }}</u></i></h6>
+                        </div>
+                        <p>{{ comentario.texto }}</p>
+                        <div class="nuevos">
+
+                            {% if comentario.nombre_imagen %}
+                                <div class="misImagenes">
+                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ comentario.nombre_imagen }}" />
+                                </div>
+                            {% endif %}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+                    <h5>Este acontecimiento no tiene comentarios</h5>
+                {% endif %}  
+                <div class="todos_comentarios">
+                    <form class="col-xs-12" action="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}    " id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                        <h5>Comentario: </h5>                        
+                        <textarea type="text" required name="texto" class="form-control" rows="4" maxlength="150" placeholder="Introduzca su comentario..."></textarea> 
+                        <input type="file" name="imagen_comentario" maxlength="70">
+                        <button type="submit" name="EnviarComent" id="EnviarComent" class="btn btn-success"><i class="fa fa-arrow-right fa-lg"></i>Enviar</button>
+                        <a href="{{ urlFor('principal') }}"><button type="button" name="Volver" id="Volver" class="btn btn-info"><i class="fa fa-rotate-left fa-lg"></i>Volver</button></a>                               
+                    </form>
+                </div>
+            </div>
+        </section>    
+    </section>
+{% endblock %}		
+

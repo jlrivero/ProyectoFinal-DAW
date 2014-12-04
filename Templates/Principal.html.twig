@@ -47,6 +47,7 @@
              source: availableTags
              });
              });*/
+
             $("#fAcontec").hide();
 
             $("#NuevoAcontec").click(function () {
@@ -127,7 +128,16 @@
                                 </div>
                             {% endif %}
 
-                            <p>{{ acontecimiento.descripcion }}</p>                   
+                            {% if acontecimiento.descripcion %}
+                                <p>{{ acontecimiento.descripcion }}</p>
+                            {% endif %}
+                            
+                            <div class="todos_comentarios">
+                                <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                                    <h5>Comentarios: {% if comentarios %}{{ comentarios }}{% endif %}</h5>
+                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>                            
+                                </form>
+                            </div>                          
                         </div>
 
                     {% endfor %} 

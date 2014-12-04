@@ -1,0 +1,42 @@
+#miAcontecimiento{
+    border: 1px solid black;
+    background: white; 
+}
+
+#miAcontecimiento h5{
+    color: #A00806;
+}
+
+#miAcontecimiento img{
+    border: 10px solid black;
+    margin: 25px auto;
+}
+
+#miAcontecimiento p{
+    font-family: Paprika;
+    font-size: 14px;
+    color: black;
+}
+
+#tabs img, #novedades img{
+    border: 10px solid black;
+    margin: 25px auto;
+}
+
+#fComent{
+    font-size: 14px;
+}
+
+#fComent > input, #fComent textarea{
+    margin-bottom: 15px;
+}
+
+#fComent > button > i, #fComent > a > button > i{
+    margin-right: 7px;
+}
+
+@media (max-width: 359px) {
+    #miAcontecimiento{
+        font-size: 12px;
+    }
+}

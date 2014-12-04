@@ -103,16 +103,43 @@ $app->get('/Administrar/', function() use($app) {
             join('Tema', array('Acontecimiento.tema_id_fk', '=', 'Tema.id'))->
             order_by_desc('fecha')->
             where('publicado', 0)->
-            find_array();
+            find_many();
 
-    $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado, "usuarios" => $todosUsuarios, "acontecimientos" => $todosAcontecimientos));
+    $todosComentarios = ORM::for_table('Comentario')->
+            select('texto')->
+            select('Comentario.id')->
+            select('Comentario.nombre_imagen')->
+            select('Comentario.nombre_video')->
+            select('Comentario.fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            select('Acontecimiento.titulo', 'acontecimiento_titulo')->
+            join('Usuario', array('Comentario.usuario_id_fk', '=', 'Usuario.id'))->
+            join('Acontecimiento', array('Comentario.acontecimiento_id_fk', '=', 'Acontecimiento.id'))->
+            order_by_desc('fecha')->
+            where('publicado', 0)->
+            find_many();
+
+    $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado, "usuarios" => $todosUsuarios, "acontecimientos" => $todosAcontecimientos, "comentarios" => $todosComentarios));
 })->name('administrar');
 
 $app->post('/Administrar/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    //-- GESTIÓN DE COMENTARIOS --//
+    if (isset($_POST['Aceptar_comentario'])) {
+        try {
+            $comentario = ORM::for_table('Comentario')->find_one($_POST['Aceptar_comentario']);
+            $comentario->publicado = 1;
+            $comentario->save();
 
-    //-- GESTIÓN DE ACONTECIMIENTOS --/
-    if (isset($_POST['Aceptar'])) {
+            $app->flash('mensaje', 'Comentario publicado en la web');
+        } catch (Exception $e) {
+            $app->flash('error', 'Se ha producido un error al publicar el comentario. ' . $e->getMessage());
+        }
+
+        $app->redirect('/Administrar/#Comentarios');
+    }
+    //-- GESTIÓN DE ACONTECIMIENTOS --/ 
+    elseif (isset($_POST['Aceptar'])) {
         try {
             $acontecimiento = ORM::for_table('Acontecimiento')->find_one($_POST['Aceptar']);
             $acontecimiento->publicado = 1;
@@ -122,6 +149,8 @@ $app->post('/Administrar/', function() use($app) {
         } catch (Exception $e) {
             $app->flash('error', 'Se ha producido un error al publicar el acontecimiento. ' . $e->getMessage());
         }
+
+        $app->redirect('/Administrar/#Acontecimientos');
     } else {
         //-- GESTIÓN DE USUARIOS --//
         //-- PARA LA BARRA DE BÚSQUEDA--//
@@ -173,9 +202,8 @@ $app->post('/Administrar/', function() use($app) {
         } else {
             $app->flash('error', 'Introduzca valores en todos los campos');
         }
+        $app->redirect('/Administrar/#Usuarios');
     }
-
-    $app->redirect($app->urlFor('administrar'));
 });
 
 //-- PÁGINA PRINCIPAL --//
@@ -183,6 +211,7 @@ $app->get('/Principal/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
 
     $acontecimientos = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
             select('titulo')->
             select('Acontecimiento.descripcion')->
             select('nombre_imagen')->
@@ -194,9 +223,12 @@ $app->get('/Principal/', function() use($app) {
             join('Tema', array('Acontecimiento.tema_id_fk', '=', 'Tema.id'))->
             order_by_desc('fecha')->
             where('publicado', 1)->
-            find_array();
+            find_many();
 
-    $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
+    /*$comentarios = ORM::for_table('Comentario')->where('acontecimiento_id_fk', $acontecimientos['id'])->
+            where('publicado', 1)->count();*/
+    
+    $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos, /*"comentarios" => $comentarios*/));
 })->name('principal');
 
 $app->post('/Principal/', function() use($app) {
@@ -206,7 +238,8 @@ $app->post('/Principal/', function() use($app) {
         if (isset($_POST['tema']) != 0) {
             $idTema = $_POST['tema'];
             $fecha = date('Y-m-d H:i:s');
-            //El usuario nos adjunta una imagen, la comprobamos y la guardamos
+
+            //El usuario nos adjunta una imagen, la comprobamos y la guardamos en la carpeta especificada
             $tipo_imagen = $_FILES['imagen']['type'];
             if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
                 //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
@@ -243,6 +276,67 @@ $app->post('/Principal/', function() use($app) {
     }
 });
 
+$app->get('/Acontecimiento/:id', function($id) use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+
+    $acontecimiento = ORM::for_table('Acontecimiento')->find_one($id);
+
+    $comentarios = ORM::for_table('Comentario')->
+            select('texto')->
+            select('Comentario.fecha')->
+            select('Comentario.nombre_imagen')->
+            select('Comentario.nombre_video')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Acontecimiento', array('Comentario.acontecimiento_id_fk', '=', 'Acontecimiento.id'))->
+            join('Usuario', array('Comentario.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_asc('Comentario.fecha')->
+            where('acontecimiento_id_fk', $id)->
+            where('Comentario.publicado', 1)->
+            find_many();
+
+    $app->render('Acontecimiento.html.twig', array("datos_usuario" => $usuarioRegistrado, 'acontecimiento' => $acontecimiento, "comentarios" => $comentarios));
+})->name('mostrarAcontecimiento');
+
+$app->post('/Acontecimiento/:id', function($id) use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    $acontecimiento = ORM::for_table('Acontecimiento')->find_one($id);
+
+    if (isset($_POST['EnviarComent']) && ($_POST['texto']) != "") {
+        $fecha = date('Y-m-d H:i:s');
+
+        //El usuario nos adjunta una imagen, la comprobamos y la guardamos en la carpeta especificada
+        $tipo_imagen = $_FILES['imagen_comentario']['type'];
+        if (($_FILES['imagen_comentario']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+            //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
+            $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
+            opendir($carpeta);
+            $destino = $carpeta . $_FILES['imagen_comentario']['name'];
+            copy($_FILES['imagen_comentario']['tmp_name'], $destino);
+        }
+
+        //Procedemos a insertar el comentario con la imagen creada
+        try {
+            $nuevoComentario = ORM::for_table('Comentario')->create();
+            $nuevoComentario->texto = $_POST['texto'];
+            // $nuevoAcontecimiento->fecha = date_format($fecha, 'Y-m-d H:i:s');
+            $nuevoComentario->fecha = $fecha;
+            if ($_FILES['imagen_comentario']) {
+                $nuevoComentario->nombre_imagen = $_FILES['imagen_comentario']['name'];
+            }
+
+            $nuevoComentario->acontecimiento_id_fk = $acontecimiento['id'];
+            $nuevoComentario->usuario_id_fk = $usuarioRegistrado['id'];
+            $nuevoComentario->save();
+
+            $app->flash('mensaje', 'Su comentario ha sido enviado correctamente para su comprobación');
+        } catch (Exception $e) {
+            $app->flash('error', 'Error al enviar el comentario');
+        }
+
+        $app->redirect('/Acontecimiento/' . $acontecimiento['id']);
+    }
+});
+
 //-- PESTAÑA 'VIDEOJUEGOS' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Videojuegos/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
@@ -259,7 +353,7 @@ $app->get('/Videojuegos/', function() use($app) {
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
-            find_array();
+            find_many();
 
     $app->render('Videojuegos.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('videojuegos');
@@ -321,7 +415,7 @@ $app->get('/Television/', function() use($app) {
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
-            find_array();
+            find_many();
 
     $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('television');
@@ -383,7 +477,7 @@ $app->get('/Deportes/', function() use($app) {
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
-            find_array();
+            find_many();
 
     $app->render('Deportes.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('deportes');
@@ -445,7 +539,7 @@ $app->get('/Juegos_Infantiles/', function() use($app) {
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
-            find_array();
+            find_many();
 
     $app->render('JuegosInfantiles.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('juegosInfantiles');
@@ -507,7 +601,7 @@ $app->get('/Musica/', function() use($app) {
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
-            find_array();
+            find_many();
 
     $app->render('Musica.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('musica');
@@ -569,7 +663,7 @@ $app->get('/Otros/', function() use($app) {
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
-            find_array();
+            find_many();
 
     $app->render('Otros.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos));
 })->name('otros');
