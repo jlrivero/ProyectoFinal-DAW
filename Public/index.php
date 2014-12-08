@@ -225,10 +225,15 @@ $app->get('/Principal/', function() use($app) {
             where('publicado', 1)->
             find_many();
 
-    /*$comentarios = ORM::for_table('Comentario')->where('acontecimiento_id_fk', $acontecimientos['id'])->
-            where('publicado', 1)->count();*/
-    
-    $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos, /*"comentarios" => $comentarios*/));
+    $comentarios = ORM::for_table('Comentario')->
+            select('acontecimiento_id_fk')->
+            select_expr('COUNT(*)', 'count')->
+            group_by('acontecimiento_id_fk')->
+            find_many();
+
+    //var_dump($comentarios);
+
+    $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
 })->name('principal');
 
 $app->post('/Principal/', function() use($app) {
@@ -241,7 +246,7 @@ $app->post('/Principal/', function() use($app) {
 
             //El usuario nos adjunta una imagen, la comprobamos y la guardamos en la carpeta especificada
             $tipo_imagen = $_FILES['imagen']['type'];
-            if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+            if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
                 //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
                 $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
                 opendir($carpeta);
@@ -279,7 +284,18 @@ $app->post('/Principal/', function() use($app) {
 $app->get('/Acontecimiento/:id', function($id) use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
 
-    $acontecimiento = ORM::for_table('Acontecimiento')->find_one($id);
+    $acontecimiento = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('Acontecimiento.descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            select('Tema.nombre', 'tema_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            join('Tema', array('Acontecimiento.tema_id_fk', '=', 'Tema.id'))->
+            find_one($id);
 
     $comentarios = ORM::for_table('Comentario')->
             select('texto')->
@@ -306,7 +322,7 @@ $app->post('/Acontecimiento/:id', function($id) use($app) {
 
         //El usuario nos adjunta una imagen, la comprobamos y la guardamos en la carpeta especificada
         $tipo_imagen = $_FILES['imagen_comentario']['type'];
-        if (($_FILES['imagen_comentario']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+        if (($_FILES['imagen_comentario']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
             //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
             $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
             opendir($carpeta);
@@ -365,7 +381,7 @@ $app->post('/Videojuegos/', function() use($app) {
         $fecha = date('Y-m-d H:i:s');
         //El usuario nos adjunta una imagen, la comprobamos y la guardamos
         $tipo_imagen = $_FILES['imagen']['type'];
-        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
             //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
             $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
             opendir($carpeta);
@@ -427,7 +443,7 @@ $app->post('/Television/', function() use($app) {
         $fecha = date('Y-m-d H:i:s');
         //El usuario nos adjunta una imagen, la comprobamos y la guardamos
         $tipo_imagen = $_FILES['imagen']['type'];
-        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
             //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
             $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
             opendir($carpeta);
@@ -489,7 +505,7 @@ $app->post('/Deportes/', function() use($app) {
         $fecha = date('Y-m-d H:i:s');
         //El usuario nos adjunta una imagen, la comprobamos y la guardamos
         $tipo_imagen = $_FILES['imagen']['type'];
-        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
             //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
             $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
             opendir($carpeta);
@@ -551,7 +567,7 @@ $app->post('/Juegos_Infantiles/', function() use($app) {
         $fecha = date('Y-m-d H:i:s');
         //El usuario nos adjunta una imagen, la comprobamos y la guardamos
         $tipo_imagen = $_FILES['imagen']['type'];
-        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
             //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
             $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
             opendir($carpeta);
@@ -613,7 +629,7 @@ $app->post('/Musica/', function() use($app) {
         $fecha = date('Y-m-d H:i:s');
         //El usuario nos adjunta una imagen, la comprobamos y la guardamos
         $tipo_imagen = $_FILES['imagen']['type'];
-        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
             //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
             $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
             opendir($carpeta);
@@ -675,7 +691,7 @@ $app->post('/Otros/', function() use($app) {
         $fecha = date('Y-m-d H:i:s');
         //El usuario nos adjunta una imagen, la comprobamos y la guardamos
         $tipo_imagen = $_FILES['imagen']['type'];
-        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/gif') || ($tipo_imagen == 'image/png')) {
+        if (($_FILES['imagen']['name'] != "") && ($tipo_imagen == 'image/jpeg') || ($tipo_imagen == 'image/jpg') || ($tipo_imagen == 'image/png')) {
             //$carpeta = "/Imagenes/Nuevos_Acontecimientos/";
             $carpeta = $_SERVER['DOCUMENT_ROOT'] . '/Imagenes/Nuevos_Acontecimientos/';
             opendir($carpeta);

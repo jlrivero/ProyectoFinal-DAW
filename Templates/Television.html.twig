@@ -101,7 +101,28 @@
                                 </div>
                             {% endif %}
 
-                            <p>{{ acontecimiento.descripcion }}</p>                   
+                            {% if acontecimiento.descripcion %}
+                                <p><a>{{ acontecimiento.descripcion }}</a></p>
+                            {% endif %}
+
+                            <div class="todos_comentarios">
+                                {% set sw = false %}
+                                {% set contador = 0 %}
+                                <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                                    {% for comentario in comentarios %}
+                                        {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
+                                            {% set sw = true %}
+                                            {% set contador = comentario.count %}
+                                        {% endif %}                                                                
+                                    {% endfor %}
+                                    {% if sw == true %}
+                                        <h5>Comentarios: {{ contador }}</h5>
+                                    {% else %}
+                                        <h5>Sin comentarios</h5>
+                                    {% endif %}
+                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                </form>
+                            </div>                    
                         </div>
 
                     {% endfor %} 
@@ -123,7 +144,28 @@
                                     </div>
                                 {% endif %}
 
-                                <p>{{ acontecimiento.descripcion }}</p>                   
+                                {% if acontecimiento.descripcion %}
+                                    <p><a>{{ acontecimiento.descripcion }}</a></p>
+                                {% endif %}
+
+                                <div class="todos_comentarios">
+                                    {% set sw = false %}
+                                    {% set contador = 0 %}
+                                    <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                                        {% for comentario in comentarios %}
+                                            {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
+                                                {% set sw = true %}
+                                                {% set contador = comentario.count %}
+                                            {% endif %}                                                                
+                                        {% endfor %}
+                                        {% if sw == true %}
+                                            <h5>Comentarios: {{ contador }}</h5>
+                                        {% else %}
+                                            <h5>Sin comentarios</h5>
+                                        {% endif %}
+                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                    </form>
+                                </div>                    
                             </div>
 
                         {% endif %}
@@ -146,7 +188,28 @@
                                     </div>
                                 {% endif %}
 
-                                <p>{{ acontecimiento.descripcion }}</p>                   
+                                {% if acontecimiento.descripcion %}
+                                    <p><a>{{ acontecimiento.descripcion }}</a></p>
+                                {% endif %}
+
+                                <div class="todos_comentarios">
+                                    {% set sw = false %}
+                                    {% set contador = 0 %}
+                                    <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                                        {% for comentario in comentarios %}
+                                            {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
+                                                {% set sw = true %}
+                                                {% set contador = comentario.count %}
+                                            {% endif %}                                                                
+                                        {% endfor %}
+                                        {% if sw == true %}
+                                            <h5>Comentarios: {{ contador }}</h5>
+                                        {% else %}
+                                            <h5>Sin comentarios</h5>
+                                        {% endif %}
+                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                    </form>
+                                </div>                    
                             </div>
 
                         {% endif %}
@@ -170,8 +233,9 @@
                             <textarea id="descripcion" name="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
                         </div>
                         <input type="file" name="imagen" maxlength="70">
-                        <p id="advertencia">*Esta plantilla pasará por la zona de Administración para dar su visto bueno sobre
-                            el contenido. Se publicará si cumple los requisitos.</p>
+                        <p id="advertencia">*Formato de imágenes soportado ('jpeg', 'jpg', 'png'). Esta plantilla pasará por la
+                            zona de Administración para dar su visto bueno sobre el contenido. Se publicará si cumple los
+                            requisitos.</p>
                         <button type="submit" name="EnviarAdmin" id="EnviarAdmin" class="btn btn-success"><i class="fa fa-arrow-right fa-lg"></i>Enviar</button>
                         <button type="button" name="OcultarForm" id="OcultarForm" class="btn btn-info"><i class="fa fa-arrow-down fa-lg"></i>Ocultar</button>
                         {% if flash['error'] %}
@@ -196,7 +260,28 @@
                                 </div>
                             {% endif %}
 
-                            <p>{{ acontecimiento.descripcion }}</p>                   
+                            {% if acontecimiento.descripcion %}
+                                <p><a>{{ acontecimiento.descripcion }}</a></p>
+                            {% endif %}
+
+                            <div class="todos_comentarios">
+                                {% set sw = false %}
+                                {% set contador = 0 %}
+                                <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                                    {% for comentario in comentarios %}
+                                        {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
+                                            {% set sw = true %}
+                                            {% set contador = comentario.count %}
+                                        {% endif %}                                                                
+                                    {% endfor %}
+                                    {% if sw == true %}
+                                        <h5>Comentarios: {{ contador }}</h5>
+                                    {% else %}
+                                        <h5>Sin comentarios</h5>
+                                    {% endif %}
+                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                </form>
+                            </div>                    
                         </div>
                     {% endif %}
 
@@ -215,8 +300,9 @@
                             <textarea id="descripcion" name="descripcion" class="form-control" rows="4" maxlength="200" placeholder="Descripción..." ></textarea>
                         </div>
                         <input type="file" name="imagen" maxlength="70">
-                        <p id="advertencia">*Esta plantilla pasará por la zona de Administración para dar su visto bueno sobre
-                            el contenido. Se publicará si cumple los requisitos.</p>
+                        <p id="advertencia">*Formato de imágenes soportado ('jpeg', 'jpg', 'png'). Esta plantilla pasará por la
+                            zona de Administración para dar su visto bueno sobre el contenido. Se publicará si cumple los
+                            requisitos.</p>
                         <button type="submit" name="EnviarAdmin" id="EnviarAdmin" class="btn btn-success"><i class="fa fa-arrow-right fa-lg"></i>Enviar</button>
                         <button type="button" name="OcultarForm" id="OcultarForm" class="btn btn-info"><i class="fa fa-arrow-down fa-lg"></i>Ocultar</button>
                         {% if flash['error'] %}

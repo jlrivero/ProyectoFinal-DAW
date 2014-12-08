@@ -78,7 +78,7 @@
         {% include 'MenuVertical.html.twig' %}
 
         <section id="miAcontecimiento" class="col-xs-12 col-sm-9 col-md-9">
-            <h6>Publicado el: {{ acontecimiento.fecha }} </h6> {#- Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i>#}
+            <h6>Publicado el: {{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> </h6>
             <div class="nuevos">
                 <h3>{{ acontecimiento.titulo }}</h3>
 
@@ -89,7 +89,7 @@
                 {% endif %}
 
                 {% if acontecimiento.descripcion %}
-                    <p>{{ acontecimiento.descripcion }}</p>
+                    <p><b>Descripción: </b>{{ acontecimiento.descripcion }}</p>
                 {% endif %}
 
                 {% if comentarios %}
@@ -120,6 +120,7 @@
                         <h5>Comentario: </h5>                        
                         <textarea type="text" required name="texto" class="form-control" rows="4" maxlength="150" placeholder="Introduzca su comentario..."></textarea> 
                         <input type="file" name="imagen_comentario" maxlength="70">
+                        <h6>*Formato soportado: 'jpeg', 'jpg', 'png' </h6>
                         <button type="submit" name="EnviarComent" id="EnviarComent" class="btn btn-success"><i class="fa fa-arrow-right fa-lg"></i>Enviar</button>
                         <a href="{{ urlFor('principal') }}"><button type="button" name="Volver" id="Volver" class="btn btn-info"><i class="fa fa-rotate-left fa-lg"></i>Volver</button></a>                               
                     </form>

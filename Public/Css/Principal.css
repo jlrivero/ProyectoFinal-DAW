@@ -138,7 +138,7 @@ aside{
     color: black;
 }
 
-#tabs-1 h5{
+#tabs-1 h5, #tabs-2 h5, #tabs-3 h5{
     color: #A00806;
     margin-bottom: 10px;
 }
@@ -236,6 +236,11 @@ aside{
 
 #fAcontec > select > option{
     margin-bottom: 10px;
+}
+
+#fAcontec > h6{
+    margin-left:0;
+    padding-left: 0;
 }
 
 .nuevos{
