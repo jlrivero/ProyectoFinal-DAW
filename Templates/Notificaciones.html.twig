@@ -68,8 +68,11 @@
 
         <section id="misNotificaciones" class="col-xs-12">
             {% if notificaciones %}
-                {% for notificacion in notificaciones %}
-                    <form role="form" method="POST">
+                <form role="form" method="POST">
+                    <div class="border-row">
+                        <button type="submit" class="btn" id="leerTodos" name="leerTodos">Marcar todos como leídos</button>
+                    </div>
+                    {% for notificacion in notificaciones %}
                         {% if notificacion.leido == 0 %}
                             <div class="border-row"></div>
                             <div class="noLeidos">
@@ -91,8 +94,8 @@
                             </div>
 
                         {% endif %}
-                    </form>
-                {% endfor %}
+                    {% endfor %}
+                </form>
             {% else %}
                 <div class="border-row"></div>
                 <h3>Aún no tienes ninguna notificación</h3>

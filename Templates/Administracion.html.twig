@@ -10,7 +10,7 @@
 
 {% block javascript %}
     <script type="text/javascript" src="/Javascript/jquery-ui_1.11.2.js"></script>    
-    {#<script type="text/javascript" src="/Javascript/barra_busqueda.js"></script>#}    
+    <script type="text/javascript" src="/Javascript/busqueda_admin.js"></script>   
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -151,7 +151,7 @@
                                 *Para mayor seguridad, el usuario administrador se bloqueará para no poder ser eliminado.
                                 No disponible la administración en versión movil.
                             </h6>
-                            <div id="busqueda" class="input-group col-sm-12 hidden-xs">
+                            <div id="busqueda" class="input-group ui-widget col-sm-12 hidden-xs">
                                 <span class="input-group-addon"><i class="fa fa-search fa-1x"></i></span>
                                 <input id="buscar_admin" name="buscar_admin" class="form-control" maxlength="45" placeholder="Usuario..." type="text">                    
                             </div>

@@ -12,13 +12,12 @@
 #misNotificaciones p{
     font-family: Verdana,Arial,sans-serif;
     font-size: 14px;
-    color: #555555;
+    color: black;
 }
 
 #misNotificaciones .noLeidos p{
     color: black;
 }
-
 
 .noLeidos p > span, .leidos p > span{
     color:#A00806;
@@ -32,13 +31,13 @@
     background: #FFCE93;
 }
 
-.noLeidos button, .leidos button{
+#leerTodos, .noLeidos button, .leidos button{
     font-size: 15px;
     background: #FF8A05;
     color: white;
 }
 
-.noLeidos button:hover, .leidos button:hover{
+#leerTodos:hover, .noLeidos button:hover, .leidos button:hover{
     font-size: 15px;
     background: #D37204;
     color: white;
@@ -46,6 +45,7 @@
 
 .border-row{
     border-top: 1px solid black;
+    text-align: center;
     margin: 0 0 20px 0;
     margin:0;
 }

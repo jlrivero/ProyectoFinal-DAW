@@ -10,6 +10,7 @@
 
 {% block javascript %}
     <script type="text/javascript" src="/Javascript/jquery-ui_1.11.2.js"></script>
+    <script type="text/javascript" src="/Javascript/busqueda_acontecimiento.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
             $("#irArriba").hide();
@@ -17,36 +18,6 @@
             $(function () {
                 $("#tabs").tabs();
             });
-
-            /*$(function () {
-             var availableTags = [
-             "ActionScript",
-             "AppleScript",
-             "Asp",
-             "BASIC",
-             "C",
-             "C++",
-             "Clojure",
-             "COBOL",
-             "ColdFusion",
-             "Erlang",
-             "Fortran",
-             "Groovy",
-             "Haskell",
-             "Java",
-             "JavaScript",
-             "Lisp",
-             "Perl",
-             "PHP",
-             "Python",
-             "Ruby",
-             "Scala",
-             "Scheme"
-             ];
-             $("#buscar").autocomplete({
-             source: availableTags
-             });
-             });*/
 
             $("#fAcontec").hide();
 

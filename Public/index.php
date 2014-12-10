@@ -149,7 +149,7 @@ $app->post('/Administrar/', function() use($app) {
             $usuarioAcontecimiento = ORM::for_table('Acontecimiento')->find_one($acontecimientoRelacionado);
 
             //Si el autor del comentario es distinto que el autor del acontecimiento le mandamos una notificación
-            if($usuarioComentario['usuario_id_fk'] != $usuarioAcontecimiento['usuario_id_fk']) {
+            if ($usuarioComentario['usuario_id_fk'] != $usuarioAcontecimiento['usuario_id_fk']) {
                 notificar($acontecimientoRelacionado, $usuarioAcontecimiento['usuario_id_fk'], 'Tu acontecimiento: ' . $usuarioAcontecimiento['titulo'] . ' ha sido comentado');
             }
 
@@ -167,7 +167,7 @@ $app->post('/Administrar/', function() use($app) {
 
             foreach ($infoComentario as $fila) {
                 //Con este if comprobamos que el usuario que ha publicado el comentario es el autor y así no recibe dos notificaciones
-                if ($fila['Comentario.usuario_id_fk'] != $usuarioAcontecimiento['usuario_id_fk']) {
+                if ($fila['comentario_usuario_id'] != $usuarioAcontecimiento['usuario_id_fk']) {
                     notificar($acontecimientoRelacionado, $fila['comentario_usuario_id'], 'Comentario/s en el acontecimiento: ' . $fila['acontecimiento_titulo']);
                 }
             }
@@ -179,6 +179,17 @@ $app->post('/Administrar/', function() use($app) {
         $app->redirect('/Administrar/#Comentarios');
     } elseif (isset($_POST['Descartar_comentario'])) {
         $comentario = ORM::for_table('Comentario')->find_one($_POST['Descartar_comentario']);
+
+        $acontecimientoRelacionado = $comentario->acontecimiento_id_fk;
+        //Notificamos al autor del comentario que no ha sido publicado
+        $usuarioComentario = ORM::for_table('Comentario')->
+                select('Comentario.usuario_id_fk')->
+                select('Acontecimiento.titulo', 'acontecimiento_titulo')->
+                join('Acontecimiento', array('Comentario.acontecimiento_id_fk', '=', 'Acontecimiento.id'))->
+                find_one($comentario['id']);
+
+        notificar($acontecimientoRelacionado, $usuarioComentario['usuario_id_fk'], 'Administración: Tu comentario para el acontecimiento ' . $usuarioComentario['acontecimiento_titulo'] . ' no ha pasado el filtro de contenido');
+
         $comentario->delete();
 
         $app->flash('mensaje', 'Comentario eliminado correctamente');
@@ -192,6 +203,14 @@ $app->post('/Administrar/', function() use($app) {
             $acontecimiento->publicado = 1;
             $acontecimiento->save();
 
+            //Notificamos al autor del acontecimiento la publicación de este
+            $usuarioAcontecimiento = ORM::for_table('Acontecimiento')->
+                    select('titulo')->
+                    select('usuario_id_fk')->
+                    find_one($acontecimiento['id']);
+
+            notificar($acontecimiento['id'], $usuarioAcontecimiento['usuario_id_fk'], 'Administración: Tu acontecimiento ' . $usuarioAcontecimiento['titulo'] . ' ha sido publicado');
+
             $app->flash('mensaje', 'Acontecimiento publicado en la web');
         } catch (Exception $e) {
             $app->flash('error', 'Se ha producido un error al publicar el acontecimiento. ' . $e->getMessage());
@@ -200,28 +219,16 @@ $app->post('/Administrar/', function() use($app) {
         $app->redirect('/Administrar/#Acontecimientos');
     } elseif (isset($_POST['Descartar'])) {
         $acontecimiento = ORM::for_table('Acontecimiento')->find_one($_POST['Descartar']);
+        
         $acontecimiento->delete();
+        
         $app->flash('mensaje', 'Acontecimiento eliminado correctamente');
 
         $app->redirect('/Administrar/#Acontecimientos');
+
+        
     } else {
         //-- GESTIÓN DE USUARIOS --//
-        //-- PARA LA BARRA DE BÚSQUEDA--//
-        /* if (isset($_POST['autores']) == 'todos') {
-          $nombresUsuarios = ORM::for_table('Usuario')->select('nombre_usuario')->find_many();
-
-          $array_usuarios = array();
-
-          $i = 0;
-
-          if ($nombresUsuarios) {
-          foreach ($nombresUsuarios as $fila) {
-          $array_usuarios[$i] = $fila->as_array();
-          $i++;
-          }
-          $json_nombres = json_encode($array_usuarios);
-          }
-          } */
 
         if ((isset($_POST['Insertar'])) && ($_POST['TBnuevo_usuario'] != "") && ($_POST['TBnuevo_email'] != "") && ($_POST['TBnuevo_admin'] != "")) {
             try {
@@ -279,7 +286,7 @@ $app->get('/Notificaciones/:id', function($id) use($app) {
             select('leido')->
             join('Acontecimiento', array('Notificacion.acontecimiento_id_fk', '=', 'Acontecimiento.id'))->
             join('Usuario', array('Notificacion.usuario_id_fk', '=', 'Usuario.id'))->
-            order_by_asc('fecha')->
+            order_by_desc('fecha')->
             where('Notificacion.usuario_id_fk', $id)->
             find_many();
 
@@ -294,6 +301,16 @@ $app->post('/Notificaciones/:id', function($id) use($app) {
         $notificacion->save();
 
         $app->redirect($app->urlFor('mostrarAcontecimiento', array('id' => $notificacion['acontecimiento_id_fk'])));
+    }
+    if (isset($_POST['leerTodos'])) {
+        $noLeidos = ORM::for_table('Notificacion')->where('leido', 0)->
+                        where('usuario_id_fk', $usuarioRegistrado['id'])->find_many();
+        foreach ($noLeidos as $leer) {
+            $leer->leido = 1;
+            $leer->save();
+        }
+
+        $app->redirect($app->urlFor('notificaciones', array('id' => $usuarioRegistrado['id'])));
     }
 });
 
@@ -907,6 +924,50 @@ function notificar($acontecimiento, $usuario, $asunto) {
     $nuevaNotificacion->usuario_id_fk = $usuario;
     $nuevaNotificacion->save();
 }
+
+//-- PARA LA BARRA DE BÚSQUEDA EN LA ZONA DE USUARIOS (ADMINISTRACIÓN) --//
+$app->post('/buscar_admin', function() use($app) {
+    if (isset($_POST['autores']) == 'todos') {
+        $nombresUsuarios = ORM::for_table('Usuario')->select('nombre_usuario')->find_many();
+
+        $array_usuarios = array();
+
+        $i = 0;
+
+        if ($nombresUsuarios) {
+            foreach ($nombresUsuarios as $fila) {
+                $array_usuarios[$i] = $fila->as_array();
+                $i++;
+            }
+            $json_nombres = json_encode($array_usuarios);
+        }
+
+        $app->response->headers->set('Content-Type', 'application/json');
+        echo $json_nombres;
+    }
+});
+
+//-- PARA LA BARRA DE BÚSQUEDA EN LA ZONA DE ACONTECIMIENTOS (PARTE PÚBLICA) --//
+$app->post('/buscar_acontec', function() use($app) {
+    if (isset($_POST['acontec']) == 'todos') {
+        $nombresAcontec = ORM::for_table('Acontecimiento')->select_many('id', 'titulo')->find_many();
+
+        $array_acontec = array();
+
+        $i = 0;
+
+        if ($nombresAcontec) {
+            foreach ($nombresAcontec as $fila) {
+                $array_acontec[$i] = $fila->as_array();
+                $i++;
+            }
+            $json_acontec = json_encode($array_acontec);
+        }
+
+        $app->response->headers->set('Content-Type', 'application/json');
+        echo $json_acontec;
+    }
+});
 
 //-- PULSAMOS EL BOTÓN 'SALIR' --//
 $app->post('/salir', function() use($app) {
