@@ -117,7 +117,7 @@
                     {% for acontecimiento in acontecimientos %}
 
                         <div class="border-row">
-                            <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
+                            <h6>{{ acontecimiento.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                         </div>
                         <div class="nuevos">
                             <h3>{{ acontecimiento.titulo }}</h3>
@@ -147,7 +147,7 @@
                                     {% else %}
                                         <h5>Sin comentarios</h5>
                                     {% endif %}
-                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
                                 </form>
                             </div> 
 
@@ -161,7 +161,7 @@
                         {% if acontecimiento.fecha >= now|date_modify("-30 days")|date('Y-m-d H:i:s') %}
 
                             <div class="border-row">
-                                <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
+                                <h6>{{ acontecimiento.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                             </div>
                             <div class="nuevos">
                                 <h3>{{ acontecimiento.titulo }}</h3>
@@ -191,7 +191,7 @@
                                         {% else %}
                                             <h5>Sin comentarios</h5>
                                         {% endif %}
-                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
                                     </form>
                                 </div>                                                
                             </div>
@@ -205,7 +205,7 @@
                         {% if acontecimiento.fecha >= now|date_modify("-7 days")|date('Y-m-d H:i:s') %}
 
                             <div class="border-row">
-                                <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
+                                <h6>{{ acontecimiento.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                             </div>
                             <div class="nuevos">
                                 <h3>{{ acontecimiento.titulo }}</h3>
@@ -235,7 +235,7 @@
                                         {% else %}
                                             <h5>Sin comentarios</h5>
                                         {% endif %}
-                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
                                     </form>
                                 </div>                                                  
                             </div>
@@ -279,7 +279,7 @@
                     {% if acontecimiento.fecha >= now|date_modify("-7 days")|date('Y-m-d H:i:s') %}
 
                         <div class="border-row">
-                            <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
+                            <h6>{{ acontecimiento.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><b>{{ acontecimiento.tema_nombre }}</b></i></h6>
                         </div>
                         <div class="nuevos">
                             <h3>{{ acontecimiento.titulo }}</h3>
@@ -309,7 +309,7 @@
                                     {% else %}
                                         <h5>Sin comentarios</h5>
                                     {% endif %}
-                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" id="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
                                 </form>
                             </div>                                              
                         </div>

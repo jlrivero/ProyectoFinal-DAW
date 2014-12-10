@@ -1,0 +1,57 @@
+#misNotificaciones{
+    border: 1px solid black;
+    border-top: 0;
+    background: white; 
+    padding: 0;
+}
+
+#misNotificaciones h3{
+    margin-left: 25px;
+}
+
+#misNotificaciones p{
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 14px;
+    color: #555555;
+}
+
+#misNotificaciones .noLeidos p{
+    color: black;
+}
+
+
+.noLeidos p > span, .leidos p > span{
+    color:#A00806;
+}
+
+.noLeidos, .leidos{
+    padding: 15px;
+}
+
+.noLeidos{
+    background: #FFCE93;
+}
+
+.noLeidos button, .leidos button{
+    font-size: 15px;
+    background: #FF8A05;
+    color: white;
+}
+
+.noLeidos button:hover, .leidos button:hover{
+    font-size: 15px;
+    background: #D37204;
+    color: white;
+}
+
+.border-row{
+    border-top: 1px solid black;
+    margin: 0 0 20px 0;
+    margin:0;
+}
+
+@media (max-width: 359px) {
+    #misNotificaciones{
+        font-size: 12px;
+    }
+}

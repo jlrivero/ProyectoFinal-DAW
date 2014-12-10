@@ -127,6 +127,10 @@ aside{
     margin: 0 auto;
 }
 
+.misImagenes img{
+    max-height: 500px;
+}
+
 #tabs img, #novedades img{
     border: 10px solid black;
     margin: 25px auto;
@@ -138,9 +142,19 @@ aside{
     color: black;
 }
 
-#tabs-1 h5, #tabs-2 h5, #tabs-3 h5{
+#novedades h6{
+    color: #555555;
+    font-family: Verdana,Arial,sans-serif;
+}
+
+#tabs-1 h5, #tabs-2 h5, #tabs-3 h5, #fComent h5{
     color: #A00806;
     margin-bottom: 10px;
+}
+
+#fComent h5, #fComent button{
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 15px;
 }
 
 #novedades{
@@ -192,7 +206,7 @@ aside{
     font-weight: bold;
 }
 
-#NuevoComent{
+.nuevoComent{
     margin: 10px 0 0 0;
     text-align: left;
     font-weight: bold;
@@ -203,11 +217,11 @@ aside{
     margin-left: 10px;
 }
 
-#NuevoComent.btn-default{
+.nuevoComent.btn-default{
     background: #FDCD7B;
 }
 
-#NuevoComent.btn-default:hover{
+.nuevoComent.btn-default:hover{
     background: #FCB441;
 }
 
@@ -219,7 +233,7 @@ aside{
     background: #EA6900;
 }
 
-#NuevoAcontec i, #EnviarAdmin i, #OcultarForm i, #NuevoComent i{
+#NuevoAcontec i, #EnviarAdmin i, #OcultarForm i, .nuevoComent i{
     margin-right: 7px;
 }
 
