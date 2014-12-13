@@ -34,61 +34,26 @@
 
 {% block cuerpo %}   
     <div id="administrador" class="container">
-        <h2>ADMINISTRACIÓN</h2>       
+        <h2>ADMINISTRACIÓN</h2> 
         <section id="tabs" class="col-xs-12">
-            <ul>
-                <li class="col-xs-12 col-sm-12 col-md-4" ><a class="col-xs-12" href="#Comentarios">Comentarios <span class="badge"></span></a></li>
-                <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#Acontecimientos">Acontecimientos <span class="badge"></span></a></li>
 
-                {% if datos_usuario.admin == 100 %}
-                    <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#Usuarios">Usuarios</a></li>
-                    {% endif %}
-            </ul>
-            <form action='{{ urlFor('administrar') }}' method='post' class="hidden-xs">
-                <div id="Comentarios">
-                    <div class="mensajes_flash_admin" class="col-xs-12">
-                        {% if flash['error'] %}
-                            <div class="col-sm-12 form-group alert alert-danger">
-                                {{ flash['error'] }}
-                            </div>
-                        {% endif %}
-                        {% if flash['mensaje'] %}
-                            <div class="col-sm-12 form-group alert alert-success">
-                                {{ flash['mensaje'] }}
-                            </div>
-                        {% endif %}
-                    </div>                      
-                    {% if comentarios %}
-
-                        {% for comentario in comentarios %}
-
-                            <div class="border-row">
-                                <h6>{{ comentario.fecha }} - Creado por: <i><u>{{ comentario.usuario_nombre }}</u></i></h6>
-                            </div>
-                            <div class="nuevos">
-                                <h3><span>Correspondiente al acontecimiento:</span> {{ comentario.acontecimiento_titulo }}</h3>
-
-                                {% if comentario.nombre_imagen %}
-                                    <div class="misImagenes">
-                                        <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ comentario.nombre_imagen }}" />
-                                    </div>
-                                {% endif %}
-
-                                <p><b>Texto: </b>{{ comentario.texto }}</p>
-
-                                <button id="Aceptar_comentario" name="Aceptar_comentario" class="btn btn-success" type="submit" value="{{ comentario.id }}">Aceptar</button>
-                                <button id="Descartar_comentario" name="Descartar_comentario" class="btn btn-danger" type="submit" value="{{ comentario.id }}">Descartar</button>
-                            </div>
-
-                        {% endfor %}
-
-                    {% else %}
-                        <h3>Todos los comentarios revisados</h3>
-                    {% endif %}                    
+            {% if datos_usuario.admin == 0 %}
+                <div id="peligro">
+                    <h3>Virus entrando en tu PC. Espere por favor...</h3>
+                    <img class="img-responsive" src="/Imagenes/loadingbar.gif" />
                 </div>
+            {% else %}
 
-                {% if datos_usuario.admin >= 70 %}
-                    <div id="Acontecimientos">
+                <ul>
+                    <li class="col-xs-12 col-sm-12 col-md-4" ><a class="col-xs-12" href="#Comentarios">Comentarios <span class="badge"></span></a></li>
+                    <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#Acontecimientos">Acontecimientos <span class="badge"></span></a></li>
+
+                    {% if datos_usuario.admin == 100 %}
+                        <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#Usuarios">Usuarios</a></li>
+                        {% endif %}
+                </ul>
+                <form action='{{ urlFor('administrar') }}' method='post' class="hidden-xs">
+                    <div id="Comentarios">
                         <div class="mensajes_flash_admin" class="col-xs-12">
                             {% if flash['error'] %}
                                 <div class="col-sm-12 form-group alert alert-danger">
@@ -100,104 +65,167 @@
                                     {{ flash['mensaje'] }}
                                 </div>
                             {% endif %}
-                        </div>                          
-                        {% if acontecimientos %}
+                        </div>                      
+                        {% if comentarios %}
 
-                            {% for acontecimiento in acontecimientos %}
+                            {% for comentario in comentarios %}
 
                                 <div class="border-row">
-                                    <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><u>{{ acontecimiento.tema_nombre }}</u></i> </h6>
+                                    <h6>{{ comentario.fecha }} - Creado por: <i><u>{{ comentario.usuario_nombre }}</u></i></h6>
                                 </div>
                                 <div class="nuevos">
-                                    <h3>{{ acontecimiento.titulo }}</h3>
+                                    <h3><span>Correspondiente al acontecimiento:</span> {{ comentario.acontecimiento_titulo }}</h3>
 
-                                    {% if acontecimiento.nombre_imagen %}
+                                    {% if comentario.nombre_imagen %}
                                         <div class="misImagenes">
-                                            <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                            <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ comentario.nombre_imagen }}" />
                                         </div>
                                     {% endif %}
 
-                                    <p><b>Descripción: </b>{{ acontecimiento.descripcion }}</p>
+                                    <p><b>Texto: </b>{{ comentario.texto }}</p>
 
-                                    <button id="Aceptar" name="Aceptar" class="btn btn-success" type="submit" value="{{ acontecimiento.id }}">Aceptar</button>
-                                    <button id="Descartar" name="Descartar" class="btn btn-danger" type="submit" value="{{ acontecimiento.id }}">Descartar</button>
+                                    <button id="Aceptar_comentario" name="Aceptar_comentario" class="btn btn-success" type="submit" value="{{ comentario.id }}">Aceptar</button>
+                                    <button id="Descartar_comentario" name="Descartar_comentario" class="btn btn-danger" type="submit" value="{{ comentario.id }}">Descartar</button>
                                 </div>
 
                             {% endfor %}
 
                         {% else %}
-                            <h3>Todos los acontecimientos revisados</h3>
-                        {% endif %}
+                            <h3>Todos los comentarios revisados</h3>
+                        {% endif %}                    
                     </div>
-                {% endif %}
 
-                {% if datos_usuario.admin == 100 %}
-                    <div id="Usuarios">
-                        <div class="mensajes_flash_admin" class="col-xs-12">
-                            {% if flash['error'] %}
-                                <div class="col-sm-12 form-group alert alert-danger">
-                                    {{ flash['error'] }}
-                                </div>
-                            {% endif %}
-                            {% if flash['mensaje'] %}
-                                <div class="col-sm-12 form-group alert alert-success">
-                                    {{ flash['mensaje'] }}
-                                </div>
-                            {% endif %}
-                        </div>
+                    {% if datos_usuario.admin >= 70 %}
+                        <div id="Acontecimientos">
+                            <div class="mensajes_flash_admin" class="col-xs-12">
+                                {% if flash['error'] %}
+                                    <div class="col-sm-12 form-group alert alert-danger">
+                                        {{ flash['error'] }}
+                                    </div>
+                                {% endif %}
+                                {% if flash['mensaje'] %}
+                                    <div class="col-sm-12 form-group alert alert-success">
+                                        {{ flash['mensaje'] }}
+                                    </div>
+                                {% endif %}
+                            </div>                          
+                            {% if acontecimientos %}
 
-                        {% if usuarios %}
-                            <h6>
-                                *Para mayor seguridad, el usuario administrador se bloqueará para no poder ser eliminado.
-                                No disponible la administración en versión movil.
-                            </h6>
-                            <div id="busqueda" class="input-group ui-widget col-sm-12 hidden-xs">
-                                <span class="input-group-addon"><i class="fa fa-search fa-1x"></i></span>
-                                <input id="buscar_admin" name="buscar_admin" class="form-control" maxlength="45" placeholder="Usuario..." type="text">                    
-                            </div>
-                            <table class="table table-bordered table-hover">
-                                <tr class="success">
-                                    <th class="col-sm-2 col-md-2">Nombre Usuario</th>
-                                    <th class="col-sm-3 col-md-3">Contraseña</th>
-                                    <th class="col-sm-4 col-md-4">Email</th>
-                                    <th class="col-sm-1 col-md-1">Admin</th>
-                                    <th class="col-sm-2 col-md-2">Acciones</th>
-                                </tr>
+                                {% for acontecimiento in acontecimientos %}
 
-                                {% for usuario in usuarios %}
-                                    <tr>
-                                        <td class="col-sm-2 col-md-2"><input type="text" class="form-control" name="TBusuario" value="{{ usuario.nombre_usuario }}"></td>
-                                        <td class="col-sm-3 col-md-3"></td>
-                                        <td class="col-sm-4 col-md-4"><input type="text" class="form-control" name="TBemail" value="{{ usuario.email }}"></td>
-                                        <td class="col-sm-1 col-md-1"><input type="text" class="form-control" name="TBadmin" value="{{ usuario.admin }}"></td>
-                                        <td class="col-sm-2 col-md-2">
-                                            <button id="Modificar" name="Modificar" class="btn btn-warning" type="submit" value="{{ usuario.id }}">Modificar</button>
-                                            {% if usuario.admin == 100 %}
-                                                <button id="Borrar" name="Borrar" class="btn btn-danger" type="submit" disabled="disabled">Eliminar</button>
-                                            {% else %}
-                                                <button id="Borrar" name="Borrar" class="btn btn-danger" type="submit" value="{{ usuario.id }}">Eliminar</button>
-                                            {% endif %}
-                                        </td>                                  
-                                    </tr> 
+                                    <div class="border-row">
+                                        <h6>{{ acontecimiento.fecha }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> - Tema: <i><u>{{ acontecimiento.tema_nombre }}</u></i> </h6>
+                                    </div>
+                                    <div class="nuevos">
+                                        <h3>{{ acontecimiento.titulo }}</h3>
+
+                                        {% if acontecimiento.nombre_imagen %}
+                                            <div class="misImagenes">
+                                                <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                            </div>
+                                        {% endif %}
+
+                                        <p><b>Descripción: </b>{{ acontecimiento.descripcion }}</p>
+
+                                        <button id="Aceptar" name="Aceptar" class="btn btn-success" type="submit" value="{{ acontecimiento.id }}">Aceptar</button>
+                                        <button id="Descartar" name="Descartar" class="btn btn-danger" type="submit" value="{{ acontecimiento.id }}">Descartar</button>
+                                    </div>
+
                                 {% endfor %}
 
-                                <tr>
-                                    <td class="col-sm-2 col-md-2"><input type="text" class="form-control" name="TBnuevo_usuario" placeholder="Nombre usuario..."></td>
-                                    <td class="col-sm-3 col-md-3"><input type="password" class="form-control" name="TBnuevo_password" placeholder="Contraseña..."</td>
-                                    <td class="col-sm-4 col-md-4"><input type="text" class="form-control" name="TBnuevo_email" placeholder="Email..."></td>
-                                    <td class="col-sm-1 col-md-1"><input type="text" class="form-control" name="TBnuevo_admin" placeholder="Admin..."></td>
-                                    <td class="col-sm-2 col-md-2"><button  type="submit" id="Insertar" name="Insertar" class="btn btn-success">Insertar</button></td>
-                                </tr> 
-                            </table>
-                            <h6>
-                                *El nombre de usuario es único, no puede haber dos usuarios con el mismo nombre. La contraseña solo puede cambiarse 
-                                en la pestaña 'Perfil' de cada usuario, por motivos de suplantación de identidad.
-                            </h6>                
-                        {% endif %}
+                            {% else %}
+                                <h3>Todos los acontecimientos revisados</h3>
+                            {% endif %}
+                        </div>
+                    {% endif %}
 
-                    </div>
-                {% endif %}            
-            </form>
-        </section>        
+                    {% if datos_usuario.admin == 100 %}
+                        <div id="Usuarios">
+                            <div class="mensajes_flash_admin" class="col-xs-12">
+                                {% if flash['error'] %}
+                                    <div class="col-sm-12 form-group alert alert-danger">
+                                        {{ flash['error'] }}
+                                    </div>
+                                {% endif %}
+                                {% if flash['mensaje'] %}
+                                    <div class="col-sm-12 form-group alert alert-success">
+                                        {{ flash['mensaje'] }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {% if usuarios %}
+                                <h6>
+                                    *Para mayor seguridad, el usuario administrador se bloqueará para no poder ser eliminado.
+                                    No disponible la administración en versión movil.
+                                </h6>
+                                <div id="busqueda" class="input-group ui-widget col-sm-12 hidden-xs">
+                                    <span class="input-group-addon"><i class="fa fa-search fa-1x"></i></span>
+                                    <input id="buscar_admin" name="buscar_admin" class="form-control" maxlength="45" placeholder="Usuario..." type="text">                    
+                                </div>
+                                <table class="table table-bordered table-hover">
+                                    <tr class="success">
+                                        <th class="col-sm-2 col-md-2">Nombre Usuario</th>
+                                        <th class="col-sm-3 col-md-3">Contraseña</th>
+                                        <th class="col-sm-4 col-md-4">Email</th>
+                                        <th class="col-sm-1 col-md-1">Admin</th>
+                                        <th class="col-sm-2 col-md-2">Acciones</th>
+                                    </tr>
+                                    {% set mas = 0 %}
+                                    {% for usuario in usuarios %}
+                                        <tr>
+                                            <td class="col-sm-2 col-md-2" id="{{ usuario.id }}"><input type="text" class="form-control" name="TBusuario" maxlength="45" value="{{ usuario.nombre_usuario }}"></td>
+                                            <td class="col-sm-3 col-md-3"></td>
+                                            <td class="col-sm-4 col-md-4"><input type="text" class="form-control" name="TBemail" maxlength="65" value="{{ usuario.email }}"></td>
+                                            <td class="col-sm-1 col-md-1"><input type="text" class="form-control" name="TBadmin" maxlength="10" value="{{ usuario.admin }}"></td>
+                                            <td class="col-sm-2 col-md-2">
+                                                <button id="Modificar" name="Modificar" class="btn btn-warning" type="submit" value="{{ usuario.id }}">Modificar</button>
+                                                {% if usuario.admin == 100 %}
+                                                    <button id="Borrar" name="Borrar" class="btn btn-danger" type="submit" disabled="disabled">Eliminar</button>
+                                                {% else %}
+                                                    <button id="Borrar" name="Borrar" class="btn btn-danger" type="submit" value="{{ usuario.id }}">Eliminar</button>
+                                                {% endif %}
+                                            </td>                                  
+                                        </tr>
+                                        {% set mas = usuario.id %}
+                                    {% endfor %}
+
+                                    <tr>
+                                        <td class="col-sm-2 col-md-2"><input type="text" class="form-control" name="TBnuevo_usuario" maxlength="45" placeholder="Nombre usuario..."></td>
+                                        <td class="col-sm-3 col-md-3"><input type="password" class="form-control" name="TBnuevo_password" maxlength="120" placeholder="Contraseña..."</td>
+                                        <td class="col-sm-4 col-md-4"><input type="text" class="form-control" name="TBnuevo_email" maxlength="65" placeholder="Email..."></td>
+                                        <td class="col-sm-1 col-md-1"><input type="text" class="form-control" name="TBnuevo_admin" maxlength="10" placeholder="Admin..."></td>
+                                        <td class="col-sm-2 col-md-2"><button  type="submit" id="Insertar" name="Insertar" class="btn btn-success">Insertar</button></td>
+                                    </tr> 
+                                </table>
+                                {#  <div>
+                                    <button type="button" id="cargarMas" name="cargarMas" class="btn btn-info" value="{{mas}}">Cargar más</h1></button>   
+                                </div>
+
+                                {# 
+                                        <nav>
+                                            <ul class="pagination">
+                                                <li class="disabled"><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
+                                                <li class="active"><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                                <li><a href="#">4</a></li>
+                                                <li><a href="#">5</a></li>
+                                                <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
+                                            </ul>
+                                        </nav>
+                                #}
+                                <h6>
+                                    *El nombre de usuario es único, no puede haber dos usuarios con el mismo nombre. La contraseña solo puede cambiarse 
+                                    en la pestaña 'Perfil' de cada usuario, por motivos de suplantación de identidad.
+                                </h6>                
+                            {% endif %}
+
+                        </div>
+                    {% endif %}            
+                </form>
+
+            {% endif %}
+        </section>
     </div>
 {% endblock %}	

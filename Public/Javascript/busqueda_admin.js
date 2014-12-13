@@ -3,14 +3,17 @@ $(document).ready(function () {
     $.post("/buscar_admin", {autores: "todos"}, buscarUsuario);
 
     function buscarUsuario(datos) {
-        var availableTags = new Array();
+        var availableTags = [];
         for (var dato in datos) {
             $(function () {
-                availableTags.push(datos[dato]["nombre_usuario"]);
+                availableTags.push({id: datos[dato]["id"], label: datos[dato]["nombre_usuario"]});
             });
         }
         $("#buscar_admin").autocomplete({
-            source: availableTags
+            source: availableTags,
+            select: function(event, ui){
+                window.location.href = "/Administrar/#" + ui.item.id;
+            }
         });
     }
 });

@@ -208,7 +208,7 @@ aside{
 
 .nuevoComent{
     margin: 10px 0 0 0;
-    text-align: left;
+    text-align: center;
     font-weight: bold;
     
 }
@@ -296,6 +296,10 @@ aside{
     #contenedor ul{
         font-size: 13px;
     }
+    
+    #NuevoAcontec i, #EnviarAdmin i, #OcultarForm i, .nuevoComent i{
+    margin-right: 3px;
+}
 }
 
 #contenedor .ui-tabs .ui-tabs-nav{

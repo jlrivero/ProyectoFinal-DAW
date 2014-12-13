@@ -82,17 +82,12 @@ $app->post('/', function() use($app) {
 
 //-- ADMINISTRACIÓN --//
 $app->get('/Administrar/', function() use($app) {
-
-    //Desde aquí cargamos todas las pestañas de la admnistración, y luego las operaciones
-    //las hacemos aparte
-
+    //CARGAMOS LAS PESTAÑAS DE LA ADMINISTRACIÓN--//
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
     $numeroNotificaciones = ORM::for_table('Notificacion')->
             where('usuario_id_fk', $usuarioRegistrado['id'])->
             where('leido', 0)->
             count();
-
-    $todosUsuarios = ORM::for_table('Usuario')->find_many();
 
     $todosAcontecimientos = ORM::for_table('Acontecimiento')->
             select('titulo')->
@@ -123,6 +118,8 @@ $app->get('/Administrar/', function() use($app) {
             where('publicado', 0)->
             find_many();
 
+    $todosUsuarios = ORM::for_table('Usuario')->find_many();
+    
     $app->render('Administracion.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "usuarios" => $todosUsuarios, "acontecimientos" => $todosAcontecimientos, "comentarios" => $todosComentarios));
 })->name('administrar');
 
@@ -134,6 +131,12 @@ $app->post('/Administrar/', function() use($app) {
             $comentario = ORM::for_table('Comentario')->find_one($_POST['Aceptar_comentario']);
             $comentario->publicado = 1;
             $comentario->save();
+            
+            $sumarComentario = ORM::for_table('Acontecimiento')->
+                    where('id', $comentario['acontecimiento_id_fk'])->
+                    find_one();
+            $sumarComentario->comentarios += 1;
+            $sumarComentario->save();
 
             $acontecimientoRelacionado = $comentario->acontecimiento_id_fk;
             //Notificamos al autor del comentario la publicación de este
@@ -219,14 +222,12 @@ $app->post('/Administrar/', function() use($app) {
         $app->redirect('/Administrar/#Acontecimientos');
     } elseif (isset($_POST['Descartar'])) {
         $acontecimiento = ORM::for_table('Acontecimiento')->find_one($_POST['Descartar']);
-        
+
         $acontecimiento->delete();
-        
+
         $app->flash('mensaje', 'Acontecimiento eliminado correctamente');
 
         $app->redirect('/Administrar/#Acontecimientos');
-
-        
     } else {
         //-- GESTIÓN DE USUARIOS --//
 
@@ -264,6 +265,7 @@ $app->post('/Administrar/', function() use($app) {
         }
         $app->redirect('/Administrar/#Usuarios');
     }
+    
 });
 
 //-- NOTIFICACIONES --//
@@ -329,6 +331,23 @@ $app->get('/Principal/', function() use($app) {
             select('nombre_imagen')->
             select('nombre_video')->
             select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            select('Tema.nombre', 'tema_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            join('Tema', array('Acontecimiento.tema_id_fk', '=', 'Tema.id'))->
+            order_by_desc('comentarios')->
+            where('publicado', 1)->
+            find_many();
+   
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('Acontecimiento.descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             select('Tema.nombre', 'tema_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
@@ -336,16 +355,8 @@ $app->get('/Principal/', function() use($app) {
             order_by_desc('fecha')->
             where('publicado', 1)->
             find_many();
-
-    $comentarios = ORM::for_table('Comentario')->
-            select('acontecimiento_id_fk')->
-            select_expr('COUNT(*)', 'count')->
-            group_by('acontecimiento_id_fk')->
-            where('publicado', 1)->
-            find_many();
-
-
-    $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
+    
+    $app->render('Principal.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('principal');
 
 $app->post('/Principal/', function() use($app) {
@@ -485,6 +496,22 @@ $app->get('/Videojuegos/', function() use($app) {
             select('nombre_imagen')->
             select('nombre_video')->
             select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('comentarios')->
+            where('tema_id_fk', $idTema)->
+            where('publicado', 1)->
+            find_many();
+    
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
@@ -492,14 +519,7 @@ $app->get('/Videojuegos/', function() use($app) {
             where('publicado', 1)->
             find_many();
 
-    $comentarios = ORM::for_table('Comentario')->
-            select('acontecimiento_id_fk')->
-            select_expr('COUNT(*)', 'count')->
-            group_by('acontecimiento_id_fk')->
-            where('publicado', 1)->
-            find_many();
-
-    $app->render('Videojuegos.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
+    $app->render('Videojuegos.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('videojuegos');
 
 $app->post('/Videojuegos/', function() use($app) {
@@ -551,7 +571,7 @@ $app->get('/Television/', function() use($app) {
             where('leido', 0)->
             count();
     $idTema = 2;
-
+    
     $acontecimientos = ORM::for_table('Acontecimiento')->
             select('Acontecimiento.id')->
             select('titulo')->
@@ -559,21 +579,31 @@ $app->get('/Television/', function() use($app) {
             select('nombre_imagen')->
             select('nombre_video')->
             select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('comentarios')->
+            where('tema_id_fk', $idTema)->
+            where('publicado', 1)->
+            find_many();
+    
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
             where('tema_id_fk', $idTema)->
             where('publicado', 1)->
             find_many();
+    
 
-    $comentarios = ORM::for_table('Comentario')->
-            select('acontecimiento_id_fk')->
-            select_expr('COUNT(*)', 'count')->
-            group_by('acontecimiento_id_fk')->
-            where('publicado', 1)->
-            find_many();
-
-    $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
+    $app->render('Television.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('television');
 
 $app->post('/Television/', function() use($app) {
@@ -633,6 +663,22 @@ $app->get('/Deportes/', function() use($app) {
             select('nombre_imagen')->
             select('nombre_video')->
             select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('comentarios')->
+            where('tema_id_fk', $idTema)->
+            where('publicado', 1)->
+            find_many();
+    
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
@@ -640,14 +686,7 @@ $app->get('/Deportes/', function() use($app) {
             where('publicado', 1)->
             find_many();
 
-    $comentarios = ORM::for_table('Comentario')->
-            select('acontecimiento_id_fk')->
-            select_expr('COUNT(*)', 'count')->
-            group_by('acontecimiento_id_fk')->
-            where('publicado', 1)->
-            find_many();
-
-    $app->render('Deportes.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
+    $app->render('Deportes.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('deportes');
 
 $app->post('/Deportes/', function() use($app) {
@@ -707,6 +746,22 @@ $app->get('/Juegos_Infantiles/', function() use($app) {
             select('nombre_imagen')->
             select('nombre_video')->
             select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('comentarios')->
+            where('tema_id_fk', $idTema)->
+            where('publicado', 1)->
+            find_many();
+    
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
@@ -714,14 +769,7 @@ $app->get('/Juegos_Infantiles/', function() use($app) {
             where('publicado', 1)->
             find_many();
 
-    $comentarios = ORM::for_table('Comentario')->
-            select('acontecimiento_id_fk')->
-            select_expr('COUNT(*)', 'count')->
-            group_by('acontecimiento_id_fk')->
-            where('publicado', 1)->
-            find_many();
-
-    $app->render('JuegosInfantiles.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
+    $app->render('JuegosInfantiles.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('juegosInfantiles');
 
 $app->post('/Juegos_Infantiles/', function() use($app) {
@@ -781,6 +829,22 @@ $app->get('/Musica/', function() use($app) {
             select('nombre_imagen')->
             select('nombre_video')->
             select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('comentarios')->
+            where('tema_id_fk', $idTema)->
+            where('publicado', 1)->
+            find_many();
+    
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
@@ -788,14 +852,7 @@ $app->get('/Musica/', function() use($app) {
             where('publicado', 1)->
             find_many();
 
-    $comentarios = ORM::for_table('Comentario')->
-            select('acontecimiento_id_fk')->
-            select_expr('COUNT(*)', 'count')->
-            group_by('acontecimiento_id_fk')->
-            where('publicado', 1)->
-            find_many();
-
-    $app->render('Musica.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
+    $app->render('Musica.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('musica');
 
 $app->post('/Musica/', function() use($app) {
@@ -855,6 +912,22 @@ $app->get('/Otros/', function() use($app) {
             select('nombre_imagen')->
             select('nombre_video')->
             select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('comentarios')->
+            where('tema_id_fk', $idTema)->
+            where('publicado', 1)->
+            find_many();
+    
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
             select('Usuario.nombre_usuario', 'usuario_nombre')->
             join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
@@ -862,14 +935,7 @@ $app->get('/Otros/', function() use($app) {
             where('publicado', 1)->
             find_many();
 
-    $comentarios = ORM::for_table('Comentario')->
-            select('acontecimiento_id_fk')->
-            select_expr('COUNT(*)', 'count')->
-            group_by('acontecimiento_id_fk')->
-            where('publicado', 1)->
-            find_many();
-
-    $app->render('Otros.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "comentarios" => $comentarios));
+    $app->render('Otros.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('otros');
 
 $app->post('/Otros/', function() use($app) {
@@ -928,7 +994,7 @@ function notificar($acontecimiento, $usuario, $asunto) {
 //-- PARA LA BARRA DE BÚSQUEDA EN LA ZONA DE USUARIOS (ADMINISTRACIÓN) --//
 $app->post('/buscar_admin', function() use($app) {
     if (isset($_POST['autores']) == 'todos') {
-        $nombresUsuarios = ORM::for_table('Usuario')->select('nombre_usuario')->find_many();
+        $nombresUsuarios = ORM::for_table('Usuario')->select_many('id', 'nombre_usuario')->find_many();
 
         $array_usuarios = array();
 

@@ -23,6 +23,14 @@
     margin: 25px auto;
 }
 
+.nuevos > button > i{
+    margin-right: 7px;
+}
+
+.nuevos > button{
+    font-size: 15px;
+}
+
 #fComent{
     font-size: 14px;
 }
@@ -38,5 +46,8 @@
 @media (max-width: 359px) {
     #miAcontecimiento{
         font-size: 12px;
+    }
+    #EnviarComent{
+        margin-bottom: 10px;
     }
 }

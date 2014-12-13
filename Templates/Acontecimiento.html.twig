@@ -93,10 +93,12 @@
                     {% endfor %}
 
                 {% else %}
-                    <h5>Este acontecimiento no tiene comentarios</h5>
-                {% endif %}  
+                    {% if acontecimiento.usuario_nombre == datos_usuario.nombre_usuario %}
+                        <button type="submit" name="BorrarAcontec" id="BorrarAcontec" class="btn btn-danger"><i class="fa fa-trash fa-lg"></i>Borrar acontecimiento</button>
+                    {% endif %} 
+                {% endif %}
                 <div class="todos_comentarios">
-                    <form class="col-xs-12" action="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}    " id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                    <form class="col-xs-12" action="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}" id="fComent" role="form" method="POST" enctype="multipart/form-data">
                         <h5>Comentario: </h5>                        
                         <textarea type="text" required name="texto" class="form-control" rows="4" maxlength="150" placeholder="Introduzca su comentario..."></textarea> 
                         <input type="file" name="imagen_comentario" maxlength="70">

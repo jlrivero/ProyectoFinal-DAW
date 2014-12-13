@@ -93,38 +93,30 @@
                         <div class="border-row">
                             <h6>{{ acontecimiento.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i></h6>
                         </div>
-                        <div class="nuevos">
-                            <h3>{{ acontecimiento.titulo }}</h3>
+                            <div class="nuevos">
+                                <h3>{{ acontecimiento.titulo }}</h3>
 
-                            {% if acontecimiento.nombre_imagen %}
-                                <div class="misImagenes">
-                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
-                                </div>
-                            {% endif %}
+                                {% if acontecimiento.nombre_imagen %}
+                                    <div class="misImagenes">
+                                        <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                    </div>
+                                {% endif %}
 
-                            {% if acontecimiento.descripcion %}
-                                <p>{{ acontecimiento.descripcion }}</p>
-                            {% endif %}
+                                {% if acontecimiento.descripcion %}
+                                    <p>{{ acontecimiento.descripcion }}</p>
+                                {% endif %}
 
-                            <div class="todos_comentarios">
-                                {% set sw = false %}
-                                {% set contador = 0 %}
-                                <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
-                                    {% for comentario in comentarios %}
-                                        {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
-                                            {% set sw = true %}
-                                            {% set contador = comentario.count %}
-                                        {% endif %}                                                                
-                                    {% endfor %}
-                                    {% if sw == true %}
-                                        <h5>Comentarios: {{ contador }}</h5>
-                                    {% else %}
-                                        <h5>Sin comentarios</h5>
-                                    {% endif %}
-                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
-                                </form>
-                            </div>                    
-                        </div>
+                                <div class="todos_comentarios">
+                                    <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
+                                        {% if acontecimiento.comentarios != 0 %}
+                                            <h5>Comentarios: {{acontecimiento.comentarios}}</h5>
+                                        {% else %}
+                                            <h5>Sin comentarios</h5>
+                                        {% endif %}
+                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-4 col-sm-3 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-eye fa-lg"></i>Ver</button></a>
+                                    </form>
+                                </div>                                              
+                            </div>
 
                     {% endfor %} 
                 </div>
@@ -150,23 +142,15 @@
                                 {% endif %}
 
                                 <div class="todos_comentarios">
-                                    {% set sw = false %}
-                                    {% set contador = 0 %}
                                     <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
-                                        {% for comentario in comentarios %}
-                                            {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
-                                                {% set sw = true %}
-                                                {% set contador = comentario.count %}
-                                            {% endif %}                                                                
-                                        {% endfor %}
-                                        {% if sw == true %}
-                                            <h5>Comentarios: {{ contador }}</h5>
+                                        {% if acontecimiento.comentarios != 0 %}
+                                            <h5>Comentarios: {{acontecimiento.comentarios}}</h5>
                                         {% else %}
                                             <h5>Sin comentarios</h5>
                                         {% endif %}
-                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-4 col-sm-3 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-eye fa-lg"></i>Ver</button></a>
                                     </form>
-                                </div>                    
+                                </div>                                              
                             </div>
 
                         {% endif %}
@@ -194,23 +178,15 @@
                                 {% endif %}
 
                                 <div class="todos_comentarios">
-                                    {% set sw = false %}
-                                    {% set contador = 0 %}
                                     <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
-                                        {% for comentario in comentarios %}
-                                            {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
-                                                {% set sw = true %}
-                                                {% set contador = comentario.count %}
-                                            {% endif %}                                                                
-                                        {% endfor %}
-                                        {% if sw == true %}
-                                            <h5>Comentarios: {{ contador }}</h5>
+                                        {% if acontecimiento.comentarios != 0 %}
+                                            <h5>Comentarios: {{acontecimiento.comentarios}}</h5>
                                         {% else %}
                                             <h5>Sin comentarios</h5>
                                         {% endif %}
-                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                        <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-4 col-sm-3 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-eye fa-lg"></i>Ver</button></a>
                                     </form>
-                                </div>                    
+                                </div>                                              
                             </div>
 
                         {% endif %}
@@ -222,7 +198,7 @@
         </section>
 
         <section id="novedades" class="col-xs-12">
-            {% if acontecimientos %}
+            {% if novedades %}
                 <h1 class="col-xs-12">NOVEDADES - TELEVISIÓN</h1>
                 <div class="col-xs-12">
                     <div id="paraBoton" class="col-xs-12">
@@ -246,43 +222,35 @@
                         {% endif %}
                     </form>
                 </div>
-                {% for acontecimiento in acontecimientos %}
-                    {% if acontecimiento.fecha >= now|date_modify("-7 days")|date('Y-m-d H:i:s') %}
+                {% for novedad in novedades %}
+                    {% if novedad.fecha >= now|date_modify("-7 days")|date('Y-m-d H:i:s') %}
 
                         <div class="border-row">
-                            <h6>{{ acontecimiento.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i></h6>
+                            <h6>{{ novedad.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ novedad.usuario_nombre }}</u></i></h6>
                         </div>
                         <div class="nuevos">
-                            <h3>{{ acontecimiento.titulo }}</h3>
+                            <h3>{{ novedad.titulo }}</h3>
 
-                            {% if acontecimiento.nombre_imagen %}
+                            {% if novedad.nombre_imagen %}
                                 <div class="misImagenes">
-                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ acontecimiento.nombre_imagen }}" />
+                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ novedad.nombre_imagen }}" />
                                 </div>
                             {% endif %}
 
-                            {% if acontecimiento.descripcion %}
-                                <p>{{ acontecimiento.descripcion }}</p>
+                            {% if novedad.descripcion %}
+                                <p>{{ novedad.descripcion }}</p>
                             {% endif %}
 
                             <div class="todos_comentarios">
-                                {% set sw = false %}
-                                {% set contador = 0 %}
                                 <form class="col-xs-12" id="fComent" role="form" method="POST" enctype="multipart/form-data">
-                                    {% for comentario in comentarios %}
-                                        {% if acontecimiento.id == comentario.acontecimiento_id_fk %}
-                                            {% set sw = true %}
-                                            {% set contador = comentario.count %}
-                                        {% endif %}                                                                
-                                    {% endfor %}
-                                    {% if sw == true %}
-                                        <h5>Comentarios: {{ contador }}</h5>
+                                    {% if novedad.comentarios != 0 %}
+                                        <h5>Comentarios: {{novedad.comentarios}}</h5>
                                     {% else %}
                                         <h5>Sin comentarios</h5>
                                     {% endif %}
-                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-8 col-sm-8 col-md-2 nuevoComent" value="{{ acontecimiento.id }}"><i class="fa fa-comment fa-lg"></i>Comentar</button></a>
+                                    <a href="{{ urlFor('mostrarAcontecimiento', {'id': novedad.id}) }}"><button type="button" name="NuevoComent" class="btn btn-default col-xs-4 col-sm-3 col-md-2 nuevoComent" value="{{ novedad.id }}"><i class="fa fa-eye fa-lg"></i>Ver</button></a>
                                 </form>
-                            </div>                    
+                            </div>                                              
                         </div>
                     {% endif %}
 
