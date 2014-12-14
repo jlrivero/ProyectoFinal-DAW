@@ -15,6 +15,22 @@
         $(document).ready(function () {
             $("#irArriba").hide();
 
+            $("#ventana_flotante").hide();
+
+            $("#BorrarAcontec").click(function () {
+                $("#ventana_flotante").slideDown("slow");
+                document.getElementsByTagName("html")[0].style.overflow = "hidden";
+                $("body,html").animate({
+                    scrollTop: 0
+                }, 1000);
+                return false;
+            });
+
+            $("#cerrar a, #Cancelar").click(function () {
+                $("#ventana_flotante").slideUp("slow");
+                document.getElementsByTagName("html")[0].style.overflow = "auto";
+            });
+
             $(function () {
                 $(window).scroll(function () {
                     if ($(this).scrollTop() > 150) {
@@ -53,11 +69,19 @@
                     {{ flash['mensaje'] }}
                 </div>
             {% endif %}              
-        </div>        
+        </div> 
+        <div id="ventana_flotante">
+            <form id="fAcontec" name="fAcontec" class="form-horizontal" role="form" method="POST">
+                <div id="cerrar"><a href="javascript:void(0);"><i class="fa fa-times fa-2x col-xs-12"></i></a></div>
+                <h4>¿Estás seguro de que quieres borrarlo?</h4>
+                <button type="submit" name="Aceptar" id="Aceptar" class="btn btn-success" value="{{ acontecimiento.id }}"><i class="fa fa-check fa-lg"></i>Aceptar</button>
+                <button type="button" name="Cancelar" id="Cancelar" class="btn btn-info"><i class="fa fa-rotate-left fa-lg"></i>Cancelar</button>
+            </form>     
+        </div>          
 
         {% include 'MenuVertical.html.twig' %}
 
-        <section id="miAcontecimiento" class="col-xs-12 col-sm-9 col-md-9">
+        <section id="miAcontecimiento" class="col-xs-12 col-sm-9 col-md-9">          
             <h6>Publicado el: {{ acontecimiento.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ acontecimiento.usuario_nombre }}</u></i> </h6>
             <div class="nuevos">
                 <h3>{{ acontecimiento.titulo }}</h3>
@@ -72,6 +96,10 @@
                     <p><b>Descripción: </b>{{ acontecimiento.descripcion }}</p>
                 {% endif %}
 
+                {% if acontecimiento.usuario_nombre == datos_usuario.nombre_usuario %}
+                    <button type="button" name="BorrarAcontec" id="BorrarAcontec" class="btn btn-danger"><i class="fa fa-trash fa-lg"></i>Borrar acontecimiento</button>
+                {% endif %} 
+
                 {% if comentarios %}
 
                     {% for comentario in comentarios %}
@@ -80,22 +108,26 @@
                             <h6>{{ comentario.fecha|date('d-m-Y H:i:s') }} - Creado por: <i><u>{{ comentario.usuario_nombre }}</u></i></h6>
                         </div>
                         <p>{{ comentario.texto }}</p>
-                        <div class="nuevos">
 
-                            {% if comentario.nombre_imagen %}
-                                <div class="misImagenes">
-                                    <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ comentario.nombre_imagen }}" />
-                                </div>
-                            {% endif %}
 
-                        </div>
+                        {% if comentario.nombre_imagen %}
+                            <div class="misImagenes">
+                                <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ comentario.nombre_imagen }}" />
+                            </div>
+                        {% endif %}
+
+                        {% if comentario.usuario_nombre == datos_usuario.nombre_usuario %}
+                            <div id="borrar">
+                                <form action="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}" role="form" method="POST">
+                                    <button type="sumbit" name="BorrarComent" id="BorrarComent" class="btn btn-danger" value="{{ comentario.id }}"><i class="fa fa-trash fa-lg"></i></button>
+                                </form>
+                            </div>
+                        {% endif %}
 
                     {% endfor %}
 
                 {% else %}
-                    {% if acontecimiento.usuario_nombre == datos_usuario.nombre_usuario %}
-                        <button type="submit" name="BorrarAcontec" id="BorrarAcontec" class="btn btn-danger"><i class="fa fa-trash fa-lg"></i>Borrar acontecimiento</button>
-                    {% endif %} 
+                    <h5>No hay comentarios todavía</h5>
                 {% endif %}
                 <div class="todos_comentarios">
                     <form class="col-xs-12" action="{{ urlFor('mostrarAcontecimiento', {'id': acontecimiento.id}) }}" id="fComent" role="form" method="POST" enctype="multipart/form-data">
