@@ -17,3 +17,8 @@
     font-family: Fredericka_the_Great;
     src:url(Fredericka_the_Great/FrederickatheGreat-Regular.ttf);    
 }
+
+@font-face{
+    font-family: Bangers;
+    src:url(Bangers/Bangers.ttf);
+}

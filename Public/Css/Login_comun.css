@@ -139,6 +139,11 @@
 	-webkit-box-shadow: 0 0 30px #000000;
 }
 
+#scroll1 h3, #scroll2 h3, #scroll3 h3{
+    font-family: Bangers;
+    letter-spacing: 2px;
+}
+
 #irArriba{
         position: fixed;
         bottom: 6%;
