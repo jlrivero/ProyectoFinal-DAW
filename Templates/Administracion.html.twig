@@ -46,54 +46,60 @@
 
                 <ul>
                     <li class="col-xs-12 col-sm-12 col-md-4" ><a class="col-xs-12" href="#Comentarios">Comentarios <span class="badge"></span></a></li>
-                    <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#Acontecimientos">Acontecimientos <span class="badge"></span></a></li>
+                    {% if datos_usuario.admin == 70 %}
+                        <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#Acontecimientos">Acontecimientos <span class="badge"></span></a></li>
+                    {% endif %}
 
                     {% if datos_usuario.admin == 100 %}
                         <li class="col-xs-12 col-sm-12 col-md-4"><a class="col-xs-12" href="#Usuarios">Usuarios</a></li>
-                        {% endif %}
+                    {% endif %}
+                    
                 </ul>
                 <form action='{{ urlFor('administrar') }}' method='post' class="hidden-xs">
-                    <div id="Comentarios">
-                        <div class="mensajes_flash_admin" class="col-xs-12">
-                            {% if flash['error'] %}
-                                <div class="col-sm-12 form-group alert alert-danger">
-                                    {{ flash['error'] }}
-                                </div>
-                            {% endif %}
-                            {% if flash['mensaje'] %}
-                                <div class="col-sm-12 form-group alert alert-success">
-                                    {{ flash['mensaje'] }}
-                                </div>
-                            {% endif %}
-                        </div>                      
-                        {% if comentarios %}
+                    {% if datos_usuario.admin >= 50 %}
+                        <div id="Comentarios">
+                            <div class="mensajes_flash_admin" class="col-xs-12">
+                                {% if flash['error'] %}
+                                    <div class="col-sm-12 form-group alert alert-danger">
+                                        {{ flash['error'] }}
+                                    </div>
+                                {% endif %}
+                                {% if flash['mensaje'] %}
+                                    <div class="col-sm-12 form-group alert alert-success">
+                                        {{ flash['mensaje'] }}
+                                    </div>
+                                {% endif %}
+                            </div>                      
+                            {% if comentarios %}
 
-                            {% for comentario in comentarios %}
+                                {% for comentario in comentarios %}
 
-                                <div class="border-row">
-                                    <h6>{{ comentario.fecha }} - Creado por: <i><u>{{ comentario.usuario_nombre }}</u></i></h6>
-                                </div>
-                                <div class="nuevos">
-                                    <h3><span>Correspondiente al acontecimiento:</span> {{ comentario.acontecimiento_titulo }}</h3>
+                                    <div class="border-row">
+                                        <h6>{{ comentario.fecha }} - Creado por: <i><u>{{ comentario.usuario_nombre }}</u></i></h6>
+                                    </div>
+                                    <div class="nuevos">
+                                        <h3><span>Correspondiente al acontecimiento:</span> {{ comentario.acontecimiento_titulo }}</h3>
 
-                                    {% if comentario.nombre_imagen %}
-                                        <div class="misImagenes">
-                                            <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ comentario.nombre_imagen }}" />
-                                        </div>
-                                    {% endif %}
+                                        {% if comentario.nombre_imagen %}
+                                            <div class="misImagenes">
+                                                <img class="img-responsive" src="/Imagenes/Nuevos_Acontecimientos/{{ comentario.nombre_imagen }}" />
+                                            </div>
+                                        {% endif %}
 
-                                    <p><b>Texto: </b>{{ comentario.texto }}</p>
+                                        <p><b>Texto: </b>{{ comentario.texto }}</p>
 
-                                    <button id="Aceptar_comentario" name="Aceptar_comentario" class="btn btn-success" type="submit" value="{{ comentario.id }}">Aceptar</button>
-                                    <button id="Descartar_comentario" name="Descartar_comentario" class="btn btn-danger" type="submit" value="{{ comentario.id }}">Descartar</button>
-                                </div>
+                                        <button id="Aceptar_comentario" name="Aceptar_comentario" class="btn btn-success" type="submit" value="{{ comentario.id }}">Aceptar</button>
+                                        <button id="Descartar_comentario" name="Descartar_comentario" class="btn btn-danger" type="submit" value="{{ comentario.id }}">Descartar</button>
+                                    </div>
 
-                            {% endfor %}
+                                {% endfor %}
 
-                        {% else %}
-                            <h3>Todos los comentarios revisados</h3>
-                        {% endif %}                    
-                    </div>
+                            {% else %}
+                                <h3>Todos los comentarios revisados</h3>
+                            {% endif %}                    
+                        </div>
+                        
+                    {% endif %}
 
                     {% if datos_usuario.admin >= 70 %}
                         <div id="Acontecimientos">
