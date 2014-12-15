@@ -1,7 +1,6 @@
 <?php
 
 include "../vendor/autoload.php";
-//include "/Mail/contactform.php";
 include "Mail/email.php";
 require_once 'config.php';
 
@@ -244,17 +243,19 @@ $app->post('/Administrar/', function() use($app) {
             } catch (Exception $e) {
                 $app->flash('error', 'Fallo en la inserción del usuario');
             }
-        } elseif ((isset($_POST['Modificar'])) && ($_POST['TBusuario'] != "") && ($_POST['TBemail'] != "") && ($_POST['TBadmin'] != "")) {
-            try {
-                $usuario = ORM::for_table('Usuario')->find_one($_POST['Modificar']);
-                $usuario->nombre_usuario = $_POST['TBusuario'];
-                $usuario->email = $_POST['TBemail'];
-                $usuario->admin = $_POST['TBadmin'];
-                $usuario->save();
+        } elseif (isset($_POST['Modificar'])) {
+            $usuario = ORM::for_table('Usuario')->find_one($_POST['Modificar']);
+            if (($_POST['TBusuario' . $usuario['id']] != "") && ($_POST['TBemail' . $usuario['id']] != "") && ($_POST['TBadmin' . $usuario['id']] != "")) {
+                try {
+                    $usuario->nombre_usuario = $_POST['TBusuario' . $usuario['id']];
+                    $usuario->email = $_POST['TBemail' . $usuario['id']];
+                    $usuario->admin = $_POST['TBadmin' . $usuario['id']];
+                    $usuario->save();
 
-                $app->flash('mensaje', 'Usuario modificado');
-            } catch (Exception $e) {
-                $app->flash('error', 'Fallo al modificar usuario, compruebe que no está todos los campos vacios y el usuario no está repetido');
+                    $app->flash('mensaje', 'Usuario modificado');
+                } catch (Exception $e) {
+                    $app->flash('error', 'Fallo al modificar usuario, compruebe que no está todos los campos vacios y el usuario no está repetido' . $e->getMessage());
+                }
             }
         } elseif (isset($_POST['Borrar'])) {
             $usuario = ORM::for_table('Usuario')->find_one($_POST['Borrar']);
@@ -491,7 +492,7 @@ $app->post('/Acontecimiento/:id', function($id) use($app) {
     if (isset($_POST['BorrarComent'])) {
         $borrarComentario = ORM::for_table('Comentario')->find_one($_POST['BorrarComent']);
         $borrarComentario->delete();
-        
+
         $acontecimiento->comentarios -= 1;
         $acontecimiento->save();
 
@@ -503,11 +504,13 @@ $app->post('/Acontecimiento/:id', function($id) use($app) {
 
 //-- PESTAÑA 'VIDEOJUEGOS' DE NUESTRO MENÚ VERTICAL --/
 $app->get('/Videojuegos/', function() use($app) {
+    //render('Videojuegos.html.twig', 1);
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
     $numeroNotificaciones = ORM::for_table('Notificacion')->
             where('usuario_id_fk', $usuarioRegistrado['id'])->
             where('leido', 0)->
             count();
+    
     $idTema = 1;
 
     $acontecimientos = ORM::for_table('Acontecimiento')->
@@ -542,6 +545,47 @@ $app->get('/Videojuegos/', function() use($app) {
 
     $app->render('Videojuegos.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
 })->name('videojuegos');
+
+function render($plantilla, $tema) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+
+    $numeroNotificaciones = ORM::for_table('Notificacion')->
+            where('usuario_id_fk', $usuarioRegistrado['id'])->
+            where('leido', 0)->
+            count();
+
+    $acontecimientos = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('comentarios')->
+            where('tema_id_fk', $tema)->
+            where('publicado', 1)->
+            find_many();
+
+    $novedades = ORM::for_table('Acontecimiento')->
+            select('Acontecimiento.id')->
+            select('titulo')->
+            select('descripcion')->
+            select('nombre_imagen')->
+            select('nombre_video')->
+            select('fecha')->
+            select('comentarios')->
+            select('Usuario.nombre_usuario', 'usuario_nombre')->
+            join('Usuario', array('Acontecimiento.usuario_id_fk', '=', 'Usuario.id'))->
+            order_by_desc('fecha')->
+            where('tema_id_fk', $tema)->
+            where('publicado', 1)->
+            find_many();
+
+    $app->render($plantilla, array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "acontecimientos" => $acontecimientos, "novedades" => $novedades));
+}
 
 $app->post('/Videojuegos/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
@@ -1053,6 +1097,17 @@ $app->post('/buscar_acontec', function() use($app) {
 
         $app->response->headers->set('Content-Type', 'application/json');
         echo $json_acontec;
+    }
+});
+
+$app->post('/cargar_mas', function() use($app) {
+    $acontecimientos_pagina = 5; 
+    if (isset($_POST['acontec'])) {
+        $resultados = ORM::for_table('Acontecimiento')->count();
+        $total_filas = mysqli_fetch_array($resultados);
+        
+        $total_paginas = ceil($total_filas[0]/$acontecimientos_pagina);
+        var_dump($total_paginas);
     }
 });
 

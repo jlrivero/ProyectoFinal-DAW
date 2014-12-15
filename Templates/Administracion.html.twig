@@ -180,10 +180,10 @@
                                     {% set mas = 0 %}
                                     {% for usuario in usuarios %}
                                         <tr>
-                                            <td class="col-sm-2 col-md-2" id="{{ usuario.id }}"><input type="text" class="form-control" name="TBusuario" maxlength="45" value="{{ usuario.nombre_usuario }}"></td>
+                                            <td class="col-sm-2 col-md-2" id="{{ usuario.id }}"><input type="text" class="form-control" name="TBusuario{{ usuario.id }}" maxlength="45" value="{{ usuario.nombre_usuario }}"></td>
                                             <td class="col-sm-3 col-md-3"></td>
-                                            <td class="col-sm-4 col-md-4"><input type="text" class="form-control" name="TBemail" maxlength="65" value="{{ usuario.email }}"></td>
-                                            <td class="col-sm-1 col-md-1"><input type="text" class="form-control" name="TBadmin" maxlength="10" value="{{ usuario.admin }}"></td>
+                                            <td class="col-sm-4 col-md-4"><input type="text" class="form-control" name="TBemail{{ usuario.id }}" maxlength="65" value="{{ usuario.email }}"></td>
+                                            <td class="col-sm-1 col-md-1"><input type="text" class="form-control" name="TBadmin{{ usuario.id }}" maxlength="10" value="{{ usuario.admin }}"></td>
                                             <td class="col-sm-2 col-md-2">
                                                 <button id="Modificar" name="Modificar" class="btn btn-warning" type="submit" value="{{ usuario.id }}">Modificar</button>
                                                 {% if usuario.admin == 100 %}
