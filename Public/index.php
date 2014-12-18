@@ -269,7 +269,7 @@ $app->post('/Administrar/', function() use($app) {
 });
 
 //-- NOTIFICACIONES --//
-$app->get('/Notificaciones/:id', function($id) use($app) {
+$app->get('/Notificaciones/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
 
     $numeroNotificaciones = ORM::for_table('Notificacion')->
@@ -289,13 +289,13 @@ $app->get('/Notificaciones/:id', function($id) use($app) {
             join('Acontecimiento', array('Notificacion.acontecimiento_id_fk', '=', 'Acontecimiento.id'))->
             join('Usuario', array('Notificacion.usuario_id_fk', '=', 'Usuario.id'))->
             order_by_desc('fecha')->
-            where('Notificacion.usuario_id_fk', $id)->
+            where('Notificacion.usuario_id_fk', $usuarioRegistrado['id'])->
             find_many();
 
     $app->render('Notificaciones.html.twig', array("datos_usuario" => $usuarioRegistrado, "numeroNotificaciones" => $numeroNotificaciones, "notificaciones" => $notificaciones));
 })->name('notificaciones');
 
-$app->post('/Notificaciones/:id', function($id) use($app) {
+$app->post('/Notificaciones/', function() use($app) {
     $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
     if (isset($_POST['irAcontecimiento'])) {
         $notificacion = ORM::for_table('Notificacion')->find_one($_POST['irAcontecimiento']);
@@ -314,6 +314,36 @@ $app->post('/Notificaciones/:id', function($id) use($app) {
 
         $app->redirect($app->urlFor('notificaciones', array('id' => $usuarioRegistrado['id'])));
     }
+});
+
+//-- MI PERFIL --// 
+$app->get('/Perfil/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+
+    $acontecimientosCreados = ORM::for_table('Acontecimiento')->
+            where('Acontecimiento.usuario_id_fk', $usuarioRegistrado['id'])->
+            count();
+
+    $comentariosCreados = ORM::for_table('Comentario')->
+            where('Comentario.usuario_id_fk', $usuarioRegistrado['id'])->
+            count();
+
+    $app->render('Perfil.html.twig', array("datos_usuario" => $usuarioRegistrado, "acontecimientos" => $acontecimientosCreados, "comentarios" => $comentariosCreados));
+})->name('perfil');
+
+$app->post('/Perfil/', function() use($app) {
+    $usuarioRegistrado = ORM::for_table('Usuario')->find_one($_SESSION['usuario']);
+    try {
+        if (isset($_POST['Aceptar']) && (crypt($_POST['password'], $usuarioRegistrado['password']) === $usuarioRegistrado['password'])) {
+            $usuarioRegistrado->password = crypt($_POST['TBnuevo_password']);
+            $usuarioRegistrado->save();
+            $app->flash('mensaje', 'Nueva contraseña establecida');
+        }
+    } catch (Exception $e) {
+        $app->flash('error', 'La contraseña actual no es correcta');
+    }
+    
+    $app->redirect($app->urlFor('perfil'));
 });
 
 //-- PÁGINA PRINCIPAL --//
@@ -510,7 +540,7 @@ $app->get('/Videojuegos/', function() use($app) {
             where('usuario_id_fk', $usuarioRegistrado['id'])->
             where('leido', 0)->
             count();
-    
+
     $idTema = 1;
 
     $acontecimientos = ORM::for_table('Acontecimiento')->
@@ -1101,12 +1131,12 @@ $app->post('/buscar_acontec', function() use($app) {
 });
 
 $app->post('/cargar_mas', function() use($app) {
-    $acontecimientos_pagina = 5; 
+    $acontecimientos_pagina = 5;
     if (isset($_POST['acontec'])) {
         $resultados = ORM::for_table('Acontecimiento')->count();
         $total_filas = mysqli_fetch_array($resultados);
-        
-        $total_paginas = ceil($total_filas[0]/$acontecimientos_pagina);
+
+        $total_paginas = ceil($total_filas[0] / $acontecimientos_pagina);
         var_dump($total_paginas);
     }
 });

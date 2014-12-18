@@ -11,22 +11,22 @@
             <a class="navbar-brand" href="{{ urlFor('principal') }}"><h2><span>G</span><span id="h2_red">90</span></h2></a>
             <a class="navbar-brand visible-xs" href="{{ urlFor('principal') }}" title="Inicio"><i class="fa fa-home fa-lg"></i></a>
                 {% if numeroNotificaciones > 0 %}
-                <a class="navbar-brand visible-xs" href="{{ urlFor('notificaciones', {'id': datos_usuario.id}) }}" title="Notificaciones"><span class="badge">{{ numeroNotificaciones }}</span><i class="fa fa-bell fa-lg"></i></a>            
+                <a class="navbar-brand visible-xs" href="{{ urlFor('notificaciones')}}" title="Notificaciones"><span class="badge">{{ numeroNotificaciones }}</span><i class="fa fa-bell fa-lg"></i></a>            
                     {% else %}
-                <a class="navbar-brand visible-xs" href="{{ urlFor('notificaciones', {'id': datos_usuario.id}) }}" title="Notificaciones"><span class="badge"></span><i class="fa fa-bell fa-lg"></i></a>
+                <a class="navbar-brand visible-xs" href="{{ urlFor('notificaciones') }}" title="Notificaciones"><span class="badge"></span><i class="fa fa-bell fa-lg"></i></a>
                     {% endif %}
-            <a class="navbar-brand visible-xs" href="#" title="Mi Perfil"><i class="fa fa-user fa-lg"></i></a>
+            <a class="navbar-brand visible-xs" href="{{ urlFor('perfil', {'id': datos_usuario.id}) }}" title="Mi Perfil"><i class="fa fa-user fa-lg"></i></a>
         </div>
 
         <div class="collapse navbar-collapse" id="menu_navbar">
             <ul id="izq" class="nav navbar-nav">
                 <li id="Inicio" class="active"><a href="{{ urlFor('principal') }}" title="Inicio" class="hidden-xs"><i class="fa fa-home fa-lg"></i><span class="hidden-sm">Inicio</span></a></li>
                             {% if numeroNotificaciones %}
-                    <li id="Notificaciones"><a href="{{ urlFor('notificaciones', {'id': datos_usuario.id}) }}" title="Notificaciones" class="hidden-xs"><span class="badge">{{ numeroNotificaciones }}</span><i class="fa fa-bell fa-lg"></i><span class="hidden-sm">Notificaciones</span></a></li>
+                    <li id="Notificaciones"><a href="{{ urlFor('notificaciones') }}" title="Notificaciones" class="hidden-xs"><span class="badge">{{ numeroNotificaciones }}</span><i class="fa fa-bell fa-lg"></i><span class="hidden-sm">Notificaciones</span></a></li>
                             {% else %}
-                    <li id="Notificaciones"><a href="{{ urlFor('notificaciones', {'id': datos_usuario.id}) }}" title="Notificaciones" class="hidden-xs"><span class="badge"></span><i class="fa fa-bell fa-lg"></i><span class="hidden-sm">Notificaciones</span></a></li>
+                    <li id="Notificaciones"><a href="{{ urlFor('notificaciones') }}" title="Notificaciones" class="hidden-xs"><span class="badge"></span><i class="fa fa-bell fa-lg"></i><span class="hidden-sm">Notificaciones</span></a></li>
                             {% endif %}
-                <li id="MiPerfil"><a href="#" title="Mi Perfil" class="hidden-xs"><i class="fa fa-user fa-lg"></i><span class="hidden-sm">Mi Perfil</span></a></li>
+                <li id="MiPerfil"><a href="{{ urlFor('perfil')}}" title="Mi Perfil" class="hidden-xs"><i class="fa fa-user fa-lg"></i><span class="hidden-sm">Mi Perfil</span></a></li>
                             {% if datos_usuario.admin != 0 %}
                     <li id="Administrar"><a href="{{ urlFor('administrar') }}" title="Administrar" class="hidden-xs"><i class="fa fa-lock fa-lg"></i><span class="hidden-sm">Administrar</span></a></li>  
                             {% endif %}               

@@ -1,0 +1,38 @@
+#miPerfil{
+    border: 1px solid black;
+    background: white; 
+    padding: 20px;
+}
+
+#miPerfil h3{
+    margin-left: 25px;
+}
+
+#miPerfil p{
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 14px;
+    color: black;
+}
+
+#TBnuevo_password, #password{
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+#leerTodos, .noLeidos button, .leidos button{
+    font-size: 15px;
+    background: #FF8A05;
+    color: white;
+}
+
+#leerTodos:hover, .noLeidos button:hover, .leidos button:hover{
+    font-size: 15px;
+    background: #D37204;
+    color: white;
+}
+
+@media (max-width: 359px) {
+    #miPerfil{
+        font-size: 12px;
+    }
+}

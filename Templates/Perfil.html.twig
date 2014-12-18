@@ -1,0 +1,56 @@
+{% extends 'Base.html.twig' %}
+
+{% block titulo %}Perfil - {#{{ acontecimiento.titulo }}#}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/Css/Cabecera.css">
+    <link rel="stylesheet" type="text/css" href="/Css/Principal.css">
+    <link rel="stylesheet" type="text/css" href="/Css/Perfil.css">
+    <link rel="stylesheet" type="text/css" href="/Css/jquery-ui_1.11.2.css">
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="/Javascript/jquery-ui_1.11.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MiPerfil').addClass('active');
+            $('#Inicio, #Administrar, #Notificaciones').removeClass('active');
+        });
+    </script>
+{% endblock %}
+
+{% block cabecera %}
+    {% include 'Cabecera.html.twig' %}
+{% endblock %}
+
+{% block cuerpo %}
+    <section id="contenedor" class="container">
+        <div id="mensajes_flash" class="col-xs-12">
+            {% if flash['error'] %}
+                <div class="col-sm-12 form-group alert alert-danger">
+                    {{ flash['error'] }}
+                </div>
+            {% endif %}
+            {% if flash['mensaje'] %}
+                <div class="col-sm-12 form-group alert alert-success">
+                    {{ flash['mensaje'] }}
+                </div>
+            {% endif %}              
+        </div> 
+
+        <section id="miPerfil" class="col-xs-12">  
+            <p><b>Nombre de usuario: </b>{{ datos_usuario.nombre_usuario }}</p>
+            <p><b>Acontecimientos creados: </b>{{ acontecimientos }}</p>
+            <p><b>Comentarios publicados: </b>{{ comentarios }}</p>
+            <p>
+                <form role="form" method="POST">
+                    <label for="TBnuevo_password">Nueva contraseña (si desea cambiarla): </label>
+                    <input type="password" class="form-control" id="password" name="password" maxlength="120" placeholder="Contraseña actual...">
+                    <input type="password" class="form-control" id="TBnuevo_password" name="TBnuevo_password" maxlength="120" placeholder="Nueva Contraseña...">
+                    <button type="submit" class="btn btn-success" name="Aceptar" >Aceptar</button>
+                </form>
+            </p>
+        </section>    
+    </section>
+    {% include 'PiePagina.html.twig' %}  
+{% endblock %}
